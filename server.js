@@ -1,0 +1,30 @@
+const express = require("express");
+const mongoose = require("mongoose");
+
+const lecturers = require("./routes/api/lecturers");
+const students = require("./routes/api/students");
+const classes = require("./routes/api/classes");
+const exercises = require("./routes/api/exercises");
+
+const app = express();
+
+// DB config
+const db = require("./config/keys").mongoURI;
+
+// Connect to MongoDB
+mongoose
+  .connect(db)
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.log(err));
+
+app.get("/", (req, res) => res.send("Hello"));
+
+// Use routes
+app.use("/api/lecturers", lecturers);
+app.use("/api/students", students);
+app.use("/api/classes", classes);
+app.use("/api/exercises", exercises);
+
+const port = process.env.PORT || 5000;
+
+app.listen(port, () => console.log(`Server running on port ${port}`));
