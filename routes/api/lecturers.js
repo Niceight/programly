@@ -5,6 +5,10 @@ const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
 const passport = require("passport");
 
+// Load Input Validation
+const validateRegisterInput = require("../../validation/register");
+const validateLoginInput = require("../../validation/login");
+
 // Load Lecturer model
 const Lecturer = require("../../models/Lecturer");
 
@@ -17,9 +21,17 @@ router.get("/test", (req, res) => res.json({ msg: "Lecturers Works" }));
 // @desc    Register lecturers
 // @access  Public
 router.post("/register", (req, res) => {
+  const { errors, isValid } = validateRegisterInput(req.body);
+
+  // Check Validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   Lecturer.findOne({ email: req.body.email }).then(lecturer => {
     if (lecturer) {
-      return res.status(400).json({ email: "Email already exists" });
+      errors.email = "Email already exists";
+      return res.status(400).json(errors);
     } else {
       const newLecturer = new Lecturer({
         firstname: req.body.firstname,
@@ -48,6 +60,13 @@ router.post("/register", (req, res) => {
 // @desc    Login lecturers / Returning JWT Token
 // @access  Public
 router.post("/login", (req, res) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+
+  // Check Validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   const email = req.body.email;
   const password = req.body.password;
 
@@ -55,7 +74,8 @@ router.post("/login", (req, res) => {
   Lecturer.findOne({ email }).then(lecturer => {
     // Check for lecturer
     if (!lecturer) {
-      return res.status(400).json({ email: "Account not found" });
+      errors.email = "Account not found";
+      return res.status(400).json(errors);
     }
 
     // Check Password
@@ -78,7 +98,8 @@ router.post("/login", (req, res) => {
           }
         );
       } else {
-        return res.status(400).json({ password: "Password incorrect" });
+        errors.password = "Password incorrect";
+        return res.status(400).json(errors);
       }
     });
   });
