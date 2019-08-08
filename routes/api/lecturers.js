@@ -6,8 +6,8 @@ const keys = require("../../config/keys");
 const passport = require("passport");
 
 // Load Input Validation
-const validateRegisterInput = require("../../validation/register");
-const validateLoginInput = require("../../validation/login");
+const validateRegisterInput = require("../../validation/lecturer/register-lecturer");
+const validateLoginInput = require("../../validation/lecturer/login-lecturer");
 
 // Load Lecturer model
 const Lecturer = require("../../models/Lecturer");
@@ -109,8 +109,8 @@ router.post("/login", (req, res) => {
 // @desc    Return current lecturer
 // @access  Private
 router.get(
-  "/current",
-  passport.authenticate("jwt", { session: false }),
+  "/current-lecturer",
+  passport.authenticate("lecturer-rule", { session: false }),
   (req, res) => {
     res.json({
       id: req.user.id,
