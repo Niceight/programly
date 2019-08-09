@@ -24,8 +24,9 @@ const ExerciseScheme = new Schema({
   lecturer: {
     type: Schema.Types.ObjectId,
     required: true
-  },
-  timestamps: true
+  }
 });
+
+ExerciseScheme.set("timestamps", true);
 
 module.exports = Exercise = mongoose.model("exercises", ExerciseScheme);
