@@ -32,15 +32,15 @@ router.post("/register", (req, res) => {
     return res.status(400).json(errors);
   }
 
-  Student.findOne({ email: req.body.email }).then(student => {
+  Student.findOne({ studentID: req.body.studentID }).then(student => {
     if (student) {
-      errors.email = "Email already exists";
+      errors.studentID = "Student ID already exists";
       return res.status(400).json(errors);
     } else {
       const newStudent = new Student({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
-        matrixID: req.body.matrixID,
+        studentID: req.body.studentID,
         programID: req.body.programID,
         email: req.body.email,
         password: req.body.password
@@ -74,14 +74,14 @@ router.post("/login", (req, res) => {
     return res.status(400).json(errors);
   }
 
-  const email = req.body.email;
+  const studentID = req.body.studentID;
   const password = req.body.password;
 
-  // Find student by email
-  Student.findOne({ email }).then(student => {
+  // Find student by studentID
+  Student.findOne({ studentID }).then(student => {
     // Check for student
     if (!student) {
-      errors.email = "Account not found";
+      errors.studentID = "Account not found";
       return res.status(400).json(errors);
     }
 
@@ -123,9 +123,8 @@ router.get(
   (req, res) => {
     res.json({
       id: req.user.id,
-      firstname: req.user.firstname,
-      lastname: req.user.lastname,
-      matrixID: req.user.matrixID,
+      fullname: req.user.firstname + " " + req.user.lastname,
+      studentID: req.user.studentID,
       email: req.user.email
     });
   }

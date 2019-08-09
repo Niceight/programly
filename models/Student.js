@@ -11,7 +11,7 @@ const StudentSchema = new Schema({
     type: String,
     require: true
   },
-  matrixID: {
+  studentID: {
     type: String,
     require: true
   },
@@ -27,10 +27,11 @@ const StudentSchema = new Schema({
     type: String,
     require: true
   },
-  //   avatar: {
-  //     type: String,
-  //   },
-  date: {
+  class: {
+    type: Schema.Types.ObjectId,
+    ref: "classes"
+  },
+  createAt: {
     type: Date,
     default: Date.now
   }
