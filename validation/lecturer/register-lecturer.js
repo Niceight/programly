@@ -6,7 +6,7 @@ module.exports = function validateRegisterInput(data) {
 
   data.firstname = !isEmpty(data.firstname) ? data.firstname : "";
   data.lastname = !isEmpty(data.lastname) ? data.lastname : "";
-  data.matrixID = !isEmpty(data.matrixID) ? data.matrixID : "";
+  data.staffID = !isEmpty(data.staffID) ? data.staffID : "";
   data.email = !isEmpty(data.email) ? data.email : "";
   data.password = !isEmpty(data.password) ? data.password : "";
   data.password2 = !isEmpty(data.password2) ? data.password2 : "";
@@ -27,8 +27,8 @@ module.exports = function validateRegisterInput(data) {
     errors.lastname = "Last name field is required";
   }
 
-  if (Validator.isEmpty(data.matrixID)) {
-    errors.matrixID = "Matrix ID field is required";
+  if (Validator.isEmpty(data.staffID)) {
+    errors.staffID = "Staff ID field is required";
   }
 
   if (!Validator.isEmail(data.email)) {

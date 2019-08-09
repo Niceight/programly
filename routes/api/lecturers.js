@@ -33,18 +33,17 @@ router.post("/register", (req, res) => {
     return res.status(400).json(errors);
   }
 
-  Lecturer.findOne({ email: req.body.email }).then(lecturer => {
+  Lecturer.findOne({ staffID: req.body.staffID }).then(lecturer => {
     if (lecturer) {
-      errors.email = "Email already exists";
+      errors.staffID = "Staff ID already exists";
       return res.status(400).json(errors);
     } else {
       const newLecturer = new Lecturer({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
-        matrixID: req.body.matrixID,
+        staffID: req.body.staffID,
         email: req.body.email,
         password: req.body.password
-        //avatar: ,
       });
 
       bcrypt.genSalt(10, (err, salt) => {
@@ -74,14 +73,14 @@ router.post("/login", (req, res) => {
     return res.status(400).json(errors);
   }
 
-  const email = req.body.email;
+  const staffID = req.body.staffID;
   const password = req.body.password;
 
-  // Find lecturer by email
-  Lecturer.findOne({ email }).then(lecturer => {
+  // Find lecturer by staffID
+  Lecturer.findOne({ staffID }).then(lecturer => {
     // Check for lecturer
     if (!lecturer) {
-      errors.email = "Account not found";
+      errors.staffID = "Account not found";
       return res.status(400).json(errors);
     }
 
@@ -123,9 +122,8 @@ router.get(
   (req, res) => {
     res.json({
       id: req.user.id,
-      firstname: req.user.firstname,
-      lastname: req.user.lastname,
-      matrixID: req.user.matrixID,
+      fullname: req.user.firstname + " " + req.user.lastname,
+      staffID: req.user.staffID,
       email: req.user.email
     });
   }

@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// Create Schema
 const LecturerSchema = new Schema({
   firstname: {
     type: String,
@@ -11,7 +10,7 @@ const LecturerSchema = new Schema({
     type: String,
     require: true
   },
-  matrixID: {
+  staffID: {
     type: String,
     require: true
   },
@@ -23,9 +22,6 @@ const LecturerSchema = new Schema({
     type: String,
     require: true
   },
-  //   avatar: {
-  //     type: String,
-  //   },
   date: {
     type: Date,
     default: Date.now
