@@ -22,7 +22,7 @@ const LecturerSchema = new Schema({
     type: String,
     require: true
   },
-  date: {
+  createAt: {
     type: Date,
     default: Date.now
   }
