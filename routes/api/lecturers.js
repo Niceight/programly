@@ -12,14 +12,19 @@ const validateLoginInput = require("../../validation/lecturer/login-lecturer");
 // Load Lecturer model
 const Lecturer = require("../../models/Lecturer");
 
-// @route   GET api/lecturers/test
-// @desc    Tests lecturers route
-// @access  Public
+/**
+ * @route   GET api/lecturers/test
+ * @desc    Tests lecturers route
+ * @access  Public
+ */
+
 router.get("/test", (req, res) => res.json({ msg: "Lecturers Works" }));
 
-// @route   POST api/lecturers/register
-// @desc    Register lecturers
-// @access  Public
+/**
+ * @route   POST api/lecturers/register
+ * @desc    Register lecturers
+ * @access  Public
+ */
 router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
@@ -56,9 +61,11 @@ router.post("/register", (req, res) => {
   });
 });
 
-// @route   POST api/lecturers/login
-// @desc    Login lecturers / Returning JWT Token
-// @access  Public
+/**
+ * @route   POST api/lecturers/login
+ * @desc    Login lecturers / Returning JWT Token
+ * @access  Public
+ */
 router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
@@ -105,9 +112,11 @@ router.post("/login", (req, res) => {
   });
 });
 
-// @route   GET api/lecturers/current
-// @desc    Return current lecturer
-// @access  Private
+/**
+ * @route   GET api/lecturers/current
+ * @desc    Return current lecturer
+ * @access  Private
+ */
 router.get(
   "/current-lecturer",
   passport.authenticate("lecturer-rule", { session: false }),

@@ -12,14 +12,18 @@ const validateLoginInput = require("../../validation/student/login-student");
 // Load Student model
 const Student = require("../../models/Student");
 
-// @route   GET api/students/test
-// @desc    Tests students route
-// @access  Public
+/**
+ * @route   GET api/students/test
+ * @desc    Tests students route
+ * @access  Public
+ */
 router.get("/test", (req, res) => res.json({ msg: "Students Works" }));
 
-// @route   POST api/students/register
-// @desc    Register students
-// @access  Public
+/**
+ * @route   POST api/students/register
+ * @desc    Register students
+ * @access  Public
+ */
 router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
@@ -57,9 +61,11 @@ router.post("/register", (req, res) => {
   });
 });
 
-// @route   POST api/students/login
-// @desc    Login students / Returning JWT Token
-// @access  Public
+/**
+ * @route   POST api/students/login
+ * @desc    Login students / Returning JWT Token
+ * @access  Public
+ */
 router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
@@ -106,9 +112,11 @@ router.post("/login", (req, res) => {
   });
 });
 
-// @route   GET api/students/current
-// @desc    Return current student
-// @access  Private
+/**
+ * @route   GET api/students/current
+ * @desc    Return current student
+ * @access  Private
+ */
 router.get(
   "/current-student",
   passport.authenticate("student-rule", { session: false }),
