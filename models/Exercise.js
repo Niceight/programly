@@ -19,7 +19,8 @@ const ExerciseScheme = new Schema({
     required: true
   },
   answer: {
-    type: String
+    type: String,
+    default: "none"
   },
   lecturer: {
     type: Schema.Types.ObjectId,
