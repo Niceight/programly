@@ -92,29 +92,84 @@ router.post(
  * @desc    Get all exercises own by the lecturer
  * @access  Private
  */
-router.get("/:lecturer_id", async (req, res) => {
-  await Exercise.find(
-    { lecturer: req.params.lecturer_id },
-    (err, exercises) => {
-      if (err) {
-        return res.status(400).json({ success: false, error: err });
+router.get(
+  "/:lecturer_id",
+  passport.authenticate("lecturer-rule", { session: false }),
+  async (req, res) => {
+    await Exercise.find(
+      { lecturer: req.params.lecturer_id },
+      (err, exercises) => {
+        // Check lecturer ID
+        if (req.params.lecturer_id !== req.user.id) {
+          return res.status(401).json({ notauthorized: "User not authorized" });
+        }
+        // More errors
+        if (err) {
+          return res.status(400).json({ success: false, error: err });
+        }
+        return res.status(200).json({ success: true, data: exercises });
       }
-      return res.status(200).json({ success: true, data: exercises });
-    }
-  ).catch(err => console.log(err));
-});
+    ).catch(err => console.log(err));
+  }
+);
 
 /**
- * @route   GET api/exercises/:id
+ * @route   GET api/exercises/:lecturer_id/:id
  * @desc    Get exercise
  * @access  Private
  */
-router.get("/:lecturer_id/:id", async (req, res) => {
-  await Exercise.findOne({ _id: req.params.id }, (err, exercises) => {
-    if (err) {
-      return res.status(400).json({ success: false, error: err });
-    }
-    return res.status(200).json({ success: true, data: exercises });
-  }).catch(err => console.log(err));
-});
+router.get(
+  "/:lecturer_id/:id",
+  passport.authenticate("lecturer-rule", { session: false }),
+  async (req, res) => {
+    await Exercise.findOne({ _id: req.params.id }, (err, exercises) => {
+      // Check lecturer ID
+      if (req.params.lecturer_id !== req.user.id) {
+        return res.status(401).json({ notauthorized: "User not authorized" });
+      }
+      // Check if the exercise exist
+      if (!exercise) {
+        return res
+          .status(404)
+          .json({ success: false, error: "Exercise not found" });
+      }
+      // More errors
+      if (err) {
+        return res.status(400).json({ success: false, error: err });
+      }
+
+      return res.status(200).json({ success: true, data: exercises });
+    }).catch(err => console.log(err));
+  }
+);
+
+/**
+ * @route   DELETE api/exercises/:id
+ * @desc    Delete exercise
+ * @access  Private
+ */
+router.delete(
+  "/:lecturer_id/:id",
+  passport.authenticate("lecturer-rule", { session: false }),
+  async (req, res) => {
+    await Exercise.findOneAndDelete({ _id: req.params.id }, (err, exercise) => {
+      // Check lecturer ID
+      if (req.params.lecturer_id !== req.user.id) {
+        return res.status(401).json({ notauthorized: "User not authorized" });
+      }
+      // Check if the exercise exist
+      if (!exercise) {
+        return res
+          .status(404)
+          .json({ success: false, error: "Exercise not found" });
+      }
+      // More errors
+      if (err) {
+        return res.status(400).json({ success: false, error: err });
+      }
+      return res.status(200).json({ success: true, data: exercise });
+    }).catch(err => console.log(err));
+  }
+);
+
 module.exports = router;
