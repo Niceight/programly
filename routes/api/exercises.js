@@ -17,7 +17,7 @@ const validateExerciseInput = require("../../validation/exercise/exercise");
 router.get("/test", (req, res) => res.json({ msg: "Exercises Works" }));
 
 /**
- * @route   POST api/exercises
+ * @route   POST api/exercises/new-exercise
  * @desc    Create exercises
  * @access  Private
  */
