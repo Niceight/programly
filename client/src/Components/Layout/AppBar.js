@@ -1,13 +1,13 @@
 import React from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import Menu_Lecturer from "./Menu-Lecturer";
-import Menu_Student from "./Menu-Student";
+import MenuLecturer from "./Menu-Lecturer";
+import MenuStudent from "./Menu-Student";
+import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,7 +26,7 @@ export default function ButtonAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" color="inherit">
         <Toolbar>
           <IconButton
             edge="start"
@@ -36,11 +36,19 @@ export default function ButtonAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
+
+          <Link
+            underline="none"
+            component={RouterLink}
+            to="/"
+            variant="h6"
+            color="inherit"
+            className={classes.title}
+          >
             programly
-          </Typography>
-          <Menu_Student />
-          <Menu_Lecturer />
+          </Link>
+          <MenuStudent />
+          <MenuLecturer />
         </Toolbar>
       </AppBar>
     </div>
