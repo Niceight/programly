@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -31,8 +32,16 @@ export default function SimpleMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Register</MenuItem>
-        <MenuItem onClick={handleClose}>Login</MenuItem>
+        <MenuItem
+          component={Link}
+          to="/lecturers/register"
+          onClick={handleClose}
+        >
+          Register
+        </MenuItem>
+        <MenuItem component={Link} to="/lecturers/login" onClick={handleClose}>
+          Login
+        </MenuItem>
       </Menu>
     </div>
   );
