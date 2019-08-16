@@ -1,6 +1,10 @@
 import React, { Component } from "react";
-import axios from "axios";
 import PropTypes from "prop-types";
+
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { registerLecturer } from "../../../actions/authActions";
+
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -56,6 +60,18 @@ class Register extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -72,10 +88,7 @@ class Register extends Component {
       password2: this.state.password2
     };
 
-    axios
-      .post("/api/lecturers/register", newLecturer)
-      .then(res => console.log(res.data))
-      .catch(err => this.setState({ errors: err.response.data }));
+    this.props.registerLecturer(newLecturer, this.props.history);
   }
 
   render() {
@@ -219,7 +232,18 @@ class Register extends Component {
 }
 
 Register.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  registerLecturer: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Register);
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { registerLecturer }
+)(withRouter(withStyles(styles)(Register)));
