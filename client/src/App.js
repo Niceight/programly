@@ -7,7 +7,7 @@ import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { ThemeProvider } from "@material-ui/styles";
 import theme from "./Components/Theme/Theme";
-import { AppBar, Landing, Footer } from "./Components/Layout";
+import { AppBar, Landing, Footer } from "./Components/layout";
 import {
   LoginLecturer,
   RegisterLecturer,
