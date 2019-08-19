@@ -112,12 +112,12 @@ router.post("/login", (req, res) => {
 });
 
 /**
- * @route   GET api/lecturers/current
+ * @route   GET api/lecturers/lecturer
  * @desc    Return current lecturer
  * @access  Private
  */
 router.get(
-  "/current-lecturer",
+  "/lecturer",
   passport.authenticate("lecturer-rule", { session: false }),
   (req, res) => {
     res.json({
