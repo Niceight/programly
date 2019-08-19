@@ -33,7 +33,7 @@ class Landing extends Component {
         <CssBaseline />
         <div className={classes.paper}>
           <Typography component="h1" variant="h1">
-            programly
+            <h4>programly</h4>
           </Typography>
         </div>
       </Container>
