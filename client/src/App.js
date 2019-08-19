@@ -14,6 +14,7 @@ import {
   LoginStudent,
   RegisterStudent
 } from "./Components/auth";
+import Dashboard from "./Components/dashboard/lecturer/Dashboard";
 import "./App.css";
 
 // Check for token
@@ -50,6 +51,7 @@ class App extends Component {
               <Route path="/lecturers/register" component={RegisterLecturer} />
               <Route path="/students/login" component={LoginStudent} />
               <Route path="/students/register" component={RegisterStudent} />
+              <Route path="/dashboard" component={Dashboard} />
               <Footer />
             </ThemeProvider>
           </div>
