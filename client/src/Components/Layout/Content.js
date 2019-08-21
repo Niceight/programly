@@ -3,14 +3,9 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { LayoutContext } from './Root';
 
-const styles = ({ breakpoints, palette, spacing, transitions }) => ({
+const styles = ({ transitions }) => ({
   root: {
-    borderTop: '1px solid',
-    borderColor: palette.grey[200],
-    padding: spacing.unit * 2,
-    [breakpoints.up('sm')]: {
-      padding: spacing.unit * 3,
-    },
+    flexGrow: 1,
     transition: transitions.create(['margin'], {
       easing: transitions.easing.sharp,
       duration: transitions.duration.leavingScreen,
@@ -18,7 +13,7 @@ const styles = ({ breakpoints, palette, spacing, transitions }) => ({
   },
 });
 
-const Footer = ({
+const Content = ({
   className,
   component: Component,
   classes,
@@ -32,12 +27,12 @@ const Footer = ({
     collapsible,
     collapsed,
     collapsedWidth,
-    footerShrink,
     open,
     navAnchor,
+    squeezed,
   } = ctx;
   const getMargin = () => {
-    if (navAnchor !== 'left' || !footerShrink) return 0;
+    if (navAnchor !== 'left') return 0;
     if (navVariant === 'persistent' && open) {
       // open is effect only when
       // navVariant === 'persistent' ||
@@ -53,6 +48,18 @@ const Footer = ({
     }
     return 0;
   };
+  const getWidth = () => {
+    if (navVariant === 'persistent' && open) {
+      // open is effect only when
+      // navVariant === 'persistent' ||
+      // navVariant === 'temporary'
+      if (squeezed) {
+        return 'auto';
+      }
+      return '100%';
+    }
+    return 'auto';
+  };
   return (
     <Component
       {...props}
@@ -60,21 +67,22 @@ const Footer = ({
       style={{
         ...style,
         marginLeft: getMargin(),
+        width: getWidth(),
       }}
     />
   );
 };
 
-Footer.propTypes = {
+Content.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.shape({}).isRequired,
   component: PropTypes.elementType,
   style: PropTypes.shape({}),
 };
-Footer.defaultProps = {
+Content.defaultProps = {
   className: '',
-  component: 'footer',
+  component: 'main',
   style: {},
 };
 
-export default withStyles(styles, { name: 'MuiFooter' })(Footer);
+export default withStyles(styles, { name: 'MuiContent' })(Content);

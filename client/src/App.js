@@ -6,15 +6,34 @@ import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
 import { ThemeProvider } from "@material-ui/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import theme from "./Components/theme/Theme";
-import { AppBar, Landing, Footer } from "./Components/layout";
+import MenuIcon from "@material-ui/icons/Menu";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import {
+  Root,
+  Header,
+  Nav,
+  Content,
+  Footer,
+  config
+} from "./Components/Layout";
 import {
   LoginLecturer,
   RegisterLecturer,
   LoginStudent,
   RegisterStudent
 } from "./Components/auth";
-import Dashboard from "./Components/dashboard/lecturer/Dashboard";
+import LecturerDashboard from "./Components/dashboard/lecturer/Dashboard";
+import StudentDashboard from "./Components/dashboard/student/Dashboard";
+import {
+  ButtonLecturer,
+  ButtonStudents,
+  LinkProgramly
+} from "./Components/landing";
+import Button from "@material-ui/core/Button";
+import LogoutButton from "./Components/common/LogoutButton";
 import "./App.css";
 
 // Check for token
@@ -37,7 +56,6 @@ if (localStorage.jwtToken) {
     window.location.href = "/";
   }
 }
-
 class App extends Component {
   render() {
     return (
@@ -45,14 +63,54 @@ class App extends Component {
         <Router>
           <div className="App">
             <ThemeProvider theme={theme}>
-              <AppBar />
-              <Route exact path="/" component={Landing} />
-              <Route path="/lecturers/login" component={LoginLecturer} />
-              <Route path="/lecturers/register" component={RegisterLecturer} />
-              <Route path="/students/login" component={LoginStudent} />
-              <Route path="/students/register" component={RegisterStudent} />
-              <Route path="/dashboard" component={Dashboard} />
-              <Footer />
+              <Root config={config} style={{ minHeight: "100vh" }}>
+                <CssBaseline />
+                <Header
+                  menuIcon={{
+                    inactive: <MenuIcon />,
+                    active: <ChevronLeftIcon />
+                  }}
+                >
+                  <Route path="/" component={LinkProgramly} />
+                  <Route path="/lecturers/dashboard" component={LogoutButton} />
+                  <Route exact path="/" component={ButtonStudents} />
+                  <Route exact path="/" component={ButtonLecturer} />
+                </Header>
+                <Nav
+                  collapsedIcon={{
+                    inactive: <ChevronLeftIcon />,
+                    active: <ChevronRightIcon />
+                  }}
+                  header={
+                    // you can provide fixed header inside nav
+                    // change null to some react element
+                    ctx => null
+                  }
+                >
+                  {/* nav goes here */}
+                </Nav>
+                <Content>
+                  <Route path="/lecturers/login" component={LoginLecturer} />
+                  <Route
+                    path="/lecturers/register"
+                    component={RegisterLecturer}
+                  />
+                  <Route path="/students/login" component={LoginStudent} />
+                  <Route
+                    path="/students/register"
+                    component={RegisterStudent}
+                  />
+                  <Route
+                    path="/lecturers/dashboard"
+                    component={LecturerDashboard}
+                  />
+                  <Route
+                    path="/students/dashboard"
+                    component={StudentDashboard}
+                  />
+                </Content>
+                <Footer>{/* footer goes here */}</Footer>
+              </Root>
             </ThemeProvider>
           </div>
         </Router>
