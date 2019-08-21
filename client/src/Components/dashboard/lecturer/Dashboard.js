@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/styles";
-import Container from "@material-ui/core/Container";
 import { getCurrentLecturer } from "../../../actions/lecturerActions";
-//import Spinner from "../common/Spinner";
+import CircularProgress from "../../common/CircularProgress";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/core";
 
 const styles = {
   "@global": {
@@ -33,19 +32,18 @@ class Dashboard extends Component {
     const { classes } = this.props;
     const { lecturer, loading } = this.props.lecturer;
 
-    let dashboardContent;
+    let dashboardContent, dashboardLoading;
 
     if (lecturer === null || loading) {
-      //dashboardContent = <Spinner />;
+      dashboardLoading = <CircularProgress />;
     } else {
-      // Check if logged in user has lecturer data
       dashboardContent = <h4>TODO: DISPLAY PROFILE</h4>;
     }
-
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
+          {dashboardLoading}
           <Typography component="h1" variant="h1">
             {dashboardContent}
           </Typography>
