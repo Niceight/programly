@@ -25,14 +25,19 @@ import {
   LoginStudent,
   RegisterStudent
 } from "./Components/auth";
-import LecturerDashboard from "./Components/dashboard/lecturer/Dashboard";
-import StudentDashboard from "./Components/dashboard/student/Dashboard";
+import {
+  DashboardLecturer,
+  LinkDashboard as LinkLecturer
+} from "./Components/dashboard/lecturer";
+import {
+  DashboardStudent,
+  LinkDashboard as LinkStudent
+} from "./Components/dashboard/student";
 import {
   ButtonLecturer,
   ButtonStudents,
   LinkProgramly
 } from "./Components/landing";
-import Button from "@material-ui/core/Button";
 import LogoutButton from "./Components/common/LogoutButton";
 import "./App.css";
 
@@ -71,10 +76,36 @@ class App extends Component {
                     active: <ChevronLeftIcon />
                   }}
                 >
-                  <Route path="/" component={LinkProgramly} />
-                  <Route path="/lecturers/dashboard" component={LogoutButton} />
-                  <Route exact path="/" component={ButtonStudents} />
-                  <Route exact path="/" component={ButtonLecturer} />
+                  <Route exact path="/" component={LinkProgramly} />
+                  <Route path="/students/dashboard" component={LinkStudent} />
+                  <Route path="/lecturers/dashboard" component={LinkLecturer} />
+
+                  <Route
+                    path={["/lecturers/dashboard", "/students/dashboard"]}
+                    component={LogoutButton}
+                  />
+                  <Route
+                    exact
+                    path={[
+                      "/",
+                      "/lecturers/login",
+                      "/lecturers/register",
+                      "/students/login",
+                      "/students/register"
+                    ]}
+                    component={ButtonStudents}
+                  />
+                  <Route
+                    exact
+                    path={[
+                      "/",
+                      "/lecturers/login",
+                      "/lecturers/register",
+                      "/students/login",
+                      "/students/register"
+                    ]}
+                    component={ButtonLecturer}
+                  />
                 </Header>
                 <Nav
                   collapsedIcon={{
@@ -102,11 +133,11 @@ class App extends Component {
                   />
                   <Route
                     path="/lecturers/dashboard"
-                    component={LecturerDashboard}
+                    component={DashboardLecturer}
                   />
                   <Route
                     path="/students/dashboard"
-                    component={StudentDashboard}
+                    component={DashboardStudent}
                   />
                 </Content>
                 <Footer>{/* footer goes here */}</Footer>
