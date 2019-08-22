@@ -34,6 +34,7 @@ import {
   LinkDashboard as LinkStudent
 } from "./Components/dashboard/student";
 import {
+  Landing,
   ButtonLecturer,
   ButtonStudents,
   LinkProgramly
@@ -121,6 +122,7 @@ class App extends Component {
                   {/* nav goes here */}
                 </Nav>
                 <Content>
+                  <Route exact path="/" component={Landing} />
                   <Route path="/lecturers/login" component={LoginLecturer} />
                   <Route
                     path="/lecturers/register"
