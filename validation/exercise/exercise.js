@@ -7,7 +7,6 @@ module.exports = function validateExerciseInput(data) {
   data.topicName = !isEmpty(data.topicName) ? data.topicName : "";
   data.topic = !isEmpty(data.topic) ? data.topic : "";
   data.question = !isEmpty(data.question) ? data.question : "";
-  data.content = !isEmpty(data.content) ? data.content : "";
 
   if (!Validator.isLength(data.topicName, { min: 5, max: 35 })) {
     errors.topicName = "Topic name must be between 5 and 35 characters";
@@ -27,10 +26,6 @@ module.exports = function validateExerciseInput(data) {
 
   if (Validator.isEmpty(data.question)) {
     errors.question = "Question field is required";
-  }
-
-  if (Validator.isEmpty(data.content)) {
-    errors.content = "Content field is required";
   }
 
   return {
