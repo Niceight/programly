@@ -37,7 +37,11 @@ class Dashboard extends Component {
     if (lecturer === null || loading) {
       dashboardLoading = <CircularProgress />;
     } else {
-      dashboardContent = <h4>TODO: DISPLAY PROFILE</h4>;
+      dashboardContent = (
+        <div>
+          <p>Welcome, {user.name}!</p>
+        </div>
+      );
     }
     return (
       <Container component="main" maxWidth="xs">
