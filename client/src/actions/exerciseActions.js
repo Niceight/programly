@@ -2,10 +2,11 @@ import axios from "axios";
 
 import {
   GET_EXERCISE,
+  GET_EXERCISES,
+  DELETE_EXERCISE,
   EXERCISE_LOADING,
   CLEAR_CURRENT_EXERCISE,
-  GET_ERRORS,
-  GET_EXERCISES
+  GET_ERRORS
 } from "./types";
 
 // Get current exercise
@@ -55,6 +56,19 @@ export const getExercises = id => dispatch => {
       dispatch({
         type: GET_EXERCISES,
         payload: null
+      })
+    );
+};
+
+// Delete Exercise
+export const deleteExercise = (userid, exerciseid) => dispatch => {
+  axios
+    .delete(`/api/exercises/${userid}/${exerciseid}`)
+    .then(res => dispatch(getExercises(userid)))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
       })
     );
 };
