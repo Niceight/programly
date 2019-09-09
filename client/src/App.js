@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
+import PrivateRoute from "./Components/common/PrivateRoute";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
@@ -27,7 +28,10 @@ import {
 } from "./Components/auth";
 import {
   DashboardLecturer,
-  LinkDashboard as LinkLecturer
+  LinkDashboard as LinkLecturer,
+  ListDrawer,
+  CreateExercise,
+  Exercises
 } from "./Components/dashboard/lecturer";
 import {
   DashboardStudent,
@@ -78,13 +82,32 @@ class App extends Component {
                   }}
                 >
                   <Route exact path="/" component={LinkProgramly} />
-                  <Route path="/students/dashboard" component={LinkStudent} />
-                  <Route path="/lecturers/dashboard" component={LinkLecturer} />
+
+                  <Switch>
+                    <PrivateRoute
+                      path="/students/dashboard"
+                      component={LinkStudent}
+                    />
+                    <PrivateRoute
+                      path={[
+                        "/lecturers/dashboard",
+                        "/exercises/new-exercise",
+                        "/exercises/:id"
+                      ]}
+                      component={LinkLecturer}
+                    />
+                  </Switch>
 
                   <Route
-                    path={["/lecturers/dashboard", "/students/dashboard"]}
+                    path={[
+                      "/lecturers/dashboard",
+                      "/exercises/new-exercise",
+                      "/exercises/:id",
+                      "/students/dashboard"
+                    ]}
                     component={LogoutButton}
                   />
+
                   <Route
                     exact
                     path={[
@@ -119,7 +142,16 @@ class App extends Component {
                     ctx => null
                   }
                 >
-                  {/* nav goes here */}
+                  <Switch>
+                    <PrivateRoute
+                      path={[
+                        "/lecturers/dashboard",
+                        "/exercises/new-exercise",
+                        "/exercises/:id"
+                      ]}
+                      component={ListDrawer}
+                    />
+                  </Switch>
                 </Nav>
                 <Content>
                   <Route exact path="/" component={Landing} />
@@ -133,14 +165,21 @@ class App extends Component {
                     path="/students/register"
                     component={RegisterStudent}
                   />
-                  <Route
-                    path="/lecturers/dashboard"
-                    component={DashboardLecturer}
-                  />
-                  <Route
-                    path="/students/dashboard"
-                    component={DashboardStudent}
-                  />
+                  <Switch>
+                    <PrivateRoute
+                      path="/lecturers/dashboard"
+                      component={DashboardLecturer}
+                    />
+                    <PrivateRoute
+                      path="/exercises/new-exercise"
+                      component={CreateExercise}
+                    />
+                    <PrivateRoute path="/exercises/:id" component={Exercises} />
+                    <PrivateRoute
+                      path="/students/dashboard"
+                      component={DashboardStudent}
+                    />
+                  </Switch>
                 </Content>
                 <Footer>{/* footer goes here */}</Footer>
               </Root>
