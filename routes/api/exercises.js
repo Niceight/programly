@@ -128,7 +128,7 @@ router.get(
         return res.status(401).json({ notauthorized: "User not authorized" });
       }
       // Check if the exercise exist
-      if (!exercise) {
+      if (!exercises) {
         return res
           .status(404)
           .json({ success: false, error: "Exercise not found" });
