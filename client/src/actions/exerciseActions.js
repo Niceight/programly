@@ -3,17 +3,17 @@ import axios from "axios";
 import {
   GET_EXERCISE,
   GET_EXERCISES,
-  DELETE_EXERCISE,
+  UPDATE_EXERCISE,
   EXERCISE_LOADING,
   CLEAR_CURRENT_EXERCISE,
   GET_ERRORS
 } from "./types";
 
 // Get current exercise
-export const getCurrentExercise = () => dispatch => {
+export const getCurrentExercise = (userid, exerciseid) => dispatch => {
   dispatch(setExerciseLoading());
   axios
-    .get("/api/:lecturer_id")
+    .get(`/api/exercises/${userid}/${exerciseid}`)
     .then(res =>
       dispatch({
         type: GET_EXERCISE,
@@ -58,6 +58,26 @@ export const getExercises = id => dispatch => {
         payload: null
       })
     );
+};
+
+// Update Exercise
+export const updateExercise = (exerciseid, exerciseData) => {
+  return dispatch => {
+    axios
+      .post(`/api/exercises/${exerciseid}`, exerciseData)
+      .then(res => {
+        dispatch({
+          type: UPDATE_EXERCISE,
+          payload: res.data
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+        });
+      });
+  };
 };
 
 // Delete Exercise

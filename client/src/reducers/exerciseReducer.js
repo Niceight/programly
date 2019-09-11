@@ -1,7 +1,7 @@
 import {
   GET_EXERCISE,
   GET_EXERCISES,
-  DELETE_EXERCISE,
+  UPDATE_EXERCISE,
   EXERCISE_LOADING,
   CLEAR_CURRENT_EXERCISE
 } from "../actions/types";
@@ -31,12 +31,10 @@ export default function(state = initialState, action) {
         exercises: action.payload,
         loading: false
       };
-    case DELETE_EXERCISE:
+    case UPDATE_EXERCISE:
       return {
         ...state,
-        exercises: state.exercises.filter(
-          exercise => exercise._id !== action.payload
-        )
+        item: action.payload
       };
     case CLEAR_CURRENT_EXERCISE:
       return {
