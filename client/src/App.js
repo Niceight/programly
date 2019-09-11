@@ -31,7 +31,8 @@ import {
   LinkDashboard as LinkLecturer,
   ListDrawer,
   CreateExercise,
-  Exercises
+  Exercises,
+  EditExercise
 } from "./Components/dashboard/lecturer";
 import {
   DashboardStudent,
@@ -81,7 +82,17 @@ class App extends Component {
                     active: <ChevronLeftIcon />
                   }}
                 >
-                  <Route exact path="/" component={LinkProgramly} />
+                  <Route
+                    exact
+                    path={[
+                      "/",
+                      "/lecturers/login",
+                      "/lecturers/register",
+                      "/students/login",
+                      "/students/register"
+                    ]}
+                    component={LinkProgramly}
+                  />
 
                   <Switch>
                     <PrivateRoute
@@ -173,6 +184,10 @@ class App extends Component {
                     <PrivateRoute
                       path="/exercises/new-exercise"
                       component={CreateExercise}
+                    />
+                    <PrivateRoute
+                      path="/exercises/:lecturerID/:exerciseID"
+                      component={EditExercise}
                     />
                     <PrivateRoute path="/exercises/:id" component={Exercises} />
                     <PrivateRoute
