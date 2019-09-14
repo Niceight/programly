@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -15,6 +16,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/styles";
 import Container from "@material-ui/core/Container";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import { Controlled as CodeMirror } from "react-codemirror2";
 require("codemirror/lib/codemirror.css");
 require("codemirror/theme/neat.css");
@@ -46,6 +52,8 @@ const styles = {
 };
 
 class EditExercise extends Component {
+  state = { open: false };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -105,10 +113,17 @@ class EditExercise extends Component {
       this.props.match.params.exerciseID,
       updateExercise
     );
+
+    this.setState({ open: true });
   }
 
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   render() {
-    const { errors } = this.state;
+    const { user } = this.props.auth;
+    const { open, errors } = this.state;
     const { classes } = this.props;
     const option = {
       mode: "text/x-java",
@@ -209,6 +224,30 @@ class EditExercise extends Component {
               Update
             </Button>
           </form>
+          <Dialog
+            open={open}
+            onClose={this.handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{"Success!"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Successfully update!
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                onClick={this.handleClose}
+                component={Link}
+                to={`/exercises/${user.id}`}
+                autoFocus
+                color="primary"
+              >
+                Ok
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
       </Container>
     );
@@ -216,6 +255,7 @@ class EditExercise extends Component {
 }
 
 EditExercise.propTypes = {
+  auth: PropTypes.object.isRequired,
   updateExercise: PropTypes.func.isRequired,
   getCurrentExercise: PropTypes.func.isRequired,
   exercise: PropTypes.object.isRequired,
@@ -223,6 +263,7 @@ EditExercise.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  auth: state.auth,
   exercise: state.exercise,
   errors: state.errors
 });
