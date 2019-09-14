@@ -29,10 +29,15 @@ export const getCurrentExercise = (userid, exerciseid) => dispatch => {
 };
 
 // Create Exercise
-export const createExercise = (exerciseData, history) => dispatch => {
+export const createExercise = exerciseData => dispatch => {
   axios
     .post("/api/exercises/new-exercise", exerciseData)
-    .then(res => history.push("/lecturers/dashboard"))
+    .then(res =>
+      dispatch({
+        type: GET_EXERCISE,
+        payload: res.data
+      })
+    )
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
