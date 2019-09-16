@@ -32,7 +32,10 @@ import {
   ListDrawer,
   CreateExercise,
   Exercises,
-  EditExercise
+  EditExercise,
+  Classrooms,
+  CreateClassroom,
+  EditClassroom
 } from "./Components/dashboard/lecturer";
 import {
   DashboardStudent,
@@ -103,7 +106,9 @@ class App extends Component {
                       path={[
                         "/lecturers/dashboard",
                         "/exercises/new-exercise",
-                        "/exercises/:id"
+                        "/exercises/:id",
+                        "/classrooms/new-classroom",
+                        "/classrooms/:id"
                       ]}
                       component={LinkLecturer}
                     />
@@ -114,6 +119,8 @@ class App extends Component {
                       "/lecturers/dashboard",
                       "/exercises/new-exercise",
                       "/exercises/:id",
+                      "/classrooms/new-classroom",
+                      "/classrooms/:id",
                       "/students/dashboard"
                     ]}
                     component={LogoutButton}
@@ -158,7 +165,9 @@ class App extends Component {
                       path={[
                         "/lecturers/dashboard",
                         "/exercises/new-exercise",
-                        "/exercises/:id"
+                        "/exercises/:id",
+                        "/classrooms/new-classroom",
+                        "/classrooms/:id"
                       ]}
                       component={ListDrawer}
                     />
@@ -189,7 +198,19 @@ class App extends Component {
                       path="/exercises/:lecturerID/:exerciseID"
                       component={EditExercise}
                     />
+                    <PrivateRoute
+                      path="/classrooms/new-classroom"
+                      component={CreateClassroom}
+                    />
+                    <PrivateRoute
+                      path="/classrooms/:lecturerID/:classroomID"
+                      component={EditClassroom}
+                    />
                     <PrivateRoute path="/exercises/:id" component={Exercises} />
+                    <PrivateRoute
+                      path="/classrooms/:id"
+                      component={Classrooms}
+                    />
                     <PrivateRoute
                       path="/students/dashboard"
                       component={DashboardStudent}
