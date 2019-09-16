@@ -24,6 +24,7 @@ const ExerciseScheme = new Schema({
   },
   lecturer: {
     type: Schema.Types.ObjectId,
+    ref: "lecturers",
     required: true
   }
 });
