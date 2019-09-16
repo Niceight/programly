@@ -7,13 +7,13 @@
 - programID : String
 - email: String
 - password: String
-- class: [ObjectID] -> Class
+- class: [ObjectID] -> Classroom
 - createAt: Date
 
-  2.Class
+  2.Classroom
 
 - id: ObjectID
-- classname: String
+- classroomName: String
 - courseID: String
 - lecturer: ObjectID -> lecturer
 - exercise: [ObjectID] -> exercise

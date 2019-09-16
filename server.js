@@ -5,7 +5,7 @@ const passport = require("passport");
 
 const lecturers = require("./routes/api/lecturers");
 const students = require("./routes/api/students");
-const classes = require("./routes/api/classes");
+const classrooms = require("./routes/api/classrooms");
 const exercises = require("./routes/api/exercises");
 
 const app = express();
@@ -32,7 +32,7 @@ require("./config/passport")(passport);
 // Use routes
 app.use("/api/lecturers", lecturers);
 app.use("/api/students", students);
-app.use("/api/classes", classes);
+app.use("/api/classrooms", classrooms);
 app.use("/api/exercises", exercises);
 
 const port = process.env.PORT || 5000;

@@ -27,9 +27,9 @@ const StudentSchema = new Schema({
     type: String,
     require: true
   },
-  class: {
+  classroom: {
     type: Schema.Types.ObjectId,
-    ref: "classes"
+    ref: "classrooms"
   },
   createAt: {
     type: Date,

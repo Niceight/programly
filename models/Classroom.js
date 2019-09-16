@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const ClassScheme = new Schema({
-  classname: {
+const ClassroomScheme = new Schema({
+  classroomName: {
     type: String,
     require: true
   },
@@ -24,4 +24,4 @@ const ClassScheme = new Schema({
   }
 });
 
-module.exports = Class = mongoose.model("classes", ClassScheme);
+module.exports = Classroom = mongoose.model("classrooms", ClassroomScheme);
