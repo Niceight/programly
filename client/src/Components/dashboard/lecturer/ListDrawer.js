@@ -12,6 +12,7 @@ import Divider from "@material-ui/core/Divider";
 import Collapse from "@material-ui/core/Collapse";
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import AssignmentOutlinedIcon from "@material-ui/icons/AssignmentOutlined";
+import SchoolOutlinedIcon from "@material-ui/icons/SchoolOutlined";
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import ClassOutlinedIcon from "@material-ui/icons/ClassOutlined";
 import AllInboxOutlinedIcon from "@material-ui/icons/AllInboxOutlined";
@@ -30,9 +31,12 @@ const styles = theme => ({
 });
 
 class ListDrawer extends Component {
-  state = { open: false };
-  handleClick = () => {
-    this.setState({ open: !this.state.open });
+  state = { openExercise: false, openClass: false };
+  handleClickExercise = () => {
+    this.setState({ openExercise: !this.state.openExercise });
+  };
+  handleClickClass = () => {
+    this.setState({ openClass: !this.state.openClass });
   };
 
   render() {
@@ -56,14 +60,14 @@ class ListDrawer extends Component {
             </ListItemIcon>
             <ListItemText primary="Dashboard" />
           </ListItem>
-          <ListItem button onClick={this.handleClick}>
+          <ListItem button onClick={this.handleClickExercise}>
             <ListItemIcon>
               <AssignmentOutlinedIcon />
             </ListItemIcon>
             <ListItemText primary="Exercise" />
-            {this.state.open ? <ExpandLess /> : <ExpandMore />}
+            {this.state.openExercise ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
-          <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+          <Collapse in={this.state.openExercise} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItem
                 button
@@ -89,12 +93,39 @@ class ListDrawer extends Component {
               </ListItem>
             </List>
           </Collapse>
-          <ListItem button component={Link} to="/lecturers/dashboard">
+          <ListItem button onClick={this.handleClickClass}>
             <ListItemIcon>
-              <ClassOutlinedIcon />
+              <SchoolOutlinedIcon />
             </ListItemIcon>
-            <ListItemText primary="Class" />
+            <ListItemText primary="Classroom" />
+            {this.state.openClass ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
+          <Collapse in={this.state.openClass} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItem
+                button
+                component={Link}
+                to="/classrooms/new-classroom"
+                className={classes.nested}
+              >
+                <ListItemIcon>
+                  <AddOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText primary="New classroom" />
+              </ListItem>
+              <ListItem
+                button
+                component={Link}
+                to={`/classrooms/${user.id}`}
+                className={classes.nested}
+              >
+                <ListItemIcon>
+                  <ClassOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText primary="Classrooms" />
+              </ListItem>
+            </List>
+          </Collapse>
         </List>
         <Divider />
         <List component="nav" aria-label="secondary folders">
