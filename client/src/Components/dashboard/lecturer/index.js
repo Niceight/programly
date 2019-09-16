@@ -4,3 +4,6 @@ export { default as CreateExercise } from "./exercise/CreateExercise";
 export { default as ListDrawer } from "./ListDrawer";
 export { default as Exercises } from "./exercise/Exercises";
 export { default as EditExercise } from "./exercise/EditExercise";
+export { default as Classrooms } from "./classroom/Classrooms";
+export { default as CreateClassroom } from "./classroom/CreateClassroom";
+export { default as EditClassroom } from "./classroom/EditClassroom";
