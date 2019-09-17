@@ -53,19 +53,20 @@ const styles = {
 };
 
 class CreateClassroom extends Component {
-  state = { open: false, classroomChecked: false };
+  state = { open: false };
 
   constructor(props) {
     super(props);
     this.state = {
       classroomName: "",
       courseID: "",
-      exercises: {},
+      exercises: [],
       errors: {}
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleCheck = this.handleCheck.bind(this);
   }
 
   componentDidMount() {
@@ -102,13 +103,17 @@ class CreateClassroom extends Component {
     this.setState({ open: false });
   };
 
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.checked });
-  };
+  handleCheck(e, x) {
+    this.setState(state => ({
+      exercises: state.exercises.includes(x)
+        ? state.exercises.filter(c => c !== x)
+        : [...state.exercises, x]
+    }));
+  }
 
   render() {
     const { user } = this.props.auth;
-    const { open, errors, classroomChecked } = this.state;
+    const { open, errors } = this.state;
     const { exercises, loading } = this.props.exercise;
     const { classes } = this.props;
     let exerciseItems;
@@ -126,12 +131,10 @@ class CreateClassroom extends Component {
             <TableCell align="right">{exercise.question}</TableCell>
             <TableCell align="center">
               <Checkbox
-                checked={classroomChecked}
-                onChange={this.handleChange("classroomChecked")}
-                value={exercise._id}
-                inputProps={{
-                  "aria-label": "primary checkbox"
-                }}
+                label={exercise.topicName}
+                key={exercise._id}
+                onChange={e => this.handleCheck(e, exercise)}
+                checked={this.state.exercises.includes(exercise)}
               />
             </TableCell>
           </TableRow>
@@ -195,6 +198,7 @@ class CreateClassroom extends Component {
                       <TableCell>Topic Name</TableCell>
                       <TableCell align="right">Topic</TableCell>
                       <TableCell align="right">Question</TableCell>
+                      <TableCell align="right"> </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>{exerciseItems}</TableBody>
