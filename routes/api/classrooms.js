@@ -37,8 +37,7 @@ router.post(
       classroomName: req.body.classroomName,
       courseID: req.body.courseID,
       lecturer: req.user.id,
-      // TODO do array on exercise
-      exercise: req.body.exercise
+      exercise: req.body.exercises
     });
 
     newClassroom.save().then(classroom => res.json(classroom));
@@ -73,8 +72,7 @@ router.post(
       classroom.classroomName = req.body.classroomName;
       classroom.courseID = req.body.courseID;
       classroom.lecturer = req.user.id;
-      // TODO do array on exercise
-      classroom.exercise = req.body.exercise;
+      classroom.exercise = req.body.exercises;
 
       Classroom.findOneAndUpdate(
         { _id: req.params.id },
