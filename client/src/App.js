@@ -29,7 +29,7 @@ import {
 import {
   DashboardLecturer,
   LinkDashboard as LinkLecturer,
-  ListDrawer,
+  ListDrawerLecturer,
   CreateExercise,
   Exercises,
   EditExercise,
@@ -39,7 +39,8 @@ import {
 } from "./Components/dashboard/lecturer";
 import {
   DashboardStudent,
-  LinkDashboard as LinkStudent
+  LinkDashboard as LinkStudent,
+  ListDrawerStudent
 } from "./Components/dashboard/student";
 import {
   Landing,
@@ -169,7 +170,11 @@ class App extends Component {
                         "/classrooms/new-classroom",
                         "/classrooms/:id"
                       ]}
-                      component={ListDrawer}
+                      component={ListDrawerLecturer}
+                    />
+                    <PrivateRoute
+                      path={["/students/dashboard"]}
+                      component={ListDrawerStudent}
                     />
                   </Switch>
                 </Nav>
