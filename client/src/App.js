@@ -40,7 +40,8 @@ import {
 import {
   DashboardStudent,
   LinkDashboard as LinkStudent,
-  ListDrawerStudent
+  ListDrawerStudent,
+  JoinClassroom
 } from "./Components/dashboard/student";
 import {
   Landing,
@@ -100,7 +101,10 @@ class App extends Component {
 
                   <Switch>
                     <PrivateRoute
-                      path="/students/dashboard"
+                      path={[
+                        "/students/dashboard",
+                        "/classrooms/join-classroom"
+                      ]}
                       component={LinkStudent}
                     />
                     <PrivateRoute
@@ -164,6 +168,13 @@ class App extends Component {
                   <Switch>
                     <PrivateRoute
                       path={[
+                        "/students/dashboard",
+                        "/classrooms/join-classroom"
+                      ]}
+                      component={ListDrawerStudent}
+                    />
+                    <PrivateRoute
+                      path={[
                         "/lecturers/dashboard",
                         "/exercises/new-exercise",
                         "/exercises/:id",
@@ -171,10 +182,6 @@ class App extends Component {
                         "/classrooms/:id"
                       ]}
                       component={ListDrawerLecturer}
-                    />
-                    <PrivateRoute
-                      path={["/students/dashboard"]}
-                      component={ListDrawerStudent}
                     />
                   </Switch>
                 </Nav>
@@ -213,12 +220,21 @@ class App extends Component {
                     />
                     <PrivateRoute path="/exercises/:id" component={Exercises} />
                     <PrivateRoute
+                      path="/classrooms/join-classroom"
+                      component={JoinClassroom}
+                    />
+                    <PrivateRoute
                       path="/classrooms/:id"
                       component={Classrooms}
                     />
                     <PrivateRoute
+                      exact
                       path="/students/dashboard"
                       component={DashboardStudent}
+                    />
+                    <PrivateRoute
+                      path="/classrooms/join-classroom"
+                      component={JoinClassroom}
                     />
                   </Switch>
                 </Content>
