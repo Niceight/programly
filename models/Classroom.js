@@ -18,6 +18,10 @@ const ClassroomScheme = new Schema({
     type: [Schema.Types.ObjectId],
     ref: "exercises"
   },
+  student: {
+    type: [Schema.Types.ObjectId],
+    ref: "students"
+  },
   createAt: {
     type: Date,
     default: Date.now
