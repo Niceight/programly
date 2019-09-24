@@ -27,10 +27,6 @@ const StudentSchema = new Schema({
     type: String,
     require: true
   },
-  classroom: {
-    type: Schema.Types.ObjectId,
-    ref: "classrooms"
-  },
   createAt: {
     type: Date,
     default: Date.now
