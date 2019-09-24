@@ -7,7 +7,6 @@
 - programID : String
 - email: String
 - password: String
-- class: [ObjectID] -> Classroom
 - createAt: Date
 
   2.Classroom
@@ -17,6 +16,7 @@
 - courseID: String
 - lecturer: ObjectID -> lecturer
 - exercise: [ObjectID] -> exercise
+- student: [ObjectID] -> Student
 - createAt: Date
 
   3.Exercise
