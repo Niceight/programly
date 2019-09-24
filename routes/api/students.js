@@ -113,12 +113,12 @@ router.post("/login", (req, res) => {
 });
 
 /**
- * @route   GET api/students/current
+ * @route   GET api/students/student
  * @desc    Return current student
  * @access  Private
  */
 router.get(
-  "/current-student",
+  "/student",
   passport.authenticate("student-rule", { session: false }),
   (req, res) => {
     res.json({
