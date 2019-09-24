@@ -84,6 +84,29 @@ router.post(
 );
 
 /**
+ * @route   GET api/classrooms/all-classroom
+ * @desc    Display classrooms for student to search
+ * @access  Private
+ */
+router.get(
+  "/all-classrooms",
+  passport.authenticate("student-rule", { session: false }),
+  async (req, res) => {
+    await Classroom.find({}, (err, classrooms) => {
+      if (err) {
+        return res.status(400).json({ success: false, error: err });
+      }
+      if (!classrooms.length) {
+        return res
+          .status(404)
+          .json({ success: false, error: `Classroom not found` });
+      }
+      return res.status(200).json({ success: true, data: classrooms });
+    }).catch(err => console.log(err));
+  }
+);
+
+/**
  * @route   GET api/classrooms/:lecturer_id
  * @desc    Get all classrooms own by the lecturer
  * @access  Private
@@ -106,6 +129,52 @@ router.get(
         return res.status(200).json({ success: true, data: classrooms });
       }
     ).catch(err => console.log(err));
+  }
+);
+
+/**
+ * @route   PUT api/classrooms/:classroomid/:userid
+ * @desc    Insert student to the classroom
+ * @access  Private
+ */
+router.put(
+  "/:classroomid",
+  passport.authenticate("student-rule", { session: false }),
+  async (req, res) => {
+    const body = req.body;
+
+    if (!body) {
+      return res.status(400).json({
+        success: false,
+        error: "You must provide a body to update"
+      });
+    }
+
+    Classroom.findOne({ _id: req.params.classroomid }, (err, classroom) => {
+      if (err) {
+        return res.status(404).json({
+          err,
+          message: "Classroom not found!"
+        });
+      }
+      classroom.student.push(body.student);
+      classroom
+        .save()
+        .then(() => {
+          return res.status(200).json({
+            success: true,
+            classroom: classroom._id,
+            student: classroom.student,
+            message: "Classroom updated!"
+          });
+        })
+        .catch(error => {
+          return res.status(404).json({
+            error,
+            message: "Classroom not updated!"
+          });
+        });
+    });
   }
 );
 

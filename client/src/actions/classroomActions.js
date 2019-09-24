@@ -46,7 +46,7 @@ export const createClassroom = classroomData => dispatch => {
     );
 };
 
-// Get all classs
+// Get all classroom by ID
 export const getClassrooms = id => dispatch => {
   dispatch(setClassroomLoading());
   axios
@@ -96,6 +96,45 @@ export const deleteClassroom = (userid, classroomid) => dispatch => {
         payload: err.response.data
       })
     );
+};
+
+// Get all classrooms
+export const getAllClassrooms = () => dispatch => {
+  dispatch(setClassroomLoading());
+  axios
+    .get("/api/classrooms/all-classrooms")
+    .then(res =>
+      dispatch({
+        type: GET_CLASSROOMS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_CLASSROOMS,
+        payload: null
+      })
+    );
+};
+
+// Get all classrooms
+export const joinClassroom = (classroomid, userData) => {
+  return dispatch => {
+    axios
+      .put(`/api/classrooms/${classroomid}`, userData)
+      .then(res => {
+        dispatch({
+          type: UPDATE_CLASSROOM,
+          payload: res.data
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+        });
+      });
+  };
 };
 
 // Classroom loading
