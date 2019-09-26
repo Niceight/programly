@@ -137,6 +137,25 @@ export const joinClassroom = (classroomid, userData) => {
   };
 };
 
+// Get all classroom by ID
+export const getMyClassrooms = id => dispatch => {
+  dispatch(setClassroomLoading());
+  axios
+    .get(`/api/classrooms/MyClassrooms/${id}`)
+    .then(res =>
+      dispatch({
+        type: GET_CLASSROOMS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_CLASSROOMS,
+        payload: null
+      })
+    );
+};
+
 // Classroom loading
 export const setClassroomLoading = () => {
   return {
