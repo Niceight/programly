@@ -42,7 +42,8 @@ import {
   LinkDashboard as LinkStudent,
   ListDrawerStudent,
   JoinClassroom,
-  MyClassrooms
+  MyClassrooms,
+  Classroom
 } from "./Components/dashboard/student";
 import {
   Landing,
@@ -105,7 +106,8 @@ class App extends Component {
                       path={[
                         "/students/dashboard",
                         "/classrooms/join-classroom",
-                        "/myClassrooms/:id"
+                        "/myClassrooms/:id",
+                        "/myClassrooms/classroom/:id"
                       ]}
                       component={LinkStudent}
                     />
@@ -129,7 +131,8 @@ class App extends Component {
                       "/classrooms/new-classroom",
                       "/classrooms/:id",
                       "/students/dashboard",
-                      "/myClassrooms/:id"
+                      "/myClassrooms/:id",
+                      "/myClassrooms/classroom/:id"
                     ]}
                     component={LogoutButton}
                   />
@@ -173,7 +176,8 @@ class App extends Component {
                       path={[
                         "/students/dashboard",
                         "/classrooms/join-classroom",
-                        "/myClassrooms/:id"
+                        "/myClassrooms/:id",
+                        "/myClassrooms/classroom/:id"
                       ]}
                       component={ListDrawerStudent}
                     />
@@ -239,6 +243,10 @@ class App extends Component {
                     <PrivateRoute
                       path="/classrooms/join-classroom"
                       component={JoinClassroom}
+                    />
+                    <PrivateRoute
+                      path="/myClassrooms/classroom/:id"
+                      component={Classroom}
                     />
                     <PrivateRoute
                       path="/myClassrooms/:id"
