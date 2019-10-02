@@ -156,6 +156,25 @@ export const getMyClassrooms = id => dispatch => {
     );
 };
 
+// Get classroom by ID
+export const getClassroom = id => dispatch => {
+  dispatch(setClassroomLoading());
+  axios
+    .get(`/api/classrooms/MyClassrooms/classroom/${id}`)
+    .then(res =>
+      dispatch({
+        type: GET_CLASSROOM,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_CLASSROOM,
+        payload: null
+      })
+    );
+};
+
 // Classroom loading
 export const setClassroomLoading = () => {
   return {
