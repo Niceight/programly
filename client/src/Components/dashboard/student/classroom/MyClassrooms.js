@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getMyClassrooms } from "../../../../actions/classroomActions";
@@ -21,7 +22,13 @@ const styles = theme => ({
     }
   },
   card: {
-    width: 345
+    boxShadow: "none",
+    "&:hover": {
+      transform: "scale(1.04)",
+      boxShadow: "0 4px 20px 0 rgba(0,0,0,0.12)"
+    },
+    width: 345,
+    margin: theme.spacing(3, 2)
   },
   media: {
     height: 140
@@ -51,7 +58,10 @@ class MyClassrooms extends Component {
       if (classrooms.data.length > 0) {
         classroomItems = classrooms.data.map(classroom => (
           <Card key={classroom._id} className={classes.card}>
-            <CardActionArea>
+            <CardActionArea
+              component={Link}
+              to={`/myClassrooms/classroom/${classroom._id}`}
+            >
               <CardMedia
                 className={classes.media}
                 style={{ height: 0, paddingTop: "56%" }}
@@ -67,11 +77,6 @@ class MyClassrooms extends Component {
                 </Typography>
               </CardContent>
             </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary">
-                Open
-              </Button>
-            </CardActions>
           </Card>
         ));
       } else {
