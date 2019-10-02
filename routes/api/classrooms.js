@@ -130,6 +130,29 @@ router.get(
 );
 
 /**
+ * @route   GET api/classrooms/myClassrooms/classroom/:id
+ * @desc    Get classroom details for student
+ * @access  Private
+ */
+router.get(
+  "/myClassrooms/classroom/:id",
+  passport.authenticate("student-rule", { session: false }),
+  async (req, res) => {
+    await Classroom.find({ _id: req.params.id }, (err, classrooms) => {
+      if (err) {
+        return res.status(400).json({ success: false, error: err });
+      }
+      if (!classrooms.length) {
+        return res
+          .status(404)
+          .json({ success: false, error: `Classroom not found` });
+      }
+      return res.status(200).json({ success: true, data: classrooms });
+    }).catch(err => console.log(err));
+  }
+);
+
+/**
  * @route   GET api/classrooms/:lecturer_id
  * @desc    Get all classrooms own by the lecturer
  * @access  Private
