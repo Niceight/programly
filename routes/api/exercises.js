@@ -88,6 +88,29 @@ router.post(
 );
 
 /**
+ * @route   GET api/exercises/all
+ * @desc    Get all exercises
+ * @access  Private
+ */
+router.get(
+  "/all",
+  passport.authenticate("student-rule", { session: false }),
+  async (req, res) => {
+    await Exercise.find({}, (err, exercises) => {
+      // More errors
+      if (err) {
+        return res.status(400).json({ success: false, error: err });
+      }
+      // Check if the exercise exist
+      if (!exercises) {
+        return res.status(404).json({ success: false, error: "no exercises" });
+      }
+      return res.status(200).json({ success: true, data: exercises });
+    }).catch(err => console.log(err));
+  }
+);
+
+/**
  * @route   GET api/exercises/:lecturer_id
  * @desc    Get all exercises own by the lecturer
  * @access  Private
