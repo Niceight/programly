@@ -46,7 +46,7 @@ export const createExercise = exerciseData => dispatch => {
     );
 };
 
-// Get all exercises
+// Get all exercises by lecturer id
 export const getExercises = id => dispatch => {
   dispatch(setExerciseLoading());
   axios
@@ -94,6 +94,25 @@ export const deleteExercise = (userid, exerciseid) => dispatch => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
+      })
+    );
+};
+
+// Get all exercises
+export const getAllExercises = () => dispatch => {
+  dispatch(setExerciseLoading());
+  axios
+    .get("/api/exercises/all")
+    .then(res =>
+      dispatch({
+        type: GET_EXERCISES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_EXERCISES,
+        payload: {}
       })
     );
 };
