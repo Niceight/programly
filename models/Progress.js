@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ProgressScheme = new Schema({
-  Student: {
+  student: {
     type: Schema.Types.ObjectId,
     ref: "students"
   },
-  Exercise: {
-    type: Scheme.Types.ObjectId,
+  exercise: {
+    type: Schema.Types.ObjectId,
     ref: "exercises"
   },
   content: {
@@ -15,6 +15,6 @@ const ProgressScheme = new Schema({
   }
 });
 
-ExerciseScheme.set("timestamps", true);
+ProgressScheme.set("timestamps", true);
 
 module.exports = Progress = mongoose.model("progression", ProgressScheme);
