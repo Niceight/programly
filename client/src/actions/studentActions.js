@@ -1,6 +1,11 @@
 import axios from "axios";
 
-import { GET_STUDENT, STUDENT_LOADING, CLEAR_CURRENT_STUDENT } from "./types";
+import {
+  GET_STUDENT,
+  GET_STUDENTS,
+  STUDENT_LOADING,
+  CLEAR_CURRENT_STUDENT
+} from "./types";
 
 // Get current student
 export const getCurrentStudent = () => dispatch => {
@@ -16,6 +21,25 @@ export const getCurrentStudent = () => dispatch => {
     .catch(err =>
       dispatch({
         type: GET_STUDENT,
+        payload: {}
+      })
+    );
+};
+
+// Get all students
+export const getAllStudents = () => dispatch => {
+  dispatch(setStudentLoading());
+  axios
+    .get("/api/students/all")
+    .then(res =>
+      dispatch({
+        type: GET_STUDENTS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_STUDENTS,
         payload: {}
       })
     );
