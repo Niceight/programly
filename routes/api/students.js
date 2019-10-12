@@ -113,6 +113,29 @@ router.post("/login", (req, res) => {
 });
 
 /**
+ * @route   GET api/students/all
+ * @desc    Get all students
+ * @access  Private
+ */
+router.get(
+  "/all",
+  passport.authenticate("student-rule", { session: false }),
+  async (req, res) => {
+    await Student.find({}, (err, students) => {
+      // More errors
+      if (err) {
+        return res.status(400).json({ success: false, error: err });
+      }
+      // Check if the students exist
+      if (!students) {
+        return res.status(404).json({ success: false, error: "no students" });
+      }
+      return res.status(200).json({ success: true, data: students });
+    }).catch(err => console.log(err));
+  }
+);
+
+/**
  * @route   GET api/students/student
  * @desc    Return current student
  * @access  Private
