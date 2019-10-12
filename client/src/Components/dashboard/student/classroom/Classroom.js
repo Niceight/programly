@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getClassroom } from "../../../../actions/classroomActions";
 import { getAllExercises } from "../../../../actions/exerciseActions";
@@ -61,25 +62,34 @@ class Classroom extends Component {
   }
 
   render() {
+    const { user } = this.props.auth;
     const { classes } = this.props;
     const { classroom } = this.props.classroom;
     const { exercises, loading } = this.props.exercise;
+    let seeStudent;
     let classroomData,
       classroomName,
       classroomCode,
       classroomStudent,
       exerciseData = [];
 
-    console.log(classroom);
-    console.log(exercises);
-
     if ((classroom === null && exercises === null) || loading) {
       exerciseData = <CircularProgress />;
     } else {
+      seeStudent = (
+        <Button
+          size="small"
+          color="primary"
+          component={Link}
+          to={`/myClassrooms/classroom/students/${classroom.data[0]._id}`}
+        >
+          see students
+        </Button>
+      );
       classroomData = classroom.data[0];
       classroomName = classroomData.classroomName;
       classroomCode = classroomData.courseID;
-      classroomStudent = classroomData.exercise.length;
+      classroomStudent = classroomData.student.length;
       if (classroomData.exercise.length > 0) {
         exercises.data.forEach(exercise => {
           for (let index = 0; index < classroomData.exercise.length; index++) {
@@ -98,7 +108,12 @@ class Classroom extends Component {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary">
+                    <Button
+                      size="small"
+                      color="primary"
+                      component={Link}
+                      to={`/myClassrooms/classroom/progress/${user.id}/${exercise._id}`}
+                    >
                       open
                     </Button>
                   </CardActions>
@@ -131,6 +146,7 @@ class Classroom extends Component {
           <Typography variant="body2" color="textSecondary" component="p">
             Course code: {classroomCode} • {classroomStudent} students
           </Typography>
+          {seeStudent}
         </Paper>
         <Container component="main" maxWidth="md">
           <div classname={classes.paper}>{exerciseData}</div>
