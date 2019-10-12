@@ -43,7 +43,9 @@ import {
   ListDrawerStudent,
   JoinClassroom,
   MyClassrooms,
-  Classroom
+  Classroom,
+  Students,
+  Student
 } from "./Components/dashboard/student";
 import {
   Landing,
@@ -107,7 +109,9 @@ class App extends Component {
                         "/students/dashboard",
                         "/classrooms/join-classroom",
                         "/myClassrooms/:id",
-                        "/myClassrooms/classroom/:id"
+                        "/myClassrooms/classroom/:id",
+                        "/myClassrooms/classroom/students/:id",
+                        "/myClassrooms/classroom/student/:id"
                       ]}
                       component={LinkStudent}
                     />
@@ -132,7 +136,9 @@ class App extends Component {
                       "/classrooms/:id",
                       "/students/dashboard",
                       "/myClassrooms/:id",
-                      "/myClassrooms/classroom/:id"
+                      "/myClassrooms/classroom/:id",
+                      "/myClassrooms/classroom/students/:id",
+                      "/myClassrooms/classroom/student/:id"
                     ]}
                     component={LogoutButton}
                   />
@@ -177,7 +183,9 @@ class App extends Component {
                         "/students/dashboard",
                         "/classrooms/join-classroom",
                         "/myClassrooms/:id",
-                        "/myClassrooms/classroom/:id"
+                        "/myClassrooms/classroom/:id",
+                        "/myClassrooms/classroom/students/:id",
+                        "/myClassrooms/classroom/student/:id"
                       ]}
                       component={ListDrawerStudent}
                     />
@@ -243,6 +251,14 @@ class App extends Component {
                     <PrivateRoute
                       path="/classrooms/join-classroom"
                       component={JoinClassroom}
+                    />
+                    <PrivateRoute
+                      path="/myClassrooms/classroom/student/:id"
+                      component={Student}
+                    />
+                    <PrivateRoute
+                      path="/myClassrooms/classroom/students/:id"
+                      component={Students}
                     />
                     <PrivateRoute
                       path="/myClassrooms/classroom/:id"
