@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getClassroom } from "../../../../actions/classroomActions";
 import { getAllExercises } from "../../../../actions/exerciseActions";
+import { createProgress } from "../../../../actions/progressActions";
 import { withStyles } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
@@ -61,6 +62,16 @@ class Classroom extends Component {
     this.getData();
   }
 
+  onClick = (user, exercise) => {
+    const newProgress = {
+      student: user,
+      exercise: exercise._id,
+      content: exercise.content
+    };
+
+    this.props.createProgress(newProgress);
+  };
+
   render() {
     const { user } = this.props.auth;
     const { classes } = this.props;
@@ -109,6 +120,7 @@ class Classroom extends Component {
                   </CardContent>
                   <CardActions>
                     <Button
+                      onClick={this.onClick.bind(this, user.id, exercise)}
                       size="small"
                       color="primary"
                       component={Link}
@@ -149,7 +161,7 @@ class Classroom extends Component {
           {seeStudent}
         </Paper>
         <Container component="main" maxWidth="md">
-          <div classname={classes.paper}>{exerciseData}</div>
+          <div>{exerciseData}</div>
         </Container>
       </Container>
     );
@@ -162,7 +174,8 @@ Classroom.propTypes = {
   exercise: PropTypes.object.isRequired,
   classroom: PropTypes.object.isRequired,
   getClassroom: PropTypes.object.isRequired,
-  getAllExercises: PropTypes.object.isRequired
+  getAllExercises: PropTypes.object.isRequired,
+  createProgress: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -173,5 +186,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getClassroom, getAllExercises }
+  { getClassroom, getAllExercises, createProgress }
 )(withStyles(styles)(Classroom));
