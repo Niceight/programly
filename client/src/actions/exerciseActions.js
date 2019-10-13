@@ -117,6 +117,25 @@ export const getAllExercises = () => dispatch => {
     );
 };
 
+// Get exercise for progress
+export const getExerciseDetails = exerciseid => dispatch => {
+  dispatch(setExerciseLoading());
+  axios
+    .get(`/api/exercises/details/${exerciseid}`)
+    .then(res =>
+      dispatch({
+        type: GET_EXERCISE,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_EXERCISE,
+        payload: {}
+      })
+    );
+};
+
 // Exercise loading
 export const setExerciseLoading = () => {
   return {
