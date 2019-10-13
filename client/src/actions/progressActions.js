@@ -8,11 +8,30 @@ import {
   GET_ERRORS
 } from "./types";
 
-// Get current progress
-export const getCurrentProgress = progressid => dispatch => {
+// Get current progress by other students
+export const getProgressByID = progressid => dispatch => {
   dispatch(setProgressLoading());
   axios
-    .get(`/api/progress/current/${progressid}`)
+    .get(`/api/progress/id/${progressid}`)
+    .then(res =>
+      dispatch({
+        type: GET_PROGRESS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_PROGRESS,
+        payload: {}
+      })
+    );
+};
+
+// Get current progress by og student
+export const getCurrentProgress = (userid, exerciseid) => dispatch => {
+  dispatch(setProgressLoading());
+  axios
+    .get(`/api/progress/current/${userid}/${exerciseid}`)
     .then(res =>
       dispatch({
         type: GET_PROGRESS,
@@ -30,7 +49,7 @@ export const getCurrentProgress = progressid => dispatch => {
 // Create Progress
 export const createProgress = progressData => dispatch => {
   axios
-    .post("/api/progress/new-progress", progressData)
+    .post("/api/progress/", progressData)
     .then(res =>
       dispatch({
         type: GET_PROGRESS,
@@ -62,26 +81,6 @@ export const getProgresses = id => dispatch => {
         payload: null
       })
     );
-};
-
-// Update Progress
-export const updateProgress = (progressid, progressData) => {
-  return dispatch => {
-    axios
-      .post(`/api/progress/${progressid}`, progressData)
-      .then(res => {
-        dispatch({
-          type: UPDATE_PROGRESS,
-          payload: res.data
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: GET_ERRORS,
-          payload: err.response.data
-        });
-      });
-  };
 };
 
 // Progress loading
