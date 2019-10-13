@@ -2,11 +2,16 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { getExerciseDetails } from "../../../../actions/exerciseActions";
+import { getCurrentProgress } from "../../../../actions/progressActions";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
+import CircularProgress from "../../../common/CircularProgress";
+import Divider from "@material-ui/core/Divider";
 import { Controlled as CodeMirror } from "react-codemirror2";
 require("codemirror/lib/codemirror.css");
 require("codemirror/theme/neat.css");
@@ -17,6 +22,9 @@ const styles = theme => ({
     body: {
       background: "white"
     }
+  },
+  root: {
+    padding: theme.spacing(3, 2)
   }
 });
 
@@ -28,32 +36,47 @@ class Progress extends Component {
       exercise: "",
       content: ""
     };
-
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  getData() {
+    this.props.getExerciseDetails(this.props.match.params.exerciseid);
+    this.props.getCurrentProgress(
+      this.props.match.params.studentid,
+      this.props.match.params.exerciseid
+    );
   }
 
-  onSubmit(e) {
-    e.preventDefault();
-
-    const newExercise = {
-      student: this.state.student,
-      exercise: this.state.exercise,
-      content: this.state.content
-    };
-
-    this.props.createExercise(newExercise);
-
-    this.setState({ open: true });
+  componentDidMount() {
+    this.getData();
   }
 
   render() {
-    const { user } = this.props.auth;
     const { classes } = this.props;
+    const { exercise, loading } = this.props.exercise;
+    const { progress } = this.props.progress;
+    let exerciseData, progressData;
+
+    if ((exercise === null && progress === null) || loading) {
+      exerciseData = <CircularProgress />;
+    } else {
+      if (exercise && progress) {
+        progressData = progress.data.content;
+        exerciseData = (
+          <Paper className={classes.root}>
+            <Typography variant="h5" component="h2">
+              {exercise.data.topicName}
+            </Typography>
+            <br />
+            <Divider />
+            <br />
+            <Typography component="p">{exercise.data.question}</Typography>
+          </Paper>
+        );
+      } else {
+        exerciseData = <h4>No exercises found...</h4>;
+      }
+    }
+
     const option = {
       mode: "text/x-java",
       theme: "neat",
@@ -62,38 +85,36 @@ class Progress extends Component {
     return (
       <Container component="main" maxWidth="lg">
         <CssBaseline />
+        {exerciseData}
         <CodeMirror
-          value={this.state.content}
+          className={classes.root}
+          value={progressData}
           options={option}
           onBeforeChange={(editor, data, content) => {
             this.setState({ content });
           }}
           onChange={(editor, data, content) => {}}
         />
-
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-        >
-          Save
-        </Button>
       </Container>
     );
   }
 }
 
 Progress.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  exercise: PropTypes.object.isRequired,
+  progress: PropTypes.object.isRequired,
+  getExerciseDetails: PropTypes.object.isRequired,
+  getCurrentProgress: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  exercise: state.exercise,
+  progress: state.progress
 });
 
 export default connect(
   mapStateToProps,
-  {}
+  { getExerciseDetails, getCurrentProgress }
 )(withRouter(withStyles(styles)(Progress)));
