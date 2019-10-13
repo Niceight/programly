@@ -107,15 +107,15 @@ router.get(
 );
 
 /**
- * @route   GET api/classrooms/myClassrooms/:id
- * @desc    Get all classrooms joined by the student
+ * @route   GET api/classrooms/myClassrooms/classroom/:id
+ * @desc    Get classroom details for student
  * @access  Private
  */
 router.get(
-  "/myClassrooms/:id",
+  "/myClassrooms/classroom/:id",
   passport.authenticate("student-rule", { session: false }),
   async (req, res) => {
-    await Classroom.find({ student: req.params.id }, (err, classrooms) => {
+    await Classroom.find({ _id: req.params.id }, (err, classrooms) => {
       if (err) {
         return res.status(400).json({ success: false, error: err });
       }
@@ -130,15 +130,15 @@ router.get(
 );
 
 /**
- * @route   GET api/classrooms/myClassrooms/classroom/:id
- * @desc    Get classroom details for student
+ * @route   GET api/classrooms/myClassrooms/:id
+ * @desc    Get all classrooms joined by the student
  * @access  Private
  */
 router.get(
-  "/myClassrooms/classroom/:id",
+  "/myClassrooms/:id",
   passport.authenticate("student-rule", { session: false }),
   async (req, res) => {
-    await Classroom.find({ _id: req.params.id }, (err, classrooms) => {
+    await Classroom.find({ student: req.params.id }, (err, classrooms) => {
       if (err) {
         return res.status(400).json({ success: false, error: err });
       }
