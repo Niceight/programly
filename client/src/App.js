@@ -45,7 +45,8 @@ import {
   MyClassrooms,
   Classroom,
   Students,
-  Student
+  Student,
+  Progress
 } from "./Components/dashboard/student";
 import {
   Landing,
@@ -111,7 +112,8 @@ class App extends Component {
                         "/myClassrooms/:id",
                         "/myClassrooms/classroom/:id",
                         "/myClassrooms/classroom/students/:id",
-                        "/myClassrooms/classroom/student/:id"
+                        "/myClassrooms/classroom/student/:id",
+                        "/myClassrooms/classroom/progress/:studentid/:exerciseid"
                       ]}
                       component={LinkStudent}
                     />
@@ -138,7 +140,8 @@ class App extends Component {
                       "/myClassrooms/:id",
                       "/myClassrooms/classroom/:id",
                       "/myClassrooms/classroom/students/:id",
-                      "/myClassrooms/classroom/student/:id"
+                      "/myClassrooms/classroom/student/:id",
+                      "/myClassrooms/classroom/progress/:studentid/:exerciseid"
                     ]}
                     component={LogoutButton}
                   />
@@ -185,7 +188,8 @@ class App extends Component {
                         "/myClassrooms/:id",
                         "/myClassrooms/classroom/:id",
                         "/myClassrooms/classroom/students/:id",
-                        "/myClassrooms/classroom/student/:id"
+                        "/myClassrooms/classroom/student/:id",
+                        "/myClassrooms/classroom/progress/:studentid/:exerciseid"
                       ]}
                       component={ListDrawerStudent}
                     />
@@ -251,6 +255,10 @@ class App extends Component {
                     <PrivateRoute
                       path="/classrooms/join-classroom"
                       component={JoinClassroom}
+                    />
+                    <PrivateRoute
+                      path="/myClassrooms/classroom/progress/:studentid/:exerciseid"
+                      component={Progress}
                     />
                     <PrivateRoute
                       path="/myClassrooms/classroom/student/:id"
