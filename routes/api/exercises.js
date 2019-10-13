@@ -111,6 +111,32 @@ router.get(
 );
 
 /**
+ * @route   GET api/exercises/details/:id
+ * @desc    Get exercise
+ * @access  Private
+ */
+router.get(
+  "/details/:id",
+  passport.authenticate("student-rule", { session: false }),
+  async (req, res) => {
+    await Exercise.findOne({ _id: req.params.id }, (err, exercise) => {
+      // Check if the exercise exist
+      if (!exercise) {
+        return res
+          .status(404)
+          .json({ success: false, error: "Exercise not found" });
+      }
+      // More errors
+      if (err) {
+        return res.status(400).json({ success: false, error: err });
+      }
+
+      return res.status(200).json({ success: true, data: exercise });
+    }).catch(err => console.log(err));
+  }
+);
+
+/**
  * @route   GET api/exercises/:lecturer_id
  * @desc    Get all exercises own by the lecturer
  * @access  Private
