@@ -112,7 +112,7 @@ class App extends Component {
                         "/myClassrooms/:id",
                         "/myClassrooms/classroom/:id",
                         "/myClassrooms/classroom/students/:id",
-                        "/myClassrooms/classroom/student/:id",
+                        "/myClassrooms/classroom/student/classroomid/:studentid",
                         "/myClassrooms/classroom/progress/:studentid/:exerciseid"
                       ]}
                       component={LinkStudent}
@@ -140,7 +140,7 @@ class App extends Component {
                       "/myClassrooms/:id",
                       "/myClassrooms/classroom/:id",
                       "/myClassrooms/classroom/students/:id",
-                      "/myClassrooms/classroom/student/:id",
+                      "/myClassrooms/classroom/student/classroomid/:studentid",
                       "/myClassrooms/classroom/progress/:studentid/:exerciseid"
                     ]}
                     component={LogoutButton}
@@ -188,7 +188,7 @@ class App extends Component {
                         "/myClassrooms/:id",
                         "/myClassrooms/classroom/:id",
                         "/myClassrooms/classroom/students/:id",
-                        "/myClassrooms/classroom/student/:id",
+                        "/myClassrooms/classroom/student/classroomid/:studentid",
                         "/myClassrooms/classroom/progress/:studentid/:exerciseid"
                       ]}
                       component={ListDrawerStudent}
@@ -261,7 +261,7 @@ class App extends Component {
                       component={Progress}
                     />
                     <PrivateRoute
-                      path="/myClassrooms/classroom/student/:id"
+                      path="/myClassrooms/classroom/student/:classroomid/:studentid"
                       component={Student}
                     />
                     <PrivateRoute
