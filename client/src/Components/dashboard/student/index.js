@@ -7,3 +7,4 @@ export { default as Classroom } from "./classroom/Classroom";
 export { default as Students } from "./classroom/Students";
 export { default as Student } from "./classroom/Student";
 export { default as Progress } from "./classroom/Progress";
+export { default as Collaborate } from "./classroom/Collaborate";
