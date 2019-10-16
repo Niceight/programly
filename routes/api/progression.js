@@ -85,12 +85,12 @@ router.get(
 );
 
 /**
- * @route   GET api/progress/:id
+ * @route   GET api/progress/id/:id
  * @desc    Get progress
  * @access  Private
  */
 router.get(
-  "/:id",
+  "/id/:id",
   passport.authenticate("student-rule", { session: false }),
   async (req, res) => {
     await Progress.findOne({ _id: req.params.id }, (err, progress) => {
