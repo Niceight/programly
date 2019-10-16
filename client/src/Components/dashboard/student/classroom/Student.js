@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getClassroom } from "../../../../actions/classroomActions";
+import { getAllExercises } from "../../../../actions/exerciseActions";
+import { getProgresses } from "../../../../actions/progressActions";
 import { withStyles } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
@@ -50,8 +52,12 @@ const styles = theme => ({
   }
 });
 
-class Classroom extends Component {
-  getData() {}
+class Student extends Component {
+  getData() {
+    this.props.getClassroom(this.props.match.params.classroomid);
+    this.props.getAllExercises();
+    this.props.getProgresses(this.props.match.params.studentid);
+  }
 
   componentDidMount() {
     this.getData();
@@ -60,17 +66,19 @@ class Classroom extends Component {
   render() {
     const { classes } = this.props;
     const { classroom } = this.props.classroom;
-    const { exercises, loading } = this.props.exercise;
-    let seeStudent;
-    let classroomData,
+    const { exercises } = this.props.exercise;
+    const { progresses, loading } = this.props.progress;
+
+    let seeStudent,
+      classroomData,
       classroomName,
       classroomCode,
       classroomStudent,
-      exerciseData = [];
+      progressData = [];
 
-    if ((classroom === null && exercises === null) || loading) {
-      exerciseData = <CircularProgress />;
-    } else {
+    if (classroom === null && exercises === null && progresses === null) {
+      progressData = <CircularProgress />;
+    } else if (classroom != null && exercises !== null && progresses !== null) {
       seeStudent = (
         <Button
           size="small"
@@ -85,11 +93,11 @@ class Classroom extends Component {
       classroomName = classroomData.classroomName;
       classroomCode = classroomData.courseID;
       classroomStudent = classroomData.student.length;
-      if (classroomData.exercise.length > 0) {
+      if (progresses.data.length > 0) {
         exercises.data.forEach(exercise => {
-          for (let index = 0; index < classroomData.exercise.length; index++) {
-            if (classroomData.exercise[index] === exercise._id) {
-              exerciseData.push(
+          for (let index = 0; index < progresses.data.length; index++) {
+            if (progresses.data[index].exercise === exercise._id) {
+              progressData.push(
                 <Card key={exercise._id} className={classes.exerciseCard}>
                   <CardContent>
                     <Typography variant="h5" component="h2">
@@ -103,7 +111,12 @@ class Classroom extends Component {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary">
+                    <Button
+                      size="small"
+                      color="primary"
+                      component={Link}
+                      to={`/myClassrooms/classroom/collaborate/${progresses.data[index]._id}/${progresses.data[index].exercise}`}
+                    >
                       open
                     </Button>
                   </CardActions>
@@ -113,7 +126,7 @@ class Classroom extends Component {
           }
         });
       } else {
-        exerciseData = <h4>No exercises found...</h4>;
+        progressData = <h4>No exercises found...</h4>;
       }
     }
     return (
@@ -139,29 +152,30 @@ class Classroom extends Component {
           {seeStudent}
         </Paper>
         <Container component="main" maxWidth="md">
-          <div classname={classes.paper}>{exerciseData}</div>
+          <div>{progressData}</div>
         </Container>
       </Container>
     );
   }
 }
 
-Classroom.propTypes = {
+Student.propTypes = {
   auth: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired,
   exercise: PropTypes.object.isRequired,
   classroom: PropTypes.object.isRequired,
-  getClassroom: PropTypes.object.isRequired,
-  getAllExercises: PropTypes.object.isRequired
+  getClassroom: PropTypes.func.isRequired,
+  getAllExercises: PropTypes.func.isRequired,
+  getProgresses: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
   classroom: state.classroom,
-  exercise: state.exercise
+  exercise: state.exercise,
+  progress: state.progress
 });
 
 export default connect(
   mapStateToProps,
-  { getClassroom, getAllExercises }
-)(withStyles(styles)(Classroom));
+  { getClassroom, getAllExercises, getProgresses }
+)(withStyles(styles)(Student));
