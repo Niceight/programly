@@ -46,7 +46,8 @@ import {
   Classroom,
   Students,
   Student,
-  Progress
+  Progress,
+  Collaborate
 } from "./Components/dashboard/student";
 import {
   Landing,
@@ -113,7 +114,8 @@ class App extends Component {
                         "/myClassrooms/classroom/:id",
                         "/myClassrooms/classroom/students/:id",
                         "/myClassrooms/classroom/student/classroomid/:studentid",
-                        "/myClassrooms/classroom/progress/:studentid/:exerciseid"
+                        "/myClassrooms/classroom/progress/:studentid/:exerciseid",
+                        "/myClassrooms/classroom/collaborate/:progressid/:exerciseid"
                       ]}
                       component={LinkStudent}
                     />
@@ -141,7 +143,8 @@ class App extends Component {
                       "/myClassrooms/classroom/:id",
                       "/myClassrooms/classroom/students/:id",
                       "/myClassrooms/classroom/student/classroomid/:studentid",
-                      "/myClassrooms/classroom/progress/:studentid/:exerciseid"
+                      "/myClassrooms/classroom/progress/:studentid/:exerciseid",
+                      "/myClassrooms/classroom/collaborate/:progressid/:exerciseid"
                     ]}
                     component={LogoutButton}
                   />
@@ -189,7 +192,8 @@ class App extends Component {
                         "/myClassrooms/classroom/:id",
                         "/myClassrooms/classroom/students/:id",
                         "/myClassrooms/classroom/student/classroomid/:studentid",
-                        "/myClassrooms/classroom/progress/:studentid/:exerciseid"
+                        "/myClassrooms/classroom/progress/:studentid/:exerciseid",
+                        "/myClassrooms/classroom/collaborate/:progressid/:exerciseid"
                       ]}
                       component={ListDrawerStudent}
                     />
@@ -259,6 +263,10 @@ class App extends Component {
                     <PrivateRoute
                       path="/myClassrooms/classroom/progress/:studentid/:exerciseid"
                       component={Progress}
+                    />
+                    <PrivateRoute
+                      path="/myClassrooms/classroom/collaborate/:progressid/:exerciseid"
+                      component={Collaborate}
                     />
                     <PrivateRoute
                       path="/myClassrooms/classroom/student/:classroomid/:studentid"
