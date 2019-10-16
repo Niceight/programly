@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getClassroom } from "../../../../actions/classroomActions";
 import { getAllExercises } from "../../../../actions/exerciseActions";
@@ -8,7 +9,6 @@ import { createProgress } from "../../../../actions/progressActions";
 import { withStyles } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -84,9 +84,9 @@ class Classroom extends Component {
       classroomStudent,
       exerciseData = [];
 
-    if ((classroom === null && exercises === null) || loading) {
+    if (classroom === null && exercises === null) {
       exerciseData = <CircularProgress />;
-    } else {
+    } else if (classroom !== null && exercises !== null) {
       seeStudent = (
         <Button
           size="small"
@@ -151,7 +151,7 @@ class Classroom extends Component {
             />
           </CardActionArea>
         </Card>
-        <Paper className={classes.root}>
+        <div className={classes.root}>
           <Typography gutterBottom variant="h5" component="h2">
             {classroomName}
           </Typography>
@@ -159,7 +159,7 @@ class Classroom extends Component {
             Course code: {classroomCode} • {classroomStudent} students
           </Typography>
           {seeStudent}
-        </Paper>
+        </div>
         <Container component="main" maxWidth="md">
           <div>{exerciseData}</div>
         </Container>
@@ -172,10 +172,7 @@ Classroom.propTypes = {
   auth: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   exercise: PropTypes.object.isRequired,
-  classroom: PropTypes.object.isRequired,
-  getClassroom: PropTypes.object.isRequired,
-  getAllExercises: PropTypes.object.isRequired,
-  createProgress: PropTypes.object.isRequired
+  classroom: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -187,4 +184,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getClassroom, getAllExercises, createProgress }
-)(withStyles(styles)(Classroom));
+)(withRouter(withStyles(styles)(Classroom)));

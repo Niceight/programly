@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getMyClassrooms } from "../../../../actions/classroomActions";
 import { withStyles } from "@material-ui/core";
@@ -45,7 +46,6 @@ class MyClassrooms extends Component {
     }
   }
   render() {
-    const { user } = this.props.auth;
     const { classes } = this.props;
     const { classrooms, loading } = this.props.classroom;
     let classroomItems;
@@ -92,9 +92,7 @@ class MyClassrooms extends Component {
 
 MyClassrooms.propTypes = {
   auth: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired,
-  classroom: PropTypes.object.isRequired,
-  getMyClassrooms: PropTypes.object.isRequired
+  classroom: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -105,4 +103,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getMyClassrooms }
-)(withStyles(styles)(MyClassrooms));
+)(withRouter(withStyles(styles)(MyClassrooms)));

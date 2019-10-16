@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getClassroom } from "../../../../actions/classroomActions";
 import { getAllStudents } from "../../../../actions/studentActions";
@@ -72,9 +73,9 @@ class Students extends Component {
       classroomStudent,
       studentData = [];
 
-    if ((classroom === null && students === null) || loading) {
+    if (classroom === null && students === null) {
       studentData = <CircularProgress />;
-    } else {
+    } else if (classroom !== null && students !== null) {
       seeExercise = (
         <Button
           size="small"
@@ -108,7 +109,7 @@ class Students extends Component {
                       size="small"
                       color="primary"
                       component={Link}
-                      to={`/myClassrooms/classroom/student/${student._id}`}
+                      to={`/myClassrooms/classroom/student/${classroom.data[0]._id}/${student._id}`}
                     >
                       open
                     </Button>
@@ -145,7 +146,7 @@ class Students extends Component {
           {seeExercise}
         </Paper>
         <Container component="main" maxWidth="md">
-          <div classname={classes.paper}>{studentData}</div>
+          <div>{studentData}</div>
         </Container>
       </Container>
     );
@@ -156,9 +157,7 @@ Students.propTypes = {
   auth: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
   classroom: PropTypes.object.isRequired,
-  student: PropTypes.object.isRequired,
-  getClassroom: PropTypes.object.isRequired,
-  getAllStudents: PropTypes.object.isRequired
+  student: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -170,4 +169,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getClassroom, getAllStudents }
-)(withStyles(styles)(Students));
+)(withRouter(withStyles(styles)(Students)));
