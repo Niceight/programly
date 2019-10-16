@@ -43,11 +43,7 @@ const UserList = props => {
                 if (user === props.currentlyTyping) {
                   return (
                     <ListItem>
-                      <ListItemText
-                        key={i}
-                        className={classes.textGlow}
-                        primary={user}
-                      >
+                      <ListItemText key={i} className={classes.textGlow}>
                         {user} <span className={classes.typing}>typing...</span>
                       </ListItemText>
                     </ListItem>
