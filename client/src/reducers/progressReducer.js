@@ -27,7 +27,7 @@ export default function(state = initialState, action) {
     case GET_PROGRESSES:
       return {
         ...state,
-        progresss: action.payload,
+        progresses: action.payload,
         loading: false
       };
     case CLEAR_CURRENT_PROGRESS:
