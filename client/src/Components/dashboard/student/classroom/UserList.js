@@ -51,9 +51,7 @@ const UserList = props => {
                 } else {
                   return (
                     <ListItem>
-                      <ListItemText key={i} primary={user}>
-                        {user}
-                      </ListItemText>
+                      <ListItemText key={i}>{user}</ListItemText>
                     </ListItem>
                   );
                 }

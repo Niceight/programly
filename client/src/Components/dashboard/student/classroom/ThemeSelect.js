@@ -57,14 +57,12 @@ const ThemeSelect = props => {
     });
   }
   return (
-    <form
-      className={classes.root}
-      autoComplete="off"
-      onChange={triggerChangeTheme}
-    >
+    <form className={classes.root} autoComplete="off">
       <FormControl className={classes.formControl}>
         <InputLabel>Theme</InputLabel>
-        <Select>{renderModeSelect()}</Select>
+        <Select value={props.theme} onChange={triggerChangeTheme}>
+          {renderModeSelect()}
+        </Select>
       </FormControl>
     </form>
   );

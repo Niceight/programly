@@ -53,14 +53,12 @@ const ModeSelect = props => {
     });
   }
   return (
-    <form
-      className={classes.root}
-      autoComplete="off"
-      onChange={triggerChangeMode}
-    >
+    <form className={classes.root} autoComplete="off">
       <FormControl className={classes.formControl}>
         <InputLabel>Language</InputLabel>
-        <Select>{renderModeSelect()}</Select>
+        <Select value={props.mode} onChange={triggerChangeMode}>
+          {renderModeSelect()}
+        </Select>
       </FormControl>
     </form>
   );
