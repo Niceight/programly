@@ -67,7 +67,7 @@ class Student extends Component {
     const { classes } = this.props;
     const { classroom } = this.props.classroom;
     const { exercises } = this.props.exercise;
-    const { progresses, loading } = this.props.progress;
+    const { progresses } = this.props.progress;
 
     let seeStudent,
       classroomData,

@@ -65,7 +65,7 @@ class Students extends Component {
   render() {
     const { classes } = this.props;
     const { classroom } = this.props.classroom;
-    const { students, loading } = this.props.student;
+    const { students } = this.props.student;
     let seeExercise;
     let classroomData,
       classroomName,

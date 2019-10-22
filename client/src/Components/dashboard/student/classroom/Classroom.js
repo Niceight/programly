@@ -76,7 +76,7 @@ class Classroom extends Component {
     const { user } = this.props.auth;
     const { classes } = this.props;
     const { classroom } = this.props.classroom;
-    const { exercises, loading } = this.props.exercise;
+    const { exercises } = this.props.exercise;
     let seeStudent;
     let classroomData,
       classroomName,
