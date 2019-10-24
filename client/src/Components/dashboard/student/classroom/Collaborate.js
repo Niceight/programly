@@ -15,7 +15,8 @@ import CircularProgress from "../../../common/CircularProgress";
 import UserList from "./UserList";
 import ModeSelect from "./ModeSelect";
 import ThemeSelect from "./ThemeSelect";
-import Codemirror from "react-codemirror";
+//import CodeMirror from "react-codemirror";
+import { Controlled as CodeMirror } from "react-codemirror2";
 
 require("codemirror/lib/codemirror.css");
 require("codemirror/mode/clike/clike.js");
@@ -150,10 +151,14 @@ class Collaborate extends Component {
   }
 
   updateContentInState(payload) {
+    console.log(payload);
+
     this.setState({
       content: payload.content,
       currentlyTyping: payload.currentlyTyping
     });
+
+    console.log(this.state.content);
   }
 
   updateContentForCurrentUser(newContent) {
@@ -177,9 +182,7 @@ class Collaborate extends Component {
     this.setState({ users: cleanUsers, content: payload.content });
   }
 
-  contentIsHappening(newContent) {
-    console.log("here");
-
+  contentIsHappening = newContent => {
     this.updateContentForCurrentUser(newContent);
     this.updateCurrentlyTyping();
     socket.emit("coding event", {
@@ -187,7 +190,7 @@ class Collaborate extends Component {
       room: this.props.match.params.progressid,
       currentlyTyping: this.props.currentUser
     });
-  }
+  };
 
   updateCurrentlyTyping() {
     this.setState({ currentlyTyping: this.props.currentUser });
@@ -216,7 +219,7 @@ class Collaborate extends Component {
 
   render() {
     const { classes } = this.props;
-    const { exercise, loading } = this.props.exercise;
+    const { exercise } = this.props.exercise;
     const { progress } = this.props.progress;
     let exerciseData;
 
@@ -267,9 +270,15 @@ class Collaborate extends Component {
             changeTheme={this.changeTheme.bind(this)}
           />
 
-          <Codemirror
+          <CodeMirror
             value={this.state.content}
-            onChange={this.contentIsHappening.bind(this)}
+            onBeforeChange={(editor, data, value) => {
+              this.setState({ content: value });
+            }}
+            onChange={(editor, data, value) => {
+              this.contentIsHappening(value);
+            }}
+            //onChange={this.contentIsHappening.bind(this)}
             options={option}
           />
         </div>
@@ -297,6 +306,7 @@ const mapStateToProps = state => {
     auth: state.auth,
     exercise: state.exercise,
     progress: state.progress,
+    content: state.content,
     currentUser: sessionStorage.currentUser || state.auth.user.name
   };
 };
