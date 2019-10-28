@@ -7,8 +7,8 @@ module.exports = function validateClassroomInput(data) {
   data.classroomName = !isEmpty(data.classroomName) ? data.classroomName : "";
   data.courseID = !isEmpty(data.courseID) ? data.courseID : "";
 
-  if (!Validator.isLength(data.classroomName, { min: 8, max: 9 })) {
-    errors.classroomName = "Classroom name must be valid";
+  if (!Validator.isLength(data.classroomName, { min: 5, max: 35 })) {
+    errors.classroomName = "Classroom name must be between 5 and 35 characters";
   }
 
   if (Validator.isEmpty(data.classroomName)) {
