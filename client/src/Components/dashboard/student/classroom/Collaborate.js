@@ -151,14 +151,10 @@ class Collaborate extends Component {
   }
 
   updateContentInState(payload) {
-    console.log(payload);
-
     this.setState({
       content: payload.content,
       currentlyTyping: payload.currentlyTyping
     });
-
-    console.log(this.state.content);
   }
 
   updateContentForCurrentUser(newContent) {
