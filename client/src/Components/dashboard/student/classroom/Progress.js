@@ -15,11 +15,12 @@ import CircularProgress from "../../../common/CircularProgress";
 import UserList from "./UserList";
 import ModeSelect from "./ModeSelect";
 import ThemeSelect from "./ThemeSelect";
+import Chat from "./Chat";
+
 import { Controlled as CodeMirror } from "react-codemirror2";
-//import CodeMirror from "react-codemirror";
 
 require("codemirror/lib/codemirror.css");
-require("codemirror/mode/clike/clike.js");
+require("codemirror/addon/comment/comment");
 require("codemirror/theme/neat.css");
 require("codemirror/theme/monokai.css");
 require("codemirror/theme/bespin.css");
@@ -35,6 +36,7 @@ require("codemirror/theme/material.css");
 require("codemirror/theme/midnight.css");
 require("codemirror/theme/solarized.css");
 
+require("codemirror/mode/clike/clike.js");
 require("codemirror/mode/javascript/javascript.js");
 require("codemirror/mode/ruby/ruby.js");
 require("codemirror/mode/swift/swift.js");
@@ -58,6 +60,16 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing(1)
+  },
+  flex: {
+    display: "flex"
+  },
+  codemirror: {
+    fontSize: 16,
+    width: "50%"
+  },
+  chat: {
+    width: "50%"
   }
 });
 
@@ -68,8 +80,24 @@ class Progress extends Component {
       content: "",
       mode: "text/x-java",
       theme: "neat",
+      user: this.props.auth.user.name,
       users: [],
-      currentlyTyping: null
+      currentlyTyping: null,
+      message: "",
+      messages: [
+        { user: "Affan", message: "Hello", room: "5da331f1f314a63454bb57fd" },
+        {
+          user: "Affan",
+          message: "What are you doing",
+          room: "5da331f1f314a63454bb57fd"
+        },
+        { user: "Mohammad", message: "Hi", room: "5da331f1f314a63454bb57fd" },
+        {
+          user: "Mohammad",
+          message: "Trying to solve problem",
+          room: "5da331f1f314a63454bb57fd"
+        }
+      ]
     };
     socket.on("receive content", payload => this.updateContentInState(payload));
     socket.on("receive change mode", newMode =>
@@ -81,6 +109,7 @@ class Progress extends Component {
       this.updateUsersAndContentInState(payload)
     );
     socket.on("user left room", user => this.removeUser(user));
+    socket.on("message", payload => this.setMessage(payload));
   }
 
   componentDidMount() {
@@ -210,6 +239,29 @@ class Progress extends Component {
     });
   }
 
+  changeMessage = newMessage => {
+    this.setState({ message: newMessage });
+  };
+
+  setMessage(payload) {
+    console.log(payload);
+
+    const combinedMessages = [...this.state.messages, payload];
+    console.log(combinedMessages);
+    this.setState({ messages: combinedMessages });
+  }
+
+  sendMessage = () => {
+    if (this.state.message) {
+      socket.emit("sendMessage", {
+        user: this.props.auth.user.name,
+        message: this.state.message,
+        room: this.props.progress.progress._id
+      });
+    }
+    this.setState({ message: "" });
+  };
+
   render() {
     const { classes } = this.props;
     const { exercise } = this.props.exercise;
@@ -239,7 +291,10 @@ class Progress extends Component {
     const option = {
       mode: this.state.mode,
       theme: this.state.theme,
-      lineNumbers: true
+      lineNumbers: true,
+      lineWrapping: true,
+      autofocus: true,
+      extraKeys: { "Ctrl-/": "toggleComment", "Ctrl-Space": "autocomplete" }
     };
     return (
       <Container component="main" maxWidth="lg">
@@ -257,23 +312,31 @@ class Progress extends Component {
             mode={this.state.mode}
             changeMode={this.changeMode.bind(this)}
           />
-
           <ThemeSelect
             theme={this.state.theme}
             changeTheme={this.changeTheme.bind(this)}
           />
-
-          <CodeMirror
-            value={this.state.content}
-            onBeforeChange={(editor, data, value) => {
-              this.setState({ content: value });
-            }}
-            onChange={(editor, data, value) => {
-              this.contentIsHappening(value);
-            }}
-            //onChange={this.contentIsHappening.bind(this)}
-            options={option}
-          />
+          <div className={classes.flex}>
+            <CodeMirror
+              className={classes.codemirror}
+              value={this.state.content}
+              options={option}
+              onBeforeChange={(editor, data, value) => {
+                this.setState({ content: value });
+              }}
+              onChange={(editor, data, value) => {
+                this.contentIsHappening(value);
+              }}
+            />
+            <Chat
+              className={classes.chat}
+              message={this.state.message}
+              messages={this.state.messages}
+              name={this.props.currentUser}
+              changeMessage={this.changeMessage}
+              sendMessage={this.sendMessage}
+            />
+          </div>
         </div>
         <Button
           onClick={this.clearContent.bind(this)}

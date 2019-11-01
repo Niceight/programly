@@ -88,4 +88,11 @@ io.on("connection", socket => {
   socket.on("send users and content", function(data) {
     socket.broadcast.to(data.room).emit("receive users and content", data);
   });
+
+  socket.on("sendMessage", function(data) {
+    console.log("Message is Send");
+    console.log(data);
+
+    socket.broadcast.to(data.room).emit("message", data);
+  });
 });
