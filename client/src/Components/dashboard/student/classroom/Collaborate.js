@@ -15,7 +15,6 @@ import CircularProgress from "../../../common/CircularProgress";
 import UserList from "./UserList";
 import ModeSelect from "./ModeSelect";
 import ThemeSelect from "./ThemeSelect";
-//import CodeMirror from "react-codemirror";
 import { Controlled as CodeMirror } from "react-codemirror2";
 
 require("codemirror/lib/codemirror.css");
@@ -58,6 +57,9 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing(1)
+  },
+  codemirror: {
+    fontSize: 16
   }
 });
 
@@ -267,15 +269,15 @@ class Collaborate extends Component {
           />
 
           <CodeMirror
+            className={classes.codemirror}
             value={this.state.content}
+            options={option}
             onBeforeChange={(editor, data, value) => {
               this.setState({ content: value });
             }}
             onChange={(editor, data, value) => {
               this.contentIsHappening(value);
             }}
-            //onChange={this.contentIsHappening.bind(this)}
-            options={option}
           />
         </div>
         <Button
