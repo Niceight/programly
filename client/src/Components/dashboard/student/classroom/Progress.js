@@ -84,25 +84,7 @@ class Progress extends Component {
       users: [],
       currentlyTyping: null,
       message: "",
-      messages: [
-        { user: "Affan", message: "Hello", room: "5da331f1f314a63454bb57fd" },
-        {
-          user: "Affan",
-          message: "What are you doing",
-          room: "5da331f1f314a63454bb57fd"
-        },
-        { user: "Mohammad", message: "Hi", room: "5da331f1f314a63454bb57fd" },
-        {
-          user: "Mohammad",
-          message: "Trying to solve problem",
-          room: "5da331f1f314a63454bb57fd"
-        },
-        {
-          user: "Mohammad",
-          message: "Trying to solve problem",
-          room: "5da331f1f314a63454bb57fd"
-        }
-      ]
+      messages: []
     };
     socket.on("receive content", payload => this.updateContentInState(payload));
     socket.on("receive change mode", newMode =>
