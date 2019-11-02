@@ -96,6 +96,11 @@ class Progress extends Component {
           user: "Mohammad",
           message: "Trying to solve problem",
           room: "5da331f1f314a63454bb57fd"
+        },
+        {
+          user: "Mohammad",
+          message: "Trying to solve problem",
+          room: "5da331f1f314a63454bb57fd"
         }
       ]
     };
@@ -109,7 +114,7 @@ class Progress extends Component {
       this.updateUsersAndContentInState(payload)
     );
     socket.on("user left room", user => this.removeUser(user));
-    socket.on("message", payload => this.setMessage(payload));
+    socket.on("receiveMessage", payload => this.setMessage(payload));
   }
 
   componentDidMount() {
@@ -244,20 +249,19 @@ class Progress extends Component {
   };
 
   setMessage(payload) {
-    console.log(payload);
-
     const combinedMessages = [...this.state.messages, payload];
-    console.log(combinedMessages);
     this.setState({ messages: combinedMessages });
   }
 
   sendMessage = () => {
+    let payload = {
+      user: this.props.auth.user.name,
+      message: this.state.message,
+      room: this.props.progress.progress._id
+    };
+    this.setMessage(payload);
     if (this.state.message) {
-      socket.emit("sendMessage", {
-        user: this.props.auth.user.name,
-        message: this.state.message,
-        room: this.props.progress.progress._id
-      });
+      socket.emit("sendMessage", payload);
     }
     this.setState({ message: "" });
   };
@@ -317,25 +321,27 @@ class Progress extends Component {
             changeTheme={this.changeTheme.bind(this)}
           />
           <div className={classes.flex}>
-            <CodeMirror
-              className={classes.codemirror}
-              value={this.state.content}
-              options={option}
-              onBeforeChange={(editor, data, value) => {
-                this.setState({ content: value });
-              }}
-              onChange={(editor, data, value) => {
-                this.contentIsHappening(value);
-              }}
-            />
-            <Chat
-              className={classes.chat}
-              message={this.state.message}
-              messages={this.state.messages}
-              name={this.props.currentUser}
-              changeMessage={this.changeMessage}
-              sendMessage={this.sendMessage}
-            />
+            <div className={classes.codemirror}>
+              <CodeMirror
+                value={this.state.content}
+                options={option}
+                onBeforeChange={(editor, data, value) => {
+                  this.setState({ content: value });
+                }}
+                onChange={(editor, data, value) => {
+                  this.contentIsHappening(value);
+                }}
+              />
+            </div>
+            <div className={classes.chat}>
+              <Chat
+                message={this.state.message}
+                messages={this.state.messages}
+                name={this.props.currentUser}
+                changeMessage={this.changeMessage}
+                sendMessage={this.sendMessage}
+              />
+            </div>
           </div>
         </div>
         <Button

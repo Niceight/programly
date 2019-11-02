@@ -93,6 +93,6 @@ io.on("connection", socket => {
     console.log("Message is Send");
     console.log(data);
 
-    socket.broadcast.to(data.room).emit("message", data);
+    socket.broadcast.to(data.room).emit("receiveMessage", data);
   });
 });

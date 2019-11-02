@@ -4,20 +4,48 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import ScrollToBottom from "react-scroll-to-bottom";
 
 const useStyles = makeStyles(({ palette, spacing }) => {
   const radius = spacing(2.5);
   const rightBgColor = palette.primary.main;
   return {
-    flex: {
-      display: "flex"
+    "@global": {
+      "*::-webkit-scrollbar": {
+        width: "0.4em",
+        height: "0"
+      },
+      "*::-webkit-scrollbar-track": {
+        "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)"
+      },
+      "*::-webkit-scrollbar-thumb": {
+        backgroundColor: "rgba(0,0,0,.1)",
+        outline: "1px solid slategrey"
+      }
+    },
+    flexColumn: {
+      display: "flex",
+      flexDirection: "column",
+      height: "300px"
+    },
+    flexRow: {
+      display: "flex",
+      flexDirection: "row"
     },
     textField: {
-      marginLeft: spacing(1),
-      marginRight: spacing(1)
+      marginRight: spacing(1),
+      width: "90%"
     },
     button: {
-      margin: spacing(1)
+      margin: spacing(2, 0, 1, 0),
+      width: "10%"
+    },
+    messages: {
+      overflow: "auto",
+      flex: "auto"
+    },
+    username: {
+      fontWeight: "bold"
     },
     msg: {
       padding: spacing(1, 2),
@@ -35,13 +63,8 @@ const useStyles = makeStyles(({ palette, spacing }) => {
     left: {
       borderTopRightRadius: radius,
       borderBottomRightRadius: radius,
+      borderTopLeftRadius: radius,
       backgroundColor: palette.grey[100]
-    },
-    leftFirst: {
-      borderTopLeftRadius: radius
-    },
-    leftLast: {
-      borderBottomLeftRadius: radius
     },
     rightRow: {
       textAlign: "right"
@@ -49,29 +72,15 @@ const useStyles = makeStyles(({ palette, spacing }) => {
     right: {
       borderTopLeftRadius: radius,
       borderBottomLeftRadius: radius,
+      borderTopRightRadius: radius,
       backgroundColor: rightBgColor,
       color: palette.common.white
-    },
-    rightFirst: {
-      borderTopRightRadius: radius
-    },
-    rightLast: {
-      borderBottomRightRadius: radius
     }
   };
 });
 
 const Chat = props => {
   const classes = useStyles();
-  const attachClass = (index, side) => {
-    if (index === 0) {
-      return classes[`${side}First`];
-    }
-    if (index === props.messages.length - 1) {
-      return classes[`${side}Last`];
-    }
-    return "";
-  };
 
   function triggerChangeMessage(e) {
     props.changeMessage(e.target.value);
@@ -82,19 +91,16 @@ const Chat = props => {
   }
 
   return (
-    <div>
-      <div>
-        {props.messages.map((chat, i) =>
+    <div className={classes.flexColumn}>
+      <ScrollToBottom className={classes.messages}>
+        {props.messages.map(chat =>
           chat.user === props.name ? (
-            <Grid container spacing={2} justify={"flex-end"}>
+            <Grid container spacing={1} justify={"flex-end"}>
               <Grid item xs={8}>
                 <div className={classes.rightRow}>
                   <Typography
                     align={"left"}
-                    className={`${classes.msg} ${classes.right} ${attachClass(
-                      i,
-                      "right"
-                    )}`}
+                    className={`${classes.msg} ${classes.right}`}
                   >
                     {chat.message}
                   </Typography>
@@ -102,16 +108,16 @@ const Chat = props => {
               </Grid>
             </Grid>
           ) : (
-            <Grid container spacing={2} justify={"flex-start"}>
+            <Grid container spacing={1} justify={"flex-start"}>
               <Grid item xs={8}>
                 <div className={classes.leftRow}>
                   <Typography
                     align={"left"}
-                    className={`${classes.msg} ${classes.left} ${attachClass(
-                      i,
-                      "left"
-                    )}`}
+                    className={`${classes.msg} ${classes.left}`}
                   >
+                    <Typography color="primary" className={classes.username}>
+                      {chat.user}
+                    </Typography>
                     {chat.message}
                   </Typography>
                 </div>
@@ -119,15 +125,16 @@ const Chat = props => {
             </Grid>
           )
         )}
-      </div>
+      </ScrollToBottom>
 
-      <div className={classes.flex}>
+      <div className={classes.flexRow}>
         <TextField
           className={classes.textField}
           label="Send a message"
           margin="normal"
           value={props.message}
           onChange={triggerChangeMessage}
+          onKeyDown={e => (e.key === "Enter" ? triggerSendMessage(e) : null)}
         />
         <Button
           variant="contained"
