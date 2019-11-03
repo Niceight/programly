@@ -15,6 +15,8 @@ import CircularProgress from "../../../common/CircularProgress";
 import UserList from "./UserList";
 import ModeSelect from "./ModeSelect";
 import ThemeSelect from "./ThemeSelect";
+import Chat from "./Chat";
+
 import { Controlled as CodeMirror } from "react-codemirror2";
 
 require("codemirror/lib/codemirror.css");
@@ -58,8 +60,19 @@ const styles = theme => ({
   button: {
     margin: theme.spacing(1)
   },
+  flex: {
+    display: "flex"
+  },
+  flexReverse: {
+    display: "flex",
+    flexDirection: "row-reverse"
+  },
   codemirror: {
-    fontSize: 16
+    fontSize: 16,
+    width: "50%"
+  },
+  chat: {
+    width: "50%"
   }
 });
 
@@ -71,7 +84,9 @@ class Collaborate extends Component {
       mode: "text/x-java",
       theme: "neat",
       users: [],
-      currentlyTyping: null
+      currentlyTyping: null,
+      message: "",
+      messages: []
     };
     socket.on("receive content", payload => this.updateContentInState(payload));
     socket.on("receive change mode", newMode =>
@@ -83,6 +98,7 @@ class Collaborate extends Component {
       this.updateUsersAndContentInState(payload)
     );
     socket.on("user left room", user => this.removeUser(user));
+    socket.on("receiveMessage", payload => this.setMessage(payload));
   }
 
   componentDidMount() {
@@ -215,6 +231,28 @@ class Collaborate extends Component {
     });
   }
 
+  changeMessage = newMessage => {
+    this.setState({ message: newMessage });
+  };
+
+  setMessage(payload) {
+    const combinedMessages = [...this.state.messages, payload];
+    this.setState({ messages: combinedMessages });
+  }
+
+  sendMessage = () => {
+    let payload = {
+      user: this.props.auth.user.name,
+      message: this.state.message,
+      room: this.props.match.params.progressid
+    };
+    this.setMessage(payload);
+    if (this.state.message) {
+      socket.emit("sendMessage", payload);
+    }
+    this.setState({ message: "" });
+  };
+
   render() {
     const { classes } = this.props;
     const { exercise } = this.props.exercise;
@@ -244,7 +282,10 @@ class Collaborate extends Component {
     const option = {
       mode: this.state.mode,
       theme: this.state.theme,
-      lineNumbers: true
+      lineNumbers: true,
+      lineWrapping: true,
+      autofocus: true,
+      extraKeys: { "Ctrl-/": "toggleComment", "Ctrl-Space": "autocomplete" }
     };
     return (
       <Container component="main" maxWidth="lg">
@@ -258,27 +299,39 @@ class Collaborate extends Component {
             currentlyTyping={this.state.currentlyTyping}
           />
           <Divider />
-          <ModeSelect
-            mode={this.state.mode}
-            changeMode={this.changeMode.bind(this)}
-          />
-
-          <ThemeSelect
-            theme={this.state.theme}
-            changeTheme={this.changeTheme.bind(this)}
-          />
-
-          <CodeMirror
-            className={classes.codemirror}
-            value={this.state.content}
-            options={option}
-            onBeforeChange={(editor, data, value) => {
-              this.setState({ content: value });
-            }}
-            onChange={(editor, data, value) => {
-              this.contentIsHappening(value);
-            }}
-          />
+          <div className={classes.flexReverse}>
+            <ModeSelect
+              mode={this.state.mode}
+              changeMode={this.changeMode.bind(this)}
+            />
+            <ThemeSelect
+              theme={this.state.theme}
+              changeTheme={this.changeTheme.bind(this)}
+            />
+          </div>
+          <div className={classes.flex}>
+            <div className={classes.codemirror}>
+              <CodeMirror
+                value={this.state.content}
+                options={option}
+                onBeforeChange={(editor, data, value) => {
+                  this.setState({ content: value });
+                }}
+                onChange={(editor, data, value) => {
+                  this.contentIsHappening(value);
+                }}
+              />
+            </div>
+            <div className={classes.chat}>
+              <Chat
+                message={this.state.message}
+                messages={this.state.messages}
+                name={this.props.currentUser}
+                changeMessage={this.changeMessage}
+                sendMessage={this.sendMessage}
+              />
+            </div>
+          </div>
         </div>
         <Button
           onClick={this.clearContent.bind(this)}
