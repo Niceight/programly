@@ -3,19 +3,17 @@ import openSocket from "socket.io-client";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { getExerciseDetails } from "../../../../actions/exerciseActions";
 import { getCurrentProgress } from "../../../../actions/progressActions";
 import { withStyles } from "@material-ui/styles";
-import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-import CircularProgress from "../../../common/CircularProgress";
+import ExerciseItem from "./ExerciseItem";
 import UserList from "./UserList";
 import ModeSelect from "./ModeSelect";
 import ThemeSelect from "./ThemeSelect";
 import Chat from "./Chat";
+import Notification from "./Notification";
 
 import { Controlled as CodeMirror } from "react-codemirror2";
 
@@ -58,11 +56,12 @@ const styles = theme => ({
   root: {
     padding: theme.spacing(3, 2)
   },
-  button: {
-    margin: theme.spacing(1)
-  },
   flex: {
     display: "flex"
+  },
+  flexReverse: {
+    display: "flex",
+    flexDirection: "row-reverse"
   },
   codemirror: {
     fontSize: 16,
@@ -80,8 +79,8 @@ class Progress extends Component {
       content: "",
       mode: "text/x-java",
       theme: "neat",
-      user: this.props.auth.user.name,
       users: [],
+      room: "",
       currentlyTyping: null,
       message: "",
       messages: []
@@ -105,7 +104,6 @@ class Progress extends Component {
         this.props.match.params.studentid,
         this.props.match.params.exerciseid
       );
-      this.props.getExerciseDetails(this.props.match.params.exerciseid);
     } else {
       const user = this.props.auth.user.name;
       sessionStorage.setItem("currentUser", user);
@@ -114,7 +112,7 @@ class Progress extends Component {
         room: this.props.progress.progress._id,
         user: user
       });
-      this.setState({ users: users });
+      this.setState({ users: users, room: this.props.progress.progress._id });
     }
   }
 
@@ -126,6 +124,7 @@ class Progress extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(this.props.progress.progress);
     if (this.props.progress.progress) {
       const user = nextProps.currentUser;
       const users = [...this.state.users, user];
@@ -133,7 +132,7 @@ class Progress extends Component {
         room: nextProps.progress.progress._id,
         user: user
       });
-      this.setState({ users: users });
+      this.setState({ users: users, room: nextProps.progress.progress._id });
     }
   }
 
@@ -217,15 +216,6 @@ class Progress extends Component {
     this.setState({ theme: newTheme });
   }
 
-  clearContent(e) {
-    e.preventDefault();
-    this.setState({ content: "" });
-    socket.emit("coding event", {
-      content: "",
-      room: this.props.progress.progress._id
-    });
-  }
-
   changeMessage = newMessage => {
     this.setState({ message: newMessage });
   };
@@ -250,29 +240,6 @@ class Progress extends Component {
 
   render() {
     const { classes } = this.props;
-    const { exercise } = this.props.exercise;
-    const { progress } = this.props.progress;
-    let exerciseData;
-
-    if (exercise === null && progress === null) {
-      exerciseData = <CircularProgress />;
-    } else if (exercise !== null && progress !== null) {
-      if (exercise && progress) {
-        exerciseData = (
-          <div className={classes.root}>
-            <Typography variant="h5" component="h2">
-              {exercise.data.topicName}
-            </Typography>
-            <br />
-            <Divider />
-            <br />
-            <Typography component="p">{exercise.data.question}</Typography>
-          </div>
-        );
-      } else {
-        exerciseData = <h4>No exercises found...</h4>;
-      }
-    }
 
     const option = {
       mode: this.state.mode,
@@ -285,8 +252,7 @@ class Progress extends Component {
     return (
       <Container component="main" maxWidth="lg">
         <CssBaseline />
-        {exerciseData}
-        {this.state.progress}
+        <ExerciseItem id={this.props.match.params.exerciseid} />
         <div className={classes.root}>
           <Divider />
           <UserList
@@ -294,14 +260,16 @@ class Progress extends Component {
             currentlyTyping={this.state.currentlyTyping}
           />
           <Divider />
-          <ModeSelect
-            mode={this.state.mode}
-            changeMode={this.changeMode.bind(this)}
-          />
-          <ThemeSelect
-            theme={this.state.theme}
-            changeTheme={this.changeTheme.bind(this)}
-          />
+          <div className={classes.flexReverse}>
+            <ModeSelect
+              mode={this.state.mode}
+              changeMode={this.changeMode.bind(this)}
+            />
+            <ThemeSelect
+              theme={this.state.theme}
+              changeTheme={this.changeTheme.bind(this)}
+            />
+          </div>
           <div className={classes.flex}>
             <div className={classes.codemirror}>
               <CodeMirror
@@ -325,13 +293,12 @@ class Progress extends Component {
               />
             </div>
           </div>
+          <Notification
+            name={this.props.currentUser}
+            room={this.state.room}
+            exercise={this.props.match.params.exerciseid}
+          />
         </div>
-        <Button
-          onClick={this.clearContent.bind(this)}
-          className={classes.button}
-        >
-          clear code
-        </Button>
       </Container>
     );
   }
@@ -339,23 +306,19 @@ class Progress extends Component {
 
 Progress.propTypes = {
   auth: PropTypes.object.isRequired,
-  exercise: PropTypes.object.isRequired,
   progress: PropTypes.object.isRequired,
-  getExerciseDetails: PropTypes.func.isRequired,
   getCurrentProgress: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
   return {
     auth: state.auth,
-    exercise: state.exercise,
     progress: state.progress,
-    content: state.content,
     currentUser: sessionStorage.currentUser || state.auth.user.name
   };
 };
 
 export default connect(
   mapStateToProps,
-  { getExerciseDetails, getCurrentProgress }
+  { getCurrentProgress }
 )(withRouter(withStyles(styles)(Progress)));

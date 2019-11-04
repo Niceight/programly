@@ -3,15 +3,12 @@ import openSocket from "socket.io-client";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { getExerciseDetails } from "../../../../actions/exerciseActions";
 import { getProgressByID } from "../../../../actions/progressActions";
 import { withStyles } from "@material-ui/styles";
-import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-import CircularProgress from "../../../common/CircularProgress";
+import ExerciseItem from "./ExerciseItem";
 import UserList from "./UserList";
 import ModeSelect from "./ModeSelect";
 import ThemeSelect from "./ThemeSelect";
@@ -57,9 +54,6 @@ const styles = theme => ({
   root: {
     padding: theme.spacing(3, 2)
   },
-  button: {
-    margin: theme.spacing(1)
-  },
   flex: {
     display: "flex"
   },
@@ -102,7 +96,6 @@ class Collaborate extends Component {
   }
 
   componentDidMount() {
-    this.props.getExerciseDetails(this.props.match.params.exerciseid);
     this.props.getProgressByID(this.props.match.params.progressid);
 
     const user = this.props.auth.user.name;
@@ -121,16 +114,6 @@ class Collaborate extends Component {
       user: this.props.currentUser
     });
   }
-
-  //   static getDerivedStateFromProps(props, state) {
-  //     const user = props.currentUser;
-  //     const users = [...state.users, user];
-  //     socket.emit("room", {
-  //       room: props.match.params.progressid,
-  //       user: user
-  //     });
-  //     this.setState({ users: users });
-  //   }
 
   componentWillReceiveProps(nextProps) {
     const user = nextProps.currentUser;
@@ -222,15 +205,6 @@ class Collaborate extends Component {
     this.setState({ theme: newTheme });
   }
 
-  clearContent(e) {
-    e.preventDefault();
-    this.setState({ content: "" });
-    socket.emit("coding event", {
-      content: "",
-      room: this.props.match.params.progressid
-    });
-  }
-
   changeMessage = newMessage => {
     this.setState({ message: newMessage });
   };
@@ -255,29 +229,6 @@ class Collaborate extends Component {
 
   render() {
     const { classes } = this.props;
-    const { exercise } = this.props.exercise;
-    const { progress } = this.props.progress;
-    let exerciseData;
-
-    if (exercise === null && progress === null) {
-      exerciseData = <CircularProgress />;
-    } else if (exercise !== null && progress !== null) {
-      if (exercise && progress) {
-        exerciseData = (
-          <div className={classes.root}>
-            <Typography variant="h5" component="h2">
-              {exercise.data.topicName}
-            </Typography>
-            <br />
-            <Divider />
-            <br />
-            <Typography component="p">{exercise.data.question}</Typography>
-          </div>
-        );
-      } else {
-        exerciseData = <h4>No exercises found...</h4>;
-      }
-    }
 
     const option = {
       mode: this.state.mode,
@@ -290,8 +241,7 @@ class Collaborate extends Component {
     return (
       <Container component="main" maxWidth="lg">
         <CssBaseline />
-        {exerciseData}
-        {this.state.progress}
+        <ExerciseItem id={this.props.match.params.exerciseid} />
         <div className={classes.root}>
           <Divider />
           <UserList
@@ -333,12 +283,6 @@ class Collaborate extends Component {
             </div>
           </div>
         </div>
-        <Button
-          onClick={this.clearContent.bind(this)}
-          className={classes.button}
-        >
-          clear code
-        </Button>
       </Container>
     );
   }
@@ -346,23 +290,19 @@ class Collaborate extends Component {
 
 Collaborate.propTypes = {
   auth: PropTypes.object.isRequired,
-  exercise: PropTypes.object.isRequired,
   progress: PropTypes.object.isRequired,
-  getExerciseDetails: PropTypes.func.isRequired,
   getProgressByID: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
   return {
     auth: state.auth,
-    exercise: state.exercise,
     progress: state.progress,
-    content: state.content,
     currentUser: sessionStorage.currentUser || state.auth.user.name
   };
 };
 
 export default connect(
   mapStateToProps,
-  { getExerciseDetails, getProgressByID }
+  { getProgressByID }
 )(withRouter(withStyles(styles)(Collaborate)));
