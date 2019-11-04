@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -19,14 +19,14 @@ const styles = {
 
 class Notification extends Component {
   handleClickWithAction = () => {
-    this.props.enqueueSnackbar("Your friend need help!", {
+    this.props.enqueueSnackbar(`Your friend ${this.props.name} need help!`, {
       variant: "warning",
       autoHideDuration: 8000,
       action: (
         <Button
           color="secondary"
           size="small"
-          onClick={() => alert("direct to friend")}
+          href={`/myClassrooms/classroom/collaborate/${this.props.room}/${this.props.exercise}`}
         >
           Help
         </Button>
