@@ -42,16 +42,16 @@ const UserList = props => {
               {props.users.map((user, i) => {
                 if (user === props.currentlyTyping) {
                   return (
-                    <ListItem>
-                      <ListItemText key={i} className={classes.textGlow}>
+                    <ListItem key={i}>
+                      <ListItemText className={classes.textGlow}>
                         {user} <span className={classes.typing}>typing...</span>
                       </ListItemText>
                     </ListItem>
                   );
                 } else {
                   return (
-                    <ListItem>
-                      <ListItemText key={i}>{user}</ListItemText>
+                    <ListItem key={i}>
+                      <ListItemText>{user}</ListItemText>
                     </ListItem>
                   );
                 }
