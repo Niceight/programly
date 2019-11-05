@@ -34,19 +34,18 @@ class Collaborate extends Component {
 }
 
 Collaborate.propTypes = {
-  progress: PropTypes.object.isRequired,
   getProgressByID: PropTypes.func.isRequired,
   clearCurrentProgress: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
+  let progData;
   if (state.progress.progress !== null) {
     if (state.progress.progress.data) {
-      return {
-        progress: state.progress.progress.data
-      };
+      progData = state.progress.progress.data;
     }
   }
+  return { progress: progData };
 };
 
 export default connect(

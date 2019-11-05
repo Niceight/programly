@@ -37,24 +37,21 @@ class Progress extends Component {
 }
 
 Progress.propTypes = {
-  progress: PropTypes.object.isRequired,
   getCurrentProgress: PropTypes.func.isRequired,
   clearCurrentProgress: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
+  let progData;
   if (state.progress.progress !== null) {
     if (state.progress.progress.data) {
-      return {
-        progress: state.progress.progress.data[0]
-      };
+      progData = state.progress.progress.data[0];
     }
     if (state.progress.progress._id) {
-      return {
-        progress: state.progress.progress
-      };
+      progData = state.progress.progress;
     }
   }
+  return { progress: progData };
 };
 
 export default connect(
