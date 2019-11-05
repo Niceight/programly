@@ -55,7 +55,7 @@ import {
   LinkProgramly
 } from "./Components/landing";
 import LogoutButton from "./Components/common/LogoutButton";
-import "./App.css";
+import CustomFooter from "./Components/common/CustomFooter";
 
 // Check for token
 if (localStorage.jwtToken) {
@@ -285,7 +285,9 @@ class App extends Component {
                     />
                   </Switch>
                 </Content>
-                <Footer>{/* footer goes here */}</Footer>
+                <Footer>
+                  <Route path={"/"} component={CustomFooter} />
+                </Footer>
               </Root>
             </div>
           </Router>
