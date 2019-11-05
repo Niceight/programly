@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Layout() {
+export default function Landing() {
   const classes = useStyles();
 
   return (
