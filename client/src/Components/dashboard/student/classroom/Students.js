@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getClassroom } from "../../../../actions/classroomActions";
 import { getAllStudents } from "../../../../actions/studentActions";
-import { withStyles } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
@@ -21,7 +21,7 @@ import CircularProgress from "../../../common/CircularProgress";
 const styles = theme => ({
   "@global": {
     body: {
-      background: "white"
+      background: theme.palette.common.white
     }
   },
   root: {

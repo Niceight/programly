@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { getClassroom } from "../../../../actions/classroomActions";
 import { getAllExercises } from "../../../../actions/exerciseActions";
 import { createProgress } from "../../../../actions/progressActions";
-import { withStyles } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
@@ -21,7 +21,7 @@ import CircularProgress from "../../../common/CircularProgress";
 const styles = theme => ({
   "@global": {
     body: {
-      background: "white"
+      background: theme.palette.common.white
     }
   },
   root: {

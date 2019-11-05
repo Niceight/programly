@@ -6,12 +6,12 @@ import CircularProgress from "../../common/CircularProgress";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 
-const styles = {
+const styles = theme => ({
   "@global": {
     body: {
-      background: "white"
+      background: theme.palette.common.white
     }
   },
   paper: {
@@ -20,7 +20,7 @@ const styles = {
     flexDirection: "column",
     alignItems: "center"
   }
-};
+});
 
 class Dashboard extends Component {
   componentDidMount() {

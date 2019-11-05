@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getMyClassrooms } from "../../../../actions/classroomActions";
-import { withStyles } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import CircularProgress from "../../../common/CircularProgress";
@@ -17,7 +17,7 @@ import Typography from "@material-ui/core/Typography";
 const styles = theme => ({
   "@global": {
     body: {
-      background: "white"
+      background: theme.palette.common.white
     }
   },
   card: {

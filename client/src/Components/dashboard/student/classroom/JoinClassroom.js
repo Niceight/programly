@@ -5,8 +5,7 @@ import {
   getAllClassrooms,
   joinClassroom
 } from "../../../../actions/classroomActions";
-import { withStyles } from "@material-ui/core";
-import CircularProgress from "../../../common/CircularProgress";
+import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -28,7 +27,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 const styles = theme => ({
   "@global": {
     body: {
-      background: "white"
+      background: theme.palette.common.white
     }
   },
   paper: {
@@ -86,12 +85,10 @@ class JoinClassroom extends Component {
     const { user } = this.props.auth;
     const { open } = this.state;
     const { classes } = this.props;
-    const { classrooms, loading } = this.props.classroom;
+    const { classrooms } = this.props.classroom;
     let classroomItems;
 
-    if (classrooms === null || loading) {
-      classroomItems = <CircularProgress />;
-    } else {
+    if (classrooms !== null) {
       if (classrooms.data.length > 0) {
         classroomItems = classrooms.data.map(classroom => (
           <TableRow key={classroom._id} classroom={classroom}>
@@ -116,8 +113,6 @@ class JoinClassroom extends Component {
             </TableCell>
           </TableRow>
         ));
-      } else {
-        classroomItems = <h4>No classroom found...</h4>;
       }
     }
 

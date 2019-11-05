@@ -47,7 +47,7 @@ const socket = openSocket("http://localhost:5000");
 const styles = theme => ({
   "@global": {
     body: {
-      background: "white"
+      background: theme.palette.common.white
     }
   },
   root: {
