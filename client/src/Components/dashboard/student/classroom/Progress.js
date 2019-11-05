@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { getCurrentProgress } from "../../../../actions/progressActions";
+import {
+  getCurrentProgress,
+  clearCurrentProgress
+} from "../../../../actions/progressActions";
 import CircularProgress from "../../../common/CircularProgress";
 import ProgressItem from "./ProgressItem";
 
@@ -12,6 +15,10 @@ class Progress extends Component {
       this.props.match.params.studentid,
       this.props.match.params.exerciseid
     );
+  }
+
+  componentWillUnmount() {
+    this.props.clearCurrentProgress();
   }
 
   render() {
@@ -31,7 +38,8 @@ class Progress extends Component {
 
 Progress.propTypes = {
   progress: PropTypes.object.isRequired,
-  getCurrentProgress: PropTypes.func.isRequired
+  getCurrentProgress: PropTypes.func.isRequired,
+  clearCurrentProgress: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -51,5 +59,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getCurrentProgress }
+  { getCurrentProgress, clearCurrentProgress }
 )(withRouter(Progress));

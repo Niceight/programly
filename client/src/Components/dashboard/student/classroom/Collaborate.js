@@ -2,13 +2,20 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { getProgressByID } from "../../../../actions/progressActions";
+import {
+  getProgressByID,
+  clearCurrentProgress
+} from "../../../../actions/progressActions";
 import CircularProgress from "../../../common/CircularProgress";
 import CollaborateItem from "./CollaborateItem";
 
 class Collaborate extends Component {
   componentDidMount() {
     this.props.getProgressByID(this.props.match.params.progressid);
+  }
+
+  componentWillUnmount() {
+    this.props.clearCurrentProgress();
   }
 
   render() {
@@ -28,7 +35,8 @@ class Collaborate extends Component {
 
 Collaborate.propTypes = {
   progress: PropTypes.object.isRequired,
-  getProgressByID: PropTypes.func.isRequired
+  getProgressByID: PropTypes.func.isRequired,
+  clearCurrentProgress: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -43,5 +51,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getProgressByID }
+  { getProgressByID, clearCurrentProgress }
 )(withRouter(Collaborate));
