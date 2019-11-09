@@ -108,7 +108,7 @@ class CollaborateItem extends Component {
   componentWillUnmount() {
     socket.emit("leave room", {
       room: this.props.room,
-      user: this.props.currentUser
+      user: this.props.auth.user.name
     });
   }
 
