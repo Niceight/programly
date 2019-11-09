@@ -252,9 +252,6 @@ class CollaborateItem extends Component {
                 value={this.state.content}
                 options={option}
                 onBeforeChange={(editor, data, value) => {
-                  this.setState({ content: value });
-                }}
-                onChange={(editor, data, value) => {
                   this.contentIsHappening(value);
                 }}
               />
