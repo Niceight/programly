@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import openSocket from "socket.io-client";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
-import { withSnackbar } from "notistack";
+
+const socket = openSocket("http://localhost:5000");
 
 const styles = {
   root: {
@@ -18,20 +20,13 @@ const styles = {
 };
 
 class Notification extends Component {
-  handleClickWithAction = () => {
-    this.props.enqueueSnackbar(`Your friend ${this.props.name} need help!`, {
-      variant: "warning",
-      autoHideDuration: 8000,
-      action: (
-        <Button
-          color="secondary"
-          size="small"
-          href={`/myClassrooms/classroom/collaborate/${this.props.room}/${this.props.exercise}`}
-        >
-          Help
-        </Button>
-      )
-    });
+  sendHelp = () => {
+    let payload = {
+      name: this.props.name,
+      room: this.props.room,
+      exercise: this.props.exercise
+    };
+    socket.emit("sendHelp", payload);
   };
 
   render() {
@@ -41,7 +36,7 @@ class Notification extends Component {
         <Button
           variant="contained"
           className={classes.button}
-          onClick={this.handleClickWithAction}
+          onClick={this.sendHelp}
         >
           Help!
         </Button>
@@ -51,8 +46,7 @@ class Notification extends Component {
 }
 
 Notification.propTypes = {
-  classes: PropTypes.object.isRequired,
-  enqueueSnackbar: PropTypes.func.isRequired
+  classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(withSnackbar(Notification));
+export default withStyles(styles)(Notification);

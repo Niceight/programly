@@ -99,4 +99,10 @@ io.on("connection", socket => {
 
     socket.broadcast.to(data.room).emit("receiveMessage", data);
   });
+  socket.on("sendHelp", function(data) {
+    console.log("Help is Send");
+    console.log(data);
+
+    socket.broadcast.emit("send help", data);
+  });
 });
