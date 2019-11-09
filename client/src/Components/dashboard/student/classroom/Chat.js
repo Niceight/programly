@@ -93,9 +93,9 @@ const Chat = props => {
   return (
     <div className={classes.flexColumn}>
       <ScrollToBottom className={classes.messages}>
-        {props.messages.map(chat =>
+        {props.messages.map((chat, i) =>
           chat.user === props.name ? (
-            <Grid container spacing={1} justify={"flex-end"}>
+            <Grid key={i} container spacing={1} justify={"flex-end"}>
               <Grid item xs={8}>
                 <div className={classes.rightRow}>
                   <Typography
@@ -108,18 +108,18 @@ const Chat = props => {
               </Grid>
             </Grid>
           ) : (
-            <Grid container spacing={1} justify={"flex-start"}>
+            <Grid key={i} container spacing={1} justify={"flex-start"}>
               <Grid item xs={8}>
                 <div className={classes.leftRow}>
-                  <Typography
+                  <div
                     align={"left"}
                     className={`${classes.msg} ${classes.left}`}
                   >
                     <Typography color="primary" className={classes.username}>
                       {chat.user}
                     </Typography>
-                    {chat.message}
-                  </Typography>
+                    <Typography>{chat.message}</Typography>
+                  </div>
                 </div>
               </Grid>
             </Grid>
