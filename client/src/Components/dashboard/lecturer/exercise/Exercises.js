@@ -79,7 +79,13 @@ class Exercises extends Component {
     let exerciseItems;
 
     if (exercises === null || loading) {
-      exerciseItems = <CircularProgress />;
+      exerciseItems = (
+        <TableRow>
+          <TableCell component="th" scope="row">
+            <CircularProgress />
+          </TableCell>
+        </TableRow>
+      );
     } else {
       if (exercises.data.length > 0) {
         exerciseItems = exercises.data.map(exercise => (
@@ -116,7 +122,13 @@ class Exercises extends Component {
           </TableRow>
         ));
       } else {
-        exerciseItems = <h4>No exercises found...</h4>;
+        exerciseItems = (
+          <TableRow>
+            <TableCell component="th" scope="row">
+              No exercises found...
+            </TableCell>
+          </TableRow>
+        );
       }
     }
 

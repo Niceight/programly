@@ -79,7 +79,13 @@ class Classrooms extends Component {
     let classroomItems;
 
     if (classrooms === null || loading) {
-      classroomItems = <CircularProgress />;
+      classroomItems = (
+        <TableRow>
+          <TableCell component="th" scope="row">
+            <CircularProgress />
+          </TableCell>
+        </TableRow>
+      );
     } else {
       if (classrooms.data.length > 0) {
         classroomItems = classrooms.data.map(classroom => (
@@ -125,7 +131,13 @@ class Classrooms extends Component {
           </TableRow>
         ));
       } else {
-        classroomItems = <h4>No classroom found...</h4>;
+        classroomItems = (
+          <TableRow>
+            <TableCell component="th" scope="row">
+              No exercises found...
+            </TableCell>
+          </TableRow>
+        );
       }
     }
 
@@ -184,7 +196,6 @@ class Classrooms extends Component {
 Classrooms.propTypes = {
   auth: PropTypes.object.isRequired,
   classroom: PropTypes.object.isRequired,
-  classrooms: PropTypes.object.isRequired,
   getCurrentClassroom: PropTypes.func.isRequired,
   getClassrooms: PropTypes.func.isRequired,
   deleteClassroom: PropTypes.func.isRequired

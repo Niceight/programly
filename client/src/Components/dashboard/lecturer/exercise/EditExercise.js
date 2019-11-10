@@ -14,7 +14,7 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/styles";
+import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -26,34 +26,32 @@ require("codemirror/lib/codemirror.css");
 require("codemirror/theme/neat.css");
 require("codemirror/mode/clike/clike.js");
 
-const styles = {
+const styles = theme => ({
   "@global": {
     body: {
-      background: "white"
+      background: theme.palette.common.white
     }
   },
   paper: {
-    marginTop: 50,
+    marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center"
   },
   avatar: {
-    margin: 8,
+    margin: theme.spacing(1),
     background: "secondary"
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: 8
+    width: "100%",
+    marginTop: theme.spacing(1)
   },
   submit: {
-    margin: (24, 0, 16, 0)
+    margin: theme.spacing(3, 0, 2)
   }
-};
+});
 
 class EditExercise extends Component {
-  state = { open: false };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -62,7 +60,8 @@ class EditExercise extends Component {
       question: "",
       content: "",
       answer: "",
-      errors: {}
+      errors: {},
+      open: false
     };
 
     this.onChange = this.onChange.bind(this);
