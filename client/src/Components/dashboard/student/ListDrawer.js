@@ -89,12 +89,6 @@ class ListDrawer extends Component {
             </List>
           </Collapse>
         </List>
-        <Divider />
-        <List component="nav" aria-label="secondary folders">
-          <ListItem button>
-            <ListItemText primary="Trash" />
-          </ListItem>
-        </List>
       </div>
     );
   }
