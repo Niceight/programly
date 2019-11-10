@@ -24,18 +24,7 @@ const ModeSelect = props => {
   }
 
   function renderModeSelect() {
-    const modes = [
-      "text/x-java",
-      "ruby",
-      "javascript",
-      "clojure",
-      "coffeescript",
-      "crystal",
-      "erlang",
-      "php",
-      "python",
-      "swift"
-    ];
+    const modes = ["text/x-java", "javascript", "php", "python"];
     return modes.map((mode, i) => {
       if (mode === props.mode) {
         return (
