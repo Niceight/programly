@@ -8,7 +8,6 @@ import { getProgresses } from "../../../../actions/progressActions";
 import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -142,7 +141,7 @@ class Student extends Component {
             />
           </CardActionArea>
         </Card>
-        <Paper className={classes.root}>
+        <div className={classes.root}>
           <Typography gutterBottom variant="h5" component="h2">
             {classroomName}
           </Typography>
@@ -150,7 +149,7 @@ class Student extends Component {
             Course code: {classroomCode} • {classroomStudent} students
           </Typography>
           {seeStudent}
-        </Paper>
+        </div>
         <Container component="main" maxWidth="md">
           <div>{progressData}</div>
         </Container>

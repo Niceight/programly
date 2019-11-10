@@ -16,7 +16,6 @@ import Chat from "./Chat";
 import { Controlled as CodeMirror } from "react-codemirror2";
 
 require("codemirror/lib/codemirror.css");
-require("codemirror/mode/clike/clike.js");
 require("codemirror/theme/neat.css");
 require("codemirror/theme/monokai.css");
 require("codemirror/theme/bespin.css");
@@ -32,15 +31,10 @@ require("codemirror/theme/material.css");
 require("codemirror/theme/midnight.css");
 require("codemirror/theme/solarized.css");
 
+require("codemirror/mode/clike/clike.js");
 require("codemirror/mode/javascript/javascript.js");
-require("codemirror/mode/ruby/ruby.js");
-require("codemirror/mode/swift/swift.js");
-require("codemirror/mode/clojure/clojure.js");
 require("codemirror/mode/python/python.js");
 require("codemirror/mode/php/php.js");
-require("codemirror/mode/erlang/erlang.js");
-require("codemirror/mode/coffeescript/coffeescript.js");
-require("codemirror/mode/crystal/crystal.js");
 
 const socket = openSocket("http://localhost:5000");
 
@@ -62,10 +56,12 @@ const styles = theme => ({
   },
   codemirror: {
     fontSize: 16,
-    width: "50%"
+    width: "50%",
+    paddingRight: 5
   },
   chat: {
-    width: "50%"
+    width: "50%",
+    paddingLeft: 5
   }
 });
 

@@ -3,7 +3,6 @@ import openSocket from "socket.io-client";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
 
 const socket = openSocket("http://localhost:5000");
 
@@ -32,7 +31,7 @@ class Notification extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <Paper className={classes.root}>
+      <div className={classes.root}>
         <Button
           variant="contained"
           className={classes.button}
@@ -40,7 +39,7 @@ class Notification extends Component {
         >
           Help!
         </Button>
-      </Paper>
+      </div>
     );
   }
 }
