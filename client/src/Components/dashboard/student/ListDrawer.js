@@ -8,7 +8,6 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
 import Collapse from "@material-ui/core/Collapse";
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import SchoolOutlinedIcon from "@material-ui/icons/SchoolOutlined";
