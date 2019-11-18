@@ -6,7 +6,8 @@ import {
   UPDATE_EXERCISE,
   EXERCISE_LOADING,
   CLEAR_CURRENT_EXERCISE,
-  GET_ERRORS
+  GET_ERRORS,
+  CLEAR_ERRORS
 } from "./types";
 
 // Get current exercise
@@ -34,8 +35,7 @@ export const createExercise = exerciseData => dispatch => {
     .post("/api/exercises/new-exercise", exerciseData)
     .then(res =>
       dispatch({
-        type: GET_EXERCISE,
-        payload: res.data
+        type: CLEAR_ERRORS
       })
     )
     .catch(err =>
