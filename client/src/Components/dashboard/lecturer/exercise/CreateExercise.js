@@ -24,6 +24,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import CodeMirror from "./CodeMirror";
+import isEmpty from "../../../../validation/is-empty";
 
 const styles = theme => ({
   "@global": {
@@ -69,8 +70,10 @@ class CreateExercise extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
+    if (!isEmpty(nextProps.errors)) {
       this.setState({ errors: nextProps.errors });
+    } else {
+      this.setState({ errors: nextProps.errors, open: true });
     }
   }
 
@@ -91,8 +94,6 @@ class CreateExercise extends Component {
     };
 
     this.props.createExercise(newExercise);
-
-    this.setState({ open: true });
   }
 
   handleTopic = event => {
@@ -105,6 +106,7 @@ class CreateExercise extends Component {
 
   handleClose = () => {
     this.setState({ open: false });
+    window.location.reload();
   };
 
   changeContent = newContent => {
@@ -115,7 +117,7 @@ class CreateExercise extends Component {
     const { user } = this.props.auth;
     const { open, errors } = this.state;
     const { classes } = this.props;
-    const widthDifficulty = 70,
+    const widthDifficulty = 75,
       widthTopic = 50;
 
     return (
@@ -234,27 +236,21 @@ class CreateExercise extends Component {
               Create
             </Button>
           </form>
-          <Dialog
-            open={open}
-            onClose={this.handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">{"Success!"}</DialogTitle>
+          <Dialog open={open} onClose={this.handleClose}>
+            <DialogTitle>{"Success!"}</DialogTitle>
             <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                Successfully create!
-              </DialogContentText>
+              <DialogContentText>Successfully create!</DialogContentText>
             </DialogContent>
             <DialogActions>
               <Button
-                onClick={this.handleClose}
                 component={Link}
                 to={`/exercises/${user.id}`}
-                autoFocus
-                color="primary"
+                color="inherit"
               >
-                Ok
+                Go to exercises
+              </Button>
+              <Button onClick={this.handleClose} autoFocus color="primary">
+                New exercise
               </Button>
             </DialogActions>
           </Dialog>
