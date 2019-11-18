@@ -259,17 +259,10 @@ class EditExercise extends Component {
               Update
             </Button>
           </form>
-          <Dialog
-            open={open}
-            onClose={this.handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">{"Success!"}</DialogTitle>
+          <Dialog open={open} onClose={this.handleClose}>
+            <DialogTitle>{"Success!"}</DialogTitle>
             <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                Successfully update!
-              </DialogContentText>
+              <DialogContentText>Successfully update!</DialogContentText>
             </DialogContent>
             <DialogActions>
               <Button

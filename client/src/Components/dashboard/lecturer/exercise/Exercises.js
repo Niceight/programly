@@ -150,15 +150,10 @@ class Exercises extends Component {
             </TableHead>
             <TableBody>{exerciseItems}</TableBody>
           </Table>
-          <Dialog
-            open={open}
-            onClose={this.handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">{"Are you sure?"}</DialogTitle>
+          <Dialog open={open} onClose={this.handleClose}>
+            <DialogTitle>{"Are you sure?"}</DialogTitle>
             <DialogContent>
-              <DialogContentText id="alert-dialog-description">
+              <DialogContentText>
                 Deleting this exercise cannot be recover
               </DialogContentText>
             </DialogContent>
