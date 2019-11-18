@@ -36,6 +36,7 @@ router.post(
     const newExercise = new Exercise({
       topicName: req.body.topicName,
       topic: req.body.topic,
+      difficulty: req.body.difficulty,
       question: req.body.question,
       content: req.body.content,
       answer: req.body.answer,
@@ -73,6 +74,7 @@ router.post(
 
       exercise.topicName = req.body.topicName;
       exercise.topic = req.body.topic;
+      exercise.difficulty = req.body.difficulty;
       exercise.question = req.body.question;
       exercise.content = req.body.content;
       exercise.answer = req.body.answer;

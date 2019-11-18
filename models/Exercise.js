@@ -10,6 +10,10 @@ const ExerciseScheme = new Schema({
     type: String,
     required: true
   },
+  difficulty: {
+    type: String,
+    required: true
+  },
   question: {
     type: String,
     required: true

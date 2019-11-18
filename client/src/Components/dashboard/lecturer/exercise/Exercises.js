@@ -94,6 +94,7 @@ class Exercises extends Component {
               {exercise.topicName}
             </TableCell>
             <TableCell align="right">{exercise.topic}</TableCell>
+            <TableCell align="right">{exercise.difficulty}</TableCell>
             <TableCell align="right">{exercise.question}</TableCell>
             <TableCell align="center">
               <Button
@@ -141,6 +142,7 @@ class Exercises extends Component {
               <TableRow>
                 <TableCell>Topic Name</TableCell>
                 <TableCell align="right">Topic</TableCell>
+                <TableCell align="right">Difficulty</TableCell>
                 <TableCell align="right">Question</TableCell>
                 <TableCell align="center">View/Edit</TableCell>
                 <TableCell align="center">Delete</TableCell>
@@ -198,7 +200,8 @@ const mapStateToProps = state => ({
   exercise: state.exercise
 });
 
-export default connect(
-  mapStateToProps,
-  { getCurrentExercise, getExercises, deleteExercise }
-)(withStyles(styles)(Exercises));
+export default connect(mapStateToProps, {
+  getCurrentExercise,
+  getExercises,
+  deleteExercise
+})(withStyles(styles)(Exercises));

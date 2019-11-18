@@ -6,6 +6,7 @@ module.exports = function validateExerciseInput(data) {
 
   data.topicName = !isEmpty(data.topicName) ? data.topicName : "";
   data.topic = !isEmpty(data.topic) ? data.topic : "";
+  data.difficulty = !isEmpty(data.difficulty) ? data.difficulty : "";
   data.question = !isEmpty(data.question) ? data.question : "";
 
   if (!Validator.isLength(data.topicName, { min: 5, max: 35 })) {
@@ -18,6 +19,10 @@ module.exports = function validateExerciseInput(data) {
 
   if (Validator.isEmpty(data.topic)) {
     errors.topic = "Topic field is required";
+  }
+
+  if (Validator.isEmpty(data.difficulty)) {
+    errors.difficulty = "Difficulty field is required";
   }
 
   if (!Validator.isLength(data.question, { min: 10, max: 300 })) {

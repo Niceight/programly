@@ -8,6 +8,11 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Select from "@material-ui/core/Select";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
@@ -18,10 +23,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { Controlled as CodeMirror } from "react-codemirror2";
-require("codemirror/lib/codemirror.css");
-require("codemirror/theme/neat.css");
-require("codemirror/mode/clike/clike.js");
+import CodeMirror from "./CodeMirror";
 
 const styles = theme => ({
   "@global": {
@@ -54,6 +56,7 @@ class CreateExercise extends Component {
     this.state = {
       topicName: "",
       topic: "",
+      difficulty: "",
       question: "",
       content: "",
       answer: "",
@@ -81,6 +84,7 @@ class CreateExercise extends Component {
     const newExercise = {
       topicName: this.state.topicName,
       topic: this.state.topic,
+      difficulty: this.state.difficulty,
       question: this.state.question,
       content: this.state.content,
       answer: this.state.answer
@@ -91,19 +95,29 @@ class CreateExercise extends Component {
     this.setState({ open: true });
   }
 
+  handleTopic = event => {
+    this.setState({ topic: event.target.value });
+  };
+
+  handleDifficulty = event => {
+    this.setState({ difficulty: event.target.value });
+  };
+
   handleClose = () => {
     this.setState({ open: false });
+  };
+
+  changeContent = newContent => {
+    this.setState({ content: newContent });
   };
 
   render() {
     const { user } = this.props.auth;
     const { open, errors } = this.state;
     const { classes } = this.props;
-    const option = {
-      mode: "text/x-java",
-      theme: "neat",
-      lineNumbers: true
-    };
+    const widthDifficulty = 70,
+      widthTopic = 50;
+
     return (
       <Container component="main" maxWidth="lg">
         <CssBaseline />
@@ -116,7 +130,7 @@ class CreateExercise extends Component {
           </Typography>
           <form onSubmit={this.onSubmit} className={classes.form} noValidate>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   id="topicName"
                   name="topicName"
@@ -133,19 +147,44 @@ class CreateExercise extends Component {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  id="topic"
-                  name="topic"
-                  label="Topic"
+                <FormControl
                   variant="outlined"
-                  fullWidth
                   required
-                  autoComplete="topic"
-                  value={this.state.topic}
-                  onChange={this.onChange}
+                  fullWidth
                   error={!!errors.topic}
-                  helperText={errors.topic}
-                />
+                >
+                  <InputLabel>Topic</InputLabel>
+                  <Select
+                    value={this.state.topic}
+                    onChange={this.handleTopic}
+                    labelWidth={widthTopic}
+                  >
+                    <MenuItem value={"Inheritance"}>Inheritance</MenuItem>
+                    <MenuItem value={"Abstraction"}>Abstraction</MenuItem>
+                    <MenuItem value={"Polymorphism"}>Polymorphism</MenuItem>
+                    <MenuItem value={"Encapsulation"}>Encapsulation</MenuItem>
+                  </Select>
+                  <FormHelperText>{errors.topic}</FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl
+                  variant="outlined"
+                  required
+                  fullWidth
+                  error={!!errors.difficulty}
+                >
+                  <InputLabel>Difficulty</InputLabel>
+                  <Select
+                    value={this.state.difficulty}
+                    onChange={this.handleDifficulty}
+                    labelWidth={widthDifficulty}
+                  >
+                    <MenuItem value={"Easy"}>Easy</MenuItem>
+                    <MenuItem value={"Hard"}>Hard</MenuItem>
+                  </Select>
+                  <FormHelperText>{errors.difficulty}</FormHelperText>
+                </FormControl>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -163,14 +202,10 @@ class CreateExercise extends Component {
                 />
               </Grid>
               <Grid item xs={12}>
-                <CodeMirror
-                  value={this.state.content}
-                  options={option}
-                  onBeforeChange={(editor, data, content) => {
-                    this.setState({ content });
-                  }}
-                  onChange={(editor, data, content) => {}}
-                />
+                {/* <CodeMirror
+                  content={this.state.content}
+                  changeContent={this.changeContent}
+                /> */}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -242,7 +277,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(
-  mapStateToProps,
-  { createExercise }
-)(withRouter(withStyles(styles)(CreateExercise)));
+export default connect(mapStateToProps, { createExercise })(
+  withRouter(withStyles(styles)(CreateExercise))
+);

@@ -11,6 +11,11 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Select from "@material-ui/core/Select";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
@@ -57,6 +62,7 @@ class EditExercise extends Component {
     this.state = {
       topicName: "",
       topic: "",
+      difficulty: "",
       question: "",
       content: "",
       answer: "",
@@ -86,6 +92,7 @@ class EditExercise extends Component {
       this.setState({
         topicName: exercise.topicName,
         topic: exercise.topic,
+        difficulty: exercise.difficulty,
         question: exercise.question,
         content: exercise.content,
         answer: exercise.answer
@@ -103,6 +110,7 @@ class EditExercise extends Component {
     const updateExercise = {
       topicName: this.state.topicName,
       topic: this.state.topic,
+      difficulty: this.state.difficulty,
       question: this.state.question,
       content: this.state.content,
       answer: this.state.answer
@@ -124,6 +132,9 @@ class EditExercise extends Component {
     const { user } = this.props.auth;
     const { open, errors } = this.state;
     const { classes } = this.props;
+    const widthDifficulty = 70,
+      widthTopic = 50;
+
     const option = {
       mode: "text/x-java",
       theme: "neat",
@@ -141,7 +152,7 @@ class EditExercise extends Component {
           </Typography>
           <form onSubmit={this.onSubmit} className={classes.form} noValidate>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   id="topicName"
                   name="topicName"
@@ -157,19 +168,44 @@ class EditExercise extends Component {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  id="topic"
-                  name="topic"
-                  label="Topic"
+                <FormControl
                   variant="outlined"
-                  fullWidth
                   required
-                  autoComplete="topic"
-                  value={this.state.topic}
-                  onChange={this.onChange}
+                  fullWidth
                   error={!!errors.topic}
-                  helperText={errors.topic}
-                />
+                >
+                  <InputLabel>Topic</InputLabel>
+                  <Select
+                    value={this.state.topic}
+                    onChange={this.handleTopic}
+                    labelWidth={widthTopic}
+                  >
+                    <MenuItem value={"Inheritance"}>Inheritance</MenuItem>
+                    <MenuItem value={"Abstraction"}>Abstraction</MenuItem>
+                    <MenuItem value={"Polymorphism"}>Polymorphism</MenuItem>
+                    <MenuItem value={"Encapsulation"}>Encapsulation</MenuItem>
+                  </Select>
+                  <FormHelperText>{errors.topic}</FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl
+                  variant="outlined"
+                  required
+                  fullWidth
+                  error={!!errors.difficulty}
+                >
+                  <InputLabel>Difficulty</InputLabel>
+                  <Select
+                    value={this.state.difficulty}
+                    onChange={this.handleDifficulty}
+                    labelWidth={widthDifficulty}
+                  >
+                    <MenuItem value={"Easy"}>Easy</MenuItem>
+                    <MenuItem value={"Hard"}>Hard</MenuItem>
+                  </Select>
+                  <FormHelperText>{errors.difficulty}</FormHelperText>
+                </FormControl>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -267,7 +303,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(
-  mapStateToProps,
-  { updateExercise, getCurrentExercise }
-)(withRouter(withStyles(styles)(EditExercise)));
+export default connect(mapStateToProps, { updateExercise, getCurrentExercise })(
+  withRouter(withStyles(styles)(EditExercise))
+);
