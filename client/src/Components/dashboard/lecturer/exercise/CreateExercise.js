@@ -23,8 +23,11 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import CodeMirror from "./CodeMirror";
 import isEmpty from "../../../../validation/is-empty";
+import { Controlled as Codemirror } from "react-codemirror2";
+require("codemirror/lib/codemirror.css");
+require("codemirror/theme/neat.css");
+require("codemirror/mode/clike/clike.js");
 
 const styles = theme => ({
   "@global": {
@@ -119,6 +122,11 @@ class CreateExercise extends Component {
     const { classes } = this.props;
     const widthDifficulty = 75,
       widthTopic = 50;
+    const option = {
+      mode: "text/x-java",
+      theme: "neat",
+      lineNumbers: true
+    };
 
     return (
       <Container component="main" maxWidth="lg">
@@ -204,10 +212,13 @@ class CreateExercise extends Component {
                 />
               </Grid>
               <Grid item xs={12}>
-                {/* <CodeMirror
-                  content={this.state.content}
-                  changeContent={this.changeContent}
-                /> */}
+                <Codemirror
+                  value={this.props.content}
+                  options={option}
+                  onBeforeChange={(editor, data, value) => {
+                    this.triggerChangeContent(value);
+                  }}
+                />
               </Grid>
               <Grid item xs={12}>
                 <TextField
