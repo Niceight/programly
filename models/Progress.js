@@ -10,8 +10,9 @@ const ProgressScheme = new Schema({
     type: Schema.Types.ObjectId,
     ref: "exercises"
   },
-  content: {
-    type: String
+  codeSnippetAnswer: {
+    type: String,
+    default: "none"
   }
 });
 

@@ -14,7 +14,7 @@ const ExerciseScheme = new Schema({
     type: String,
     required: true
   },
-  content: {
+  codeSnippet: {
     type: String,
     default: "none"
   },

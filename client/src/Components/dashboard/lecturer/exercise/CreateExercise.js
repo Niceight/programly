@@ -61,7 +61,7 @@ class CreateExercise extends Component {
       question: "",
       topic: "",
       difficulty: "",
-      content: "",
+      codeSnippet: "",
       errors: {},
       open: false
     };
@@ -89,7 +89,7 @@ class CreateExercise extends Component {
       question: this.state.question,
       topic: this.state.topic,
       difficulty: this.state.difficulty,
-      content: this.state.content
+      codeSnippet: this.state.codeSnippet
     };
 
     this.props.createExercise(newExercise);
@@ -106,10 +106,6 @@ class CreateExercise extends Component {
   handleClose = () => {
     this.setState({ open: false });
     window.location.reload();
-  };
-
-  changeContent = newContent => {
-    this.setState({ content: newContent });
   };
 
   render() {
@@ -144,7 +140,6 @@ class CreateExercise extends Component {
                   variant="outlined"
                   fullWidth
                   required
-                  autoComplete="question"
                   value={this.state.question}
                   onChange={this.onChange}
                   error={!!errors.question}
@@ -193,10 +188,10 @@ class CreateExercise extends Component {
               </Grid>
               <Grid item xs={12}>
                 <Codemirror
-                  value={this.props.content}
+                  value={this.state.codeSnippet}
                   options={option}
                   onBeforeChange={(editor, data, value) => {
-                    this.triggerChangeContent(value);
+                    this.setState({ codeSnippet: value });
                   }}
                 />
               </Grid>

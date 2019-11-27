@@ -37,7 +37,7 @@ router.post(
       question: req.body.question,
       topic: req.body.topic,
       difficulty: req.body.difficulty,
-      content: req.body.content,
+      codeSnippet: req.body.codeSnippet,
       lecturer: req.user.id
     });
 
@@ -73,7 +73,7 @@ router.post(
       exercise.question = req.body.question;
       exercise.topic = req.body.topic;
       exercise.difficulty = req.body.difficulty;
-      exercise.content = req.body.content;
+      exercise.codeSnippet = req.body.codeSnippet;
       exercise.lecturer = req.user.id;
 
       Exercise.findOneAndUpdate(

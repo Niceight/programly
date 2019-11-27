@@ -30,7 +30,10 @@ class Progress extends Component {
 
     return (
       <div>
-        <ProgressItem room={progress._id} />
+        <ProgressItem
+          room={progress._id}
+          codeSnippetAnswer={progress.codeSnippetAnswer}
+        />
       </div>
     );
   }
@@ -54,7 +57,7 @@ const mapStateToProps = state => {
   return { progress: progData };
 };
 
-export default connect(
-  mapStateToProps,
-  { getCurrentProgress, clearCurrentProgress }
-)(withRouter(Progress));
+export default connect(mapStateToProps, {
+  getCurrentProgress,
+  clearCurrentProgress
+})(withRouter(Progress));

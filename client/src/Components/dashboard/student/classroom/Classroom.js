@@ -66,7 +66,7 @@ class Classroom extends Component {
     const newProgress = {
       student: user,
       exercise: exercise._id,
-      content: exercise.content
+      codeSnippet: exercise.codeSnippet
     };
 
     this.props.createProgress(newProgress);

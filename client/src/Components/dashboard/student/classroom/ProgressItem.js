@@ -71,7 +71,7 @@ class ProgressItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      content: "",
+      codeSnippet: this.props.codeSnippetAnswer,
       mode: "text/x-java",
       theme: "neat",
       users: [],
@@ -80,14 +80,14 @@ class ProgressItem extends Component {
       message: "",
       messages: []
     };
-    socket.on("receive content", payload => this.updateContentInState(payload));
+    socket.on("receive code", payload => this.updateCodeInState(payload));
     socket.on("receive change mode", newMode =>
       this.updateModeInState(newMode)
     );
     socket.on("new user join", users => this.joinUser(users));
-    socket.on("load users and content", () => this.sendUsersAndContent());
-    socket.on("receive users and content", payload =>
-      this.updateUsersAndContentInState(payload)
+    socket.on("load users and code", () => this.sendUsersAndCode());
+    socket.on("receive users and code", payload =>
+      this.updateUsersAndCodeInState(payload)
     );
     socket.on("user left room", user => this.removeUser(user));
     socket.on("receiveMessage", payload => this.setMessage(payload));
@@ -111,11 +111,11 @@ class ProgressItem extends Component {
     });
   }
 
-  sendUsersAndContent() {
-    socket.emit("send users and content", {
+  sendUsersAndCode() {
+    socket.emit("send users and code", {
       room: this.props.room,
       users: this.state.users,
-      content: this.state.content
+      codeSnippet: this.state.codeSnippet
     });
   }
 
@@ -137,16 +137,16 @@ class ProgressItem extends Component {
     this.setState({ users: cleanUsers });
   }
 
-  updateContentInState(payload) {
+  updateCodeInState(payload) {
     this.setState({
-      content: payload.content,
+      codeSnippet: payload.codeSnippet,
       currentlyTyping: payload.currentlyTyping
     });
   }
 
-  updateContentForCurrentUser(newContent) {
+  updateCodeForCurrentUser(newCodeSnippet) {
     this.setState({
-      content: newContent
+      codeSnippet: newCodeSnippet
     });
   }
 
@@ -156,20 +156,20 @@ class ProgressItem extends Component {
     });
   }
 
-  updateUsersAndContentInState(payload) {
+  updateUsersAndCodeInState(payload) {
     const combinedUsers = this.state.users.concat(payload.users);
     const newUsers = Array.from(new Set(combinedUsers));
     const cleanUsers = newUsers.filter(user => {
       return user.length > 1;
     });
-    this.setState({ users: cleanUsers, content: payload.content });
+    this.setState({ users: cleanUsers, codeSnippet: payload.codeSnippet });
   }
 
-  contentIsHappening = newContent => {
-    this.updateContentForCurrentUser(newContent);
+  codeIsHappening = newCodeSnippet => {
+    this.updateCodeForCurrentUser(newCodeSnippet);
     this.updateCurrentlyTyping();
     socket.emit("coding event", {
-      content: newContent,
+      codeSnippet: newCodeSnippet,
       room: this.props.room,
       currentlyTyping: this.props.auth.user.name
     });
@@ -248,10 +248,10 @@ class ProgressItem extends Component {
           <div className={classes.flex}>
             <div className={classes.codemirror}>
               <CodeMirror
-                value={this.state.content}
+                value={this.state.codeSnippet}
                 options={option}
                 onBeforeChange={(editor, data, value) => {
-                  this.contentIsHappening(value);
+                  this.codeIsHappening(value);
                 }}
               />
             </div>

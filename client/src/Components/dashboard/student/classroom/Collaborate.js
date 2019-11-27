@@ -27,7 +27,10 @@ class Collaborate extends Component {
 
     return (
       <div>
-        <CollaborateItem room={progress._id} />
+        <CollaborateItem
+          room={progress._id}
+          codeSnippetAnswer={progress.codeSnippetAnswer}
+        />
       </div>
     );
   }
@@ -48,7 +51,7 @@ const mapStateToProps = state => {
   return { progress: progData };
 };
 
-export default connect(
-  mapStateToProps,
-  { getProgressByID, clearCurrentProgress }
-)(withRouter(Collaborate));
+export default connect(mapStateToProps, {
+  getProgressByID,
+  clearCurrentProgress
+})(withRouter(Collaborate));

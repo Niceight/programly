@@ -18,7 +18,7 @@ router.post(
     const progression = {};
     progression.student = req.body.student;
     progression.exercise = req.body.exercise;
-    progression.content = req.body.content;
+    progression.codeSnippetAnswer = req.body.codeSnippet;
 
     Progress.findOne({
       student: progression.student,

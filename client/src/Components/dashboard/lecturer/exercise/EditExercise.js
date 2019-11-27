@@ -63,7 +63,7 @@ class EditExercise extends Component {
       question: "",
       topic: "",
       difficulty: "",
-      content: "",
+      codeSnippet: "",
       errors: {},
       open: false
     };
@@ -91,7 +91,7 @@ class EditExercise extends Component {
         question: exercise.question,
         topic: exercise.topic,
         difficulty: exercise.difficulty,
-        content: exercise.content
+        codeSnippet: exercise.codeSnippet
       });
     }
   }
@@ -107,7 +107,7 @@ class EditExercise extends Component {
       question: this.state.question,
       topic: this.state.topic,
       difficulty: this.state.difficulty,
-      content: this.state.content
+      codeSnippet: this.state.codeSnippet
     };
 
     this.props.updateExercise(
@@ -117,6 +117,14 @@ class EditExercise extends Component {
 
     this.setState({ open: true });
   }
+
+  handleTopic = event => {
+    this.setState({ topic: event.target.value });
+  };
+
+  handleDifficulty = event => {
+    this.setState({ difficulty: event.target.value });
+  };
 
   handleClose = () => {
     this.setState({ open: false });
@@ -154,7 +162,6 @@ class EditExercise extends Component {
                   variant="outlined"
                   fullWidth
                   required
-                  autoComplete="question"
                   value={this.state.question}
                   onChange={this.onChange}
                   error={!!errors.question}
@@ -203,12 +210,11 @@ class EditExercise extends Component {
               </Grid>
               <Grid item xs={12}>
                 <CodeMirror
-                  value={this.state.content}
+                  value={this.state.codeSnippet}
                   options={option}
-                  onBeforeChange={(editor, data, content) => {
-                    this.setState({ content });
+                  onBeforeChange={(editor, data, value) => {
+                    this.setState({ codeSnippet: value });
                   }}
-                  onChange={(editor, data, content) => {}}
                 />
               </Grid>
             </Grid>
