@@ -14,6 +14,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import Button from "@material-ui/core/Button";
+import { ListGuide, Model } from "./Components/guide";
 import {
   Root,
   Header,
@@ -122,7 +123,8 @@ class App extends Component {
                     "/lecturers/login",
                     "/lecturers/register",
                     "/students/login",
-                    "/students/register"
+                    "/students/register",
+                    "/guide/instructional-model"
                   ]}
                   component={LinkProgramly}
                 />
@@ -178,7 +180,8 @@ class App extends Component {
                     "/lecturers/login",
                     "/lecturers/register",
                     "/students/login",
-                    "/students/register"
+                    "/students/register",
+                    "/guide/instructional-model"
                   ]}
                   component={ButtonStudents}
                 />
@@ -189,7 +192,8 @@ class App extends Component {
                     "/lecturers/login",
                     "/lecturers/register",
                     "/students/login",
-                    "/students/register"
+                    "/students/register",
+                    "/guide/instructional-model"
                   ]}
                   component={ButtonLecturer}
                 />
@@ -205,6 +209,18 @@ class App extends Component {
                   ctx => null
                 }
               >
+                <Route
+                  exact
+                  path={[
+                    "/",
+                    "/lecturers/login",
+                    "/lecturers/register",
+                    "/students/login",
+                    "/students/register",
+                    "/guide/instructional-model"
+                  ]}
+                  component={ListGuide}
+                />
                 <Switch>
                   <PrivateRoute
                     path={[
@@ -233,6 +249,11 @@ class App extends Component {
               </Nav>
               <Content>
                 <Route exact path="/" component={Landing} />
+                <Route
+                  exact
+                  path="/guide/instructional-model"
+                  component={Model}
+                />
                 <Route path="/lecturers/login" component={LoginLecturer} />
                 <Route
                   path="/lecturers/register"
