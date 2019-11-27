@@ -9,12 +9,14 @@ const useStyles = makeStyles(theme => ({
     body: {
       backgroundColor: theme.palette.common.white
     }
-  }
+  },
+  root: {}
 }));
 
 export default function Model() {
+  const classes = useStyles();
   return (
-    <Container component="main" maxWidth="lg">
+    <Container className={classes.root} component="main" maxWidth="lg">
       <CssBaseline />
       <CardMedia
         component={"img"}
