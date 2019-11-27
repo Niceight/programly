@@ -63,7 +63,6 @@ class CreateExercise extends Component {
       difficulty: "",
       question: "",
       content: "",
-      answer: "",
       errors: {},
       open: false
     };
@@ -93,7 +92,6 @@ class CreateExercise extends Component {
       difficulty: this.state.difficulty,
       question: this.state.question,
       content: this.state.content,
-      answer: this.state.answer
     };
 
     this.props.createExercise(newExercise);
@@ -218,22 +216,6 @@ class CreateExercise extends Component {
                   onBeforeChange={(editor, data, value) => {
                     this.triggerChangeContent(value);
                   }}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="answer"
-                  name="answer"
-                  type="answer"
-                  label="Answer"
-                  variant="outlined"
-                  fullWidth
-                  required
-                  autoComplete="answer"
-                  value={this.state.answer}
-                  onChange={this.onChange}
-                  error={!!errors.answer}
-                  helperText={errors.answer}
                 />
               </Grid>
             </Grid>

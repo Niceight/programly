@@ -22,10 +22,6 @@ const ExerciseScheme = new Schema({
     type: String,
     default: "none"
   },
-  answer: {
-    type: String,
-    default: "none"
-  },
   lecturer: {
     type: Schema.Types.ObjectId,
     ref: "lecturers",

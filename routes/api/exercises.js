@@ -39,7 +39,6 @@ router.post(
       difficulty: req.body.difficulty,
       question: req.body.question,
       content: req.body.content,
-      answer: req.body.answer,
       lecturer: req.user.id
     });
 
@@ -77,7 +76,6 @@ router.post(
       exercise.difficulty = req.body.difficulty;
       exercise.question = req.body.question;
       exercise.content = req.body.content;
-      exercise.answer = req.body.answer;
       exercise.lecturer = req.user.id;
 
       Exercise.findOneAndUpdate(

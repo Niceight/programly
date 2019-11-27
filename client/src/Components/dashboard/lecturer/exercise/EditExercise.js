@@ -65,7 +65,6 @@ class EditExercise extends Component {
       difficulty: "",
       question: "",
       content: "",
-      answer: "",
       errors: {},
       open: false
     };
@@ -94,8 +93,7 @@ class EditExercise extends Component {
         topic: exercise.topic,
         difficulty: exercise.difficulty,
         question: exercise.question,
-        content: exercise.content,
-        answer: exercise.answer
+        content: exercise.content
       });
     }
   }
@@ -112,8 +110,7 @@ class EditExercise extends Component {
       topic: this.state.topic,
       difficulty: this.state.difficulty,
       question: this.state.question,
-      content: this.state.content,
-      answer: this.state.answer
+      content: this.state.content
     };
 
     this.props.updateExercise(
@@ -230,22 +227,6 @@ class EditExercise extends Component {
                     this.setState({ content });
                   }}
                   onChange={(editor, data, content) => {}}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="answer"
-                  name="answer"
-                  type="answer"
-                  label="Answer"
-                  variant="outlined"
-                  fullWidth
-                  required
-                  autoComplete="answer"
-                  value={this.state.answer}
-                  onChange={this.onChange}
-                  error={!!errors.answer}
-                  helperText={errors.answer}
                 />
               </Grid>
             </Grid>
