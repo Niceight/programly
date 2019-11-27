@@ -91,11 +91,10 @@ class Exercises extends Component {
         exerciseItems = exercises.data.map(exercise => (
           <TableRow key={exercise._id} exercise={exercise}>
             <TableCell component="th" scope="row">
-              {exercise.topicName}
+              {exercise.question}
             </TableCell>
             <TableCell align="right">{exercise.topic}</TableCell>
             <TableCell align="right">{exercise.difficulty}</TableCell>
-            <TableCell align="right">{exercise.question}</TableCell>
             <TableCell align="center">
               <Button
                 color="primary"
@@ -140,10 +139,9 @@ class Exercises extends Component {
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell>Topic Name</TableCell>
+                <TableCell>Question</TableCell>
                 <TableCell align="right">Topic</TableCell>
                 <TableCell align="right">Difficulty</TableCell>
-                <TableCell align="right">Question</TableCell>
                 <TableCell align="center">View/Edit</TableCell>
                 <TableCell align="center">Delete</TableCell>
               </TableRow>

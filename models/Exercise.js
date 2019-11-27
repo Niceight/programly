@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ExerciseScheme = new Schema({
-  topicName: {
+  question: {
     type: String,
     required: true
   },
@@ -11,10 +11,6 @@ const ExerciseScheme = new Schema({
     required: true
   },
   difficulty: {
-    type: String,
-    required: true
-  },
-  question: {
     type: String,
     required: true
   },

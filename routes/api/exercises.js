@@ -34,10 +34,9 @@ router.post(
     }
 
     const newExercise = new Exercise({
-      topicName: req.body.topicName,
+      question: req.body.question,
       topic: req.body.topic,
       difficulty: req.body.difficulty,
-      question: req.body.question,
       content: req.body.content,
       lecturer: req.user.id
     });
@@ -71,10 +70,9 @@ router.post(
         });
       }
 
-      exercise.topicName = req.body.topicName;
+      exercise.question = req.body.question;
       exercise.topic = req.body.topic;
       exercise.difficulty = req.body.difficulty;
-      exercise.question = req.body.question;
       exercise.content = req.body.content;
       exercise.lecturer = req.user.id;
 

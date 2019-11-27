@@ -58,10 +58,9 @@ class CreateExercise extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      topicName: "",
+      question: "",
       topic: "",
       difficulty: "",
-      question: "",
       content: "",
       errors: {},
       open: false
@@ -87,11 +86,10 @@ class CreateExercise extends Component {
     e.preventDefault();
 
     const newExercise = {
-      topicName: this.state.topicName,
+      question: this.state.question,
       topic: this.state.topic,
       difficulty: this.state.difficulty,
-      question: this.state.question,
-      content: this.state.content,
+      content: this.state.content
     };
 
     this.props.createExercise(newExercise);
@@ -140,18 +138,17 @@ class CreateExercise extends Component {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  id="topicName"
-                  name="topicName"
-                  label="Topic Name"
+                  id="question"
+                  name="question"
+                  label="Question"
                   variant="outlined"
                   fullWidth
                   required
-                  autoFocus
-                  autoComplete="topicName"
-                  value={this.state.topicName}
+                  autoComplete="question"
+                  value={this.state.question}
                   onChange={this.onChange}
-                  error={!!errors.topicName}
-                  helperText={errors.topicName}
+                  error={!!errors.question}
+                  helperText={errors.question}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -193,21 +190,6 @@ class CreateExercise extends Component {
                   </Select>
                   <FormHelperText>{errors.difficulty}</FormHelperText>
                 </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="question"
-                  name="question"
-                  label="Question"
-                  variant="outlined"
-                  fullWidth
-                  required
-                  autoComplete="question"
-                  value={this.state.question}
-                  onChange={this.onChange}
-                  error={!!errors.question}
-                  helperText={errors.question}
-                />
               </Grid>
               <Grid item xs={12}>
                 <Codemirror

@@ -31,7 +31,7 @@ class ExerciseItem extends Component {
         exerciseData = (
           <div className={classes.root}>
             <Typography variant="h5" component="h2">
-              {exercise.data.topicName}
+              {exercise.data.topic}
             </Typography>
             <br />
             <Divider />
@@ -58,7 +58,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { getExerciseDetails }
-)(withRouter(withStyles(styles)(ExerciseItem)));
+export default connect(mapStateToProps, { getExerciseDetails })(
+  withRouter(withStyles(styles)(ExerciseItem))
+);

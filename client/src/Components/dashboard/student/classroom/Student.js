@@ -99,14 +99,9 @@ class Student extends Component {
               progressData.push(
                 <Card key={exercise._id} className={classes.exerciseCard}>
                   <CardContent>
-                    <Typography variant="h5" component="h2">
-                      {exercise.topicName}
-                    </Typography>
+                    <Typography variant="h6">{exercise.question}</Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                      {exercise.topic}
-                    </Typography>
-                    <Typography variant="body2" component="p">
-                      {exercise.question}
+                      {exercise.difficulty}
                     </Typography>
                   </CardContent>
                   <CardActions>
@@ -174,7 +169,8 @@ const mapStateToProps = state => ({
   progress: state.progress
 });
 
-export default connect(
-  mapStateToProps,
-  { getClassroom, getAllExercises, getProgresses }
-)(withStyles(styles)(Student));
+export default connect(mapStateToProps, {
+  getClassroom,
+  getAllExercises,
+  getProgresses
+})(withStyles(styles)(Student));

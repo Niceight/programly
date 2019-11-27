@@ -128,15 +128,14 @@ class CreateClassroom extends Component {
     } else {
       if (exercises.data.length > 0) {
         exerciseItems = exercises.data.map(exercise => (
-          <TableRow key={exercise._id} exercise={exercise}>
+          <TableRow key={exercise._id}>
             <TableCell component="th" scope="row">
-              {exercise.topicName}
+              {exercise.question}
             </TableCell>
             <TableCell align="right">{exercise.topic}</TableCell>
-            <TableCell align="right">{exercise.question}</TableCell>
+            <TableCell align="right">{exercise.difficulty}</TableCell>
             <TableCell align="center">
               <Checkbox
-                label={exercise.topicName}
                 key={exercise._id}
                 onChange={e => this.handleCheck(e, exercise)}
                 checked={this.state.exercises.includes(exercise)}
@@ -206,9 +205,9 @@ class CreateClassroom extends Component {
                 <Table className={classes.table}>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Topic Name</TableCell>
+                      <TableCell>Question</TableCell>
                       <TableCell align="right">Topic</TableCell>
-                      <TableCell align="right">Question</TableCell>
+                      <TableCell align="right">Difficulty</TableCell>
                       <TableCell align="right"> </TableCell>
                     </TableRow>
                   </TableHead>
@@ -272,7 +271,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(
-  mapStateToProps,
-  { createClassroom, getExercises }
-)(withRouter(withStyles(styles)(CreateClassroom)));
+export default connect(mapStateToProps, { createClassroom, getExercises })(
+  withRouter(withStyles(styles)(CreateClassroom))
+);
