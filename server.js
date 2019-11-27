@@ -58,17 +58,11 @@ server.listen(port, function(err) {
 });
 
 io.on("connection", socket => {
-  console.log("a user connected");
-
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
-  });
-
   socket.on("room", function(data) {
     console.log("in joining room in SERVER");
     socket.join(data.room);
     console.log(data);
-    socket.broadcast.to(data.room).emit("load users and content");
+    socket.broadcast.to(data.room).emit("load users and code");
     socket.broadcast.to(data.room).emit("new user join", data.user);
   });
 
@@ -80,8 +74,8 @@ io.on("connection", socket => {
   socket.on("coding event", function(data) {
     console.log("in EXPRESS coding event");
     console.log(data);
-    socket.broadcast.to(data.room).emit("receive content", {
-      content: data.content,
+    socket.broadcast.to(data.room).emit("receive code", {
+      codeSnippet: data.codeSnippet,
       currentlyTyping: data.currentlyTyping
     });
   });
@@ -89,8 +83,8 @@ io.on("connection", socket => {
     socket.broadcast.to(data.room).emit("receive change mode", data.mode);
   });
 
-  socket.on("send users and content", function(data) {
-    socket.broadcast.to(data.room).emit("receive users and content", data);
+  socket.on("send users and code", function(data) {
+    socket.broadcast.to(data.room).emit("receive users and code", data);
   });
 
   socket.on("sendMessage", function(data) {
