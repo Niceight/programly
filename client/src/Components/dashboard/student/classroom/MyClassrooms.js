@@ -50,10 +50,12 @@ class MyClassrooms extends Component {
     const { classrooms, loading } = this.props.classroom;
     let classroomItems;
 
-    if (classrooms === null || loading) {
+    if (classrooms === loading) {
       classroomItems = <CircularProgress />;
     } else {
-      if (classrooms.data.length > 0) {
+      if (classrooms === null) {
+        classroomItems = <h4>No classroom found...</h4>;
+      } else if (classrooms.data.length > 0) {
         classroomItems = classrooms.data.map(classroom => (
           <Card key={classroom._id} className={classes.card}>
             <CardActionArea
@@ -77,8 +79,6 @@ class MyClassrooms extends Component {
             </CardActionArea>
           </Card>
         ));
-      } else {
-        classroomItems = <h4>No classroom found...</h4>;
       }
     }
     return (
@@ -100,7 +100,6 @@ const mapStateToProps = state => ({
   classroom: state.classroom
 });
 
-export default connect(
-  mapStateToProps,
-  { getMyClassrooms }
-)(withRouter(withStyles(styles)(MyClassrooms)));
+export default connect(mapStateToProps, { getMyClassrooms })(
+  withRouter(withStyles(styles)(MyClassrooms))
+);
