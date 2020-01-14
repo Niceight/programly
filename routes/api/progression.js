@@ -28,7 +28,7 @@ router.post(
         // Update
         Progress.findOneAndUpdate(
           { student: progression.student, exercise: progression.exercise },
-          { $set: progression },
+          {},
           { new: true }
         ).then(progress => res.json(progress));
       } else {
@@ -107,6 +107,27 @@ router.get(
 
       return res.status(200).json({ success: true, data: progress });
     }).catch(err => console.log(err));
+  }
+);
+
+/**
+ * @route   POST api/progress/update
+ * @desc    Update code
+ * @access  Private
+ */
+router.post(
+  "/update",
+  passport.authenticate("student-rule", { session: false }),
+  (req, res) => {
+    const progression = {};
+    progression.id = req.body.room;
+    progression.codeSnippetAnswer = req.body.codeSnippet;
+
+    Progress.findOneAndUpdate(
+      { _id: progression.id },
+      { codeSnippetAnswer: progression.codeSnippetAnswer },
+      { new: true }
+    ).then(progress => res.json(progress));
   }
 );
 

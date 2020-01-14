@@ -3,6 +3,7 @@ import openSocket from "socket.io-client";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { updateCodeSnippet } from "../../../../actions/progressActions";
 import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
@@ -168,6 +169,13 @@ class ProgressItem extends Component {
   codeIsHappening = newCodeSnippet => {
     this.updateCodeForCurrentUser(newCodeSnippet);
     this.updateCurrentlyTyping();
+
+    const updateCode = {
+      codeSnippet: newCodeSnippet,
+      room: this.props.room
+    };
+    this.props.updateCodeSnippet(updateCode);
+
     socket.emit("coding event", {
       codeSnippet: newCodeSnippet,
       room: this.props.room,
@@ -278,7 +286,8 @@ class ProgressItem extends Component {
 
 ProgressItem.propTypes = {
   auth: PropTypes.object.isRequired,
-  progress: PropTypes.object.isRequired
+  progress: PropTypes.object.isRequired,
+  updateCodeSnippet: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -289,7 +298,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  {}
-)(withRouter(withStyles(styles)(ProgressItem)));
+export default connect(mapStateToProps, { updateCodeSnippet })(
+  withRouter(withStyles(styles)(ProgressItem))
+);

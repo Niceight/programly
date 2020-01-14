@@ -3,6 +3,7 @@ import axios from "axios";
 import {
   GET_PROGRESS,
   GET_PROGRESSES,
+  UPDATE_CODE,
   PROGRESS_LOADING,
   CLEAR_CURRENT_PROGRESS
 } from "./types";
@@ -80,6 +81,18 @@ export const getProgresses = id => dispatch => {
         payload: null
       })
     );
+};
+
+// Update Code
+export const updateCodeSnippet = updateCode => {
+  return dispatch => {
+    axios.post("/api/progress/update", updateCode).then(res => {
+      dispatch({
+        type: UPDATE_CODE,
+        payload: res.data
+      });
+    });
+  };
 };
 
 // Progress loading
