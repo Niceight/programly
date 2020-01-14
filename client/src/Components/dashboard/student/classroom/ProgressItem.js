@@ -3,7 +3,10 @@ import openSocket from "socket.io-client";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { updateCodeSnippet } from "../../../../actions/progressActions";
+import {
+  updateCodeSnippet,
+  sendMessages
+} from "../../../../actions/progressActions";
 import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
@@ -79,7 +82,7 @@ class ProgressItem extends Component {
       room: "",
       currentlyTyping: null,
       message: "",
-      messages: []
+      messages: this.props.messages
     };
     socket.on("receive code", payload => this.updateCodeInState(payload));
     socket.on("receive change mode", newMode =>
@@ -205,6 +208,13 @@ class ProgressItem extends Component {
 
   setMessage(payload) {
     const combinedMessages = [...this.state.messages, payload];
+
+    const sendMessagesData = {
+      room: this.props.room,
+      messages: combinedMessages
+    };
+    this.props.sendMessages(sendMessagesData);
+
     this.setState({ messages: combinedMessages });
   }
 
@@ -287,7 +297,8 @@ class ProgressItem extends Component {
 ProgressItem.propTypes = {
   auth: PropTypes.object.isRequired,
   progress: PropTypes.object.isRequired,
-  updateCodeSnippet: PropTypes.func.isRequired
+  updateCodeSnippet: PropTypes.func.isRequired,
+  sendMessages: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -298,6 +309,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { updateCodeSnippet })(
+export default connect(mapStateToProps, { updateCodeSnippet, sendMessages })(
   withRouter(withStyles(styles)(ProgressItem))
 );

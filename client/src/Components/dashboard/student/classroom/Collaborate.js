@@ -30,6 +30,7 @@ class Collaborate extends Component {
         <CollaborateItem
           room={progress._id}
           codeSnippetAnswer={progress.codeSnippetAnswer}
+          messages={progress.messages}
         />
       </div>
     );

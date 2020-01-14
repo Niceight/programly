@@ -33,6 +33,7 @@ class Progress extends Component {
         <ProgressItem
           room={progress._id}
           codeSnippetAnswer={progress.codeSnippetAnswer}
+          messages={progress.messages}
         />
       </div>
     );

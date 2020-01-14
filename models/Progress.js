@@ -13,7 +13,19 @@ const ProgressScheme = new Schema({
   codeSnippetAnswer: {
     type: String,
     default: "none"
-  }
+  },
+  messages: [
+    {
+      user: {
+        type: String,
+        default: "none"
+      },
+      message: {
+        type: String,
+        default: "none"
+      }
+    }
+  ]
 });
 
 ProgressScheme.set("timestamps", true);

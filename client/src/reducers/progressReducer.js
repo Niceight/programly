@@ -2,6 +2,7 @@ import {
   GET_PROGRESS,
   GET_PROGRESSES,
   UPDATE_CODE,
+  SEND_MESSAGES,
   PROGRESS_LOADING,
   CLEAR_CURRENT_PROGRESS
 } from "../actions/types";
@@ -32,6 +33,11 @@ export default function(state = initialState, action) {
         loading: false
       };
     case UPDATE_CODE:
+      return {
+        ...state,
+        item: action.payload
+      };
+    case SEND_MESSAGES:
       return {
         ...state,
         item: action.payload

@@ -4,6 +4,7 @@ import {
   GET_PROGRESS,
   GET_PROGRESSES,
   UPDATE_CODE,
+  SEND_MESSAGES,
   PROGRESS_LOADING,
   CLEAR_CURRENT_PROGRESS
 } from "./types";
@@ -89,6 +90,18 @@ export const updateCodeSnippet = updateCode => {
     axios.post("/api/progress/update", updateCode).then(res => {
       dispatch({
         type: UPDATE_CODE,
+        payload: res.data
+      });
+    });
+  };
+};
+
+// Send Messages
+export const sendMessages = sendMessagesData => {
+  return dispatch => {
+    axios.post("/api/progress/messages", sendMessagesData).then(res => {
+      dispatch({
+        type: SEND_MESSAGES,
         payload: res.data
       });
     });

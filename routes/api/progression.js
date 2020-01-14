@@ -131,4 +131,25 @@ router.post(
   }
 );
 
+/**
+ * @route   POST api/progress/messages
+ * @desc    Send messages
+ * @access  Private
+ */
+router.post(
+  "/messages",
+  passport.authenticate("student-rule", { session: false }),
+  (req, res) => {
+    const progression = {};
+    progression.id = req.body.room;
+    progression.messages = req.body.messages;
+
+    Progress.findOneAndUpdate(
+      { _id: progression.id },
+      { messages: progression.messages },
+      { new: true }
+    ).then(progress => res.json(progress));
+  }
+);
+
 module.exports = router;
