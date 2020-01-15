@@ -42,9 +42,7 @@ require("codemirror/mode/javascript/javascript.js");
 require("codemirror/mode/python/python.js");
 require("codemirror/mode/php/php.js");
 
-const socket = openSocket(
-  "https://programly.herokuapp.com" || "http://localhost:5000"
-);
+const socket = openSocket("https://programly.herokuapp.com");
 
 const styles = theme => ({
   "@global": {
