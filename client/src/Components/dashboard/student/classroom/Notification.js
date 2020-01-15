@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
-const socket = openSocket("http://localhost:5000");
+const socket = openSocket();
 
 const styles = {
   root: {
