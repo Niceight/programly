@@ -40,7 +40,7 @@ require("codemirror/mode/javascript/javascript.js");
 require("codemirror/mode/python/python.js");
 require("codemirror/mode/php/php.js");
 
-const socket = openSocket(window.location.hostname);
+const socket = openSocket();
 
 const styles = theme => ({
   "@global": {

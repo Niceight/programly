@@ -61,7 +61,7 @@ import {
 import LogoutButton from "./Components/common/LogoutButton";
 import CustomFooter from "./Components/common/CustomFooter";
 
-const socket = openSocket("http://localhost:5000");
+const socket = openSocket();
 
 // Check for token
 if (localStorage.jwtToken) {
