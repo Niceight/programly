@@ -9,6 +9,8 @@ import PrivateRoute from "./Components/common/PrivateRoute";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
+import { clearCurrentLecturer } from "./actions/lecturerActions";
+import { clearCurrentStudent } from "./actions/studentActions";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -77,8 +79,9 @@ if (localStorage.jwtToken) {
   if (decoded.exp < currentTime) {
     // Logout user
     store.dispatch(logoutUser());
-    // TODO: Clear current Profile
-
+    // Clear current user
+    store.dispatch(clearCurrentLecturer());
+    store.dispatch(clearCurrentStudent());
     // Redirect to login
     window.location.href = "/";
   }
