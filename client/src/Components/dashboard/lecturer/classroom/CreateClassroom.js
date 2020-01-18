@@ -199,7 +199,6 @@ class CreateClassroom extends Component {
               </Grid>
               <Grid item xs={12}>
                 {
-                  // TODO choose exercise message
                   "Pick exercise that you wanted to be included in the classroom. This can be add later."
                 }
                 <Table className={classes.table}>
