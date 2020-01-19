@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles(theme => ({
   "@global": {
     body: {
-      background: "white"
+      backgroundColor: theme.palette.common.white
     }
   },
   card: {
@@ -38,8 +38,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center"
   },
   font: {
-    fontWeight: 500,
-    flexDirection: "column"
+    fontWeight: 500
   }
 }));
 
