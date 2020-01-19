@@ -110,7 +110,7 @@ class Classroom extends Component {
                   <CardContent>
                     <Typography variant="h6">{exercise.question}</Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                      {exercise.difficulty}
+                      {exercise.topic} • {exercise.difficulty}
                     </Typography>
                   </CardContent>
                   <CardActions>
