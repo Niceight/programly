@@ -123,16 +123,6 @@ class JoinClassroom extends Component {
           <Typography component="h1" variant="h5">
             Join Classroom
           </Typography>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                label="Classroom"
-                variant="outlined"
-                fullWidth
-                autoFocus
-              />
-            </Grid>
-          </Grid>
           <Paper className={classes.root}>
             <Table className={classes.table}>
               <TableHead>
@@ -183,7 +173,6 @@ const mapStateToProps = state => ({
   classroom: state.classroom
 });
 
-export default connect(
-  mapStateToProps,
-  { getAllClassrooms, joinClassroom }
-)(withStyles(styles)(JoinClassroom));
+export default connect(mapStateToProps, { getAllClassrooms, joinClassroom })(
+  withStyles(styles)(JoinClassroom)
+);

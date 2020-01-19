@@ -101,16 +101,6 @@ class Classrooms extends Component {
                 component={Link}
                 to={`/classrooms/${user.id}/${classroom._id}`}
               >
-                Open
-              </Button>
-            </TableCell>
-            <TableCell align="center">
-              <Button
-                color="primary"
-                className={classes.button}
-                component={Link}
-                to={`/classrooms/${user.id}/${classroom._id}`}
-              >
                 Edit
               </Button>
             </TableCell>
@@ -150,7 +140,6 @@ class Classrooms extends Component {
               <TableRow>
                 <TableCell>Class Name</TableCell>
                 <TableCell align="right">Course ID</TableCell>
-                <TableCell align="center">Open</TableCell>
                 <TableCell align="center">Edit</TableCell>
                 <TableCell align="center">Delete</TableCell>
               </TableRow>
@@ -206,7 +195,8 @@ const mapStateToProps = state => ({
   classroom: state.classroom
 });
 
-export default connect(
-  mapStateToProps,
-  { getCurrentClassroom, getClassrooms, deleteClassroom }
-)(withStyles(styles)(Classrooms));
+export default connect(mapStateToProps, {
+  getCurrentClassroom,
+  getClassrooms,
+  deleteClassroom
+})(withStyles(styles)(Classrooms));
