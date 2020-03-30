@@ -6,6 +6,7 @@ import studentReducer from "./studentReducer";
 import exerciseReducer from "./exerciseReducer";
 import classroomReducer from "./classroomReducer";
 import progressReducer from "./progressReducer";
+import compilerReducer from "./compilerReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   student: studentReducer,
   exercise: exerciseReducer,
   classroom: classroomReducer,
-  progress: progressReducer
+  progress: progressReducer,
+  compiler: compilerReducer
 });

@@ -17,6 +17,7 @@ import ModeSelect from "./ModeSelect";
 import ThemeSelect from "./ThemeSelect";
 import Chat from "./Chat";
 import Notification from "./Notification";
+import Compiler from "./Compiler";
 
 import { Controlled as CodeMirror } from "react-codemirror2";
 
@@ -282,6 +283,9 @@ class ProgressItem extends Component {
                 sendMessage={this.sendMessage}
               />
             </div>
+          </div>
+          <div>
+            <Compiler codeSnippet={this.state.codeSnippet} />
           </div>
           <Notification
             name={this.props.currentUser}

@@ -10,6 +10,7 @@ const students = require("./routes/api/students");
 const classrooms = require("./routes/api/classrooms");
 const exercises = require("./routes/api/exercises");
 const progress = require("./routes/api/progression");
+const compiler = require("./routes/compiler/compiler")
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use("/api/students", students);
 app.use("/api/classrooms", classrooms);
 app.use("/api/exercises", exercises);
 app.use("/api/progress", progress);
+app.use("/compiler", compiler);
 
 // Server static assets if in production
 if (process.env.NODE_ENV === "production") {
