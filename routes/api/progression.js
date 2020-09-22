@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 const passport = require("passport");
 
 // Post model
@@ -22,18 +21,18 @@ router.post(
 
     Progress.findOne({
       student: progression.student,
-      exercise: progression.exercise
-    }).then(progress => {
+      exercise: progression.exercise,
+    }).then((progress) => {
       if (progress) {
         // Update
         Progress.findOneAndUpdate(
           { student: progression.student, exercise: progression.exercise },
           {},
           { new: true }
-        ).then(progress => res.json(progress));
+        ).then((progress) => res.json(progress));
       } else {
         // Create
-        new Progress(progression).save().then(progress => res.json(progress));
+        new Progress(progression).save().then((progress) => res.json(progress));
       }
     });
   }
@@ -61,7 +60,7 @@ router.get(
         }
         return res.status(200).json({ success: true, data: progress });
       }
-    ).catch(err => console.log(err));
+    ).catch((err) => console.log(err));
   }
 );
 
@@ -80,7 +79,7 @@ router.get(
         return res.status(400).json({ success: false, error: err });
       }
       return res.status(200).json({ success: true, data: progress });
-    }).catch(err => console.log(err));
+    }).catch((err) => console.log(err));
   }
 );
 
@@ -106,7 +105,7 @@ router.get(
       }
 
       return res.status(200).json({ success: true, data: progress });
-    }).catch(err => console.log(err));
+    }).catch((err) => console.log(err));
   }
 );
 
@@ -127,7 +126,7 @@ router.post(
       { _id: progression.id },
       { codeSnippetAnswer: progression.codeSnippetAnswer },
       { new: true }
-    ).then(progress => res.json(progress));
+    ).then((progress) => res.json(progress));
   }
 );
 
@@ -148,7 +147,7 @@ router.post(
       { _id: progression.id },
       { messages: progression.messages },
       { new: true }
-    ).then(progress => res.json(progress));
+    ).then((progress) => res.json(progress));
   }
 );
 

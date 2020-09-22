@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 const passport = require("passport");
 
 // Load Classroom Model
@@ -37,10 +36,10 @@ router.post(
       classroomName: req.body.classroomName,
       courseID: req.body.courseID,
       lecturer: req.user.id,
-      exercise: req.body.exercises
+      exercise: req.body.exercises,
     });
 
-    newClassroom.save().then(classroom => res.json(classroom));
+    newClassroom.save().then((classroom) => res.json(classroom));
   }
 );
 
@@ -65,7 +64,7 @@ router.post(
       if (err) {
         return res.status(404).json({
           //err,
-          message: "Classroom not found!"
+          message: "Classroom not found!",
         });
       }
 
@@ -78,7 +77,7 @@ router.post(
         { _id: req.params.id },
         { $set: classroom },
         { new: true }
-      ).then(classroom => res.json(classroom));
+      ).then((classroom) => res.json(classroom));
     });
   }
 );
@@ -102,7 +101,7 @@ router.get(
           .json({ success: false, error: `Classroom not found` });
       }
       return res.status(200).json({ success: true, data: classrooms });
-    }).catch(err => console.log(err));
+    }).catch((err) => console.log(err));
   }
 );
 
@@ -125,7 +124,7 @@ router.get(
           .json({ success: false, error: `Classroom not found` });
       }
       return res.status(200).json({ success: true, data: classrooms });
-    }).catch(err => console.log(err));
+    }).catch((err) => console.log(err));
   }
 );
 
@@ -148,7 +147,7 @@ router.get(
           .json({ success: false, error: `Classroom not found` });
       }
       return res.status(200).json({ success: true, data: classrooms });
-    }).catch(err => console.log(err));
+    }).catch((err) => console.log(err));
   }
 );
 
@@ -174,7 +173,7 @@ router.get(
         }
         return res.status(200).json({ success: true, data: classrooms });
       }
-    ).catch(err => console.log(err));
+    ).catch((err) => console.log(err));
   }
 );
 
@@ -192,7 +191,7 @@ router.put(
     if (!body) {
       return res.status(400).json({
         success: false,
-        error: "You must provide a body to update"
+        error: "You must provide a body to update",
       });
     }
 
@@ -200,7 +199,7 @@ router.put(
       if (err) {
         return res.status(404).json({
           err,
-          message: "Classroom not found!"
+          message: "Classroom not found!",
         });
       }
       classroom.student.push(body.student);
@@ -211,13 +210,13 @@ router.put(
             success: true,
             classroom: classroom._id,
             student: classroom.student,
-            message: "Classroom updated!"
+            message: "Classroom updated!",
           });
         })
-        .catch(error => {
+        .catch((error) => {
           return res.status(404).json({
             error,
-            message: "Classroom not updated!"
+            message: "Classroom not updated!",
           });
         });
     });
@@ -250,7 +249,7 @@ router.get(
       }
 
       return res.status(200).json({ success: true, data: classroom });
-    }).catch(err => console.log(err));
+    }).catch((err) => console.log(err));
   }
 );
 
@@ -282,7 +281,7 @@ router.delete(
         }
         return res.status(200).json({ success: true, data: classroom });
       }
-    ).catch(err => console.log(err));
+    ).catch((err) => console.log(err));
   }
 );
 
